@@ -1,7 +1,7 @@
 import os
 
 from Common.AlgorithmsEnum import AlgorithmsEnum
-from Common.FileLoader import FileLoader
+from Common.FileSystem.FileLoader import FileLoader
 from Bruteforce.Classes.KnapsackBruteforce import KnapsackBruteforce
 
 
@@ -11,9 +11,9 @@ class KnapsackSet:
     def __init__(self, n: int, algorithm: int, isTest: int):
         self.algorithm = int(algorithm)
         self.isTest = int(isTest)
-        self.inputFile = './../data/NR/NR' + str(n) + '_inst.dat'
+        self.inputFile = './../data/ZR/ZR' + str(n) + '_inst.dat'
         self.outputFile = './../res/res.txt'
-        self.solutionPath = './../data/NR/NK' + str(n) + '_sol.dat'
+        self.solutionPath = './../data/ZR/ZK' + str(n) + '_sol.dat'
         self.instances = []
         self.loadInstances()
 
