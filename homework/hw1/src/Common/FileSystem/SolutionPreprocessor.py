@@ -4,8 +4,6 @@ from Common.FileSystem.FileWriter import FileWriter
 
 class SolutionPreprocessor:
 
-    # TODO: Preprocess provides _sol.dat files into array<bool> of input length format
-
     basePath = './../data'
 
     def __init__(self):
@@ -36,7 +34,6 @@ class SolutionPreprocessor:
         return lineRes
 
     def preprocess(self, solType: str, n: int):
-        # TODO: Implement preprocessing
         path: str = self.buildInPath(solType, n)
         lines: list = FileLoader.readLines(path)
 
