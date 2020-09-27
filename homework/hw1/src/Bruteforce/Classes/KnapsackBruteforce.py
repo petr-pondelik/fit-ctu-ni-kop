@@ -1,13 +1,13 @@
 import copy
 
-from src.Classes.ItemSet import ItemSet
-from src.Classes.Node import Node
-from src.Classes.Solution import Solution
+from Common.Solution import Solution
+from Common.Node import Node
+from Bruteforce.Classes.ItemSet import ItemSet
 
 
-class Knapsack:
+class KnapsackBruteforce:
 
-    def __init__(self, instance, isTest):
+    def __init__(self, instance: str, isTest: int):
         instance = instance.strip()
         instance = instance.split(' ')
         self.isTest = isTest
@@ -27,7 +27,7 @@ class Knapsack:
             'Items': self.itemSet.serialize()
         })
 
-    def updateOptimalSolution(self, path, node):
+    def updateOptimalSolution(self, path: list, node: Node):
         if self.optimalSolution is None and node.weight <= self.m:
             self.optimalSolution = Solution(self.id, self.n, copy.deepcopy(path), copy.deepcopy(node))
             return
@@ -40,7 +40,7 @@ class Knapsack:
             self.optimalSolution.path = copy.deepcopy(path)
             self.optimalSolution.node = copy.deepcopy(node)
 
-    def processItem(self, inx, node, path):
+    def processItem(self, inx: int, node: Node, path: list):
         path.append(str(node.selected))
 
         if self.isTest == 1 and node.selected == 0:

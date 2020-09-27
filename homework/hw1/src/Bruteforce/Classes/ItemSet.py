@@ -1,4 +1,4 @@
-from src.Classes.Item import Item
+from Bruteforce.Classes.Item import Item
 
 
 class ItemSet:

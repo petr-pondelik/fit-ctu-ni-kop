@@ -1,4 +1,4 @@
-import string
+from Common.Node import Node
 
 
 class Solution:
@@ -8,7 +8,7 @@ class Solution:
     node = None
     path = None
 
-    def __init__(self, knapsackId, n, path, node):
+    def __init__(self, knapsackId: int, n: int, path: list, node: Node):
         self.knapsackId = knapsackId
         self.n = n
         self.node = node
