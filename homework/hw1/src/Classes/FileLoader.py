@@ -6,3 +6,14 @@ class FileLoader:
         lines = f.readlines()
         f.close()
         return lines
+
+    @staticmethod
+    def compareFiles(path1, path2):
+        f1 = open(path1, 'r')
+        f2 = open(path2, 'r')
+        content1 = f1.read()
+        content2 = f2.read()
+        res = content1 == content2
+        f1.close()
+        f2.close()
+        return res

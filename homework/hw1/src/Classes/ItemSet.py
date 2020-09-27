@@ -3,9 +3,10 @@ from src.Classes.Item import Item
 
 class ItemSet:
 
-    items = []
-
     def __init__(self, items):
+
+        self.items = []
+
         # Pick even items
         weights = items[0::2]
 
