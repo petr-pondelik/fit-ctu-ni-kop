@@ -1,24 +1,28 @@
-import os
-
 from Common.AlgorithmsEnum import AlgorithmsEnum
 from Common.FileSystem.FileLoader import FileLoader
-from Bruteforce.Classes.KnapsackBruteforce import KnapsackBruteforce
+from Bruteforce.KnapsackBruteforce import KnapsackBruteforce
 
 
 class KnapsackSet:
 
+    fileLoader: FileLoader
+    algorithm: int
+    isTest: int
+    setType: str
+    n: int
+
     # Class constructor
-    def __init__(self, n: int, algorithm: int, isTest: int):
+    def __init__(self, n: int, setType: str, algorithm: int, isTest: int):
+        self.setType = setType
+        self.n = n
+        self.fileLoader = FileLoader(self.setType, self.n)
         self.algorithm = int(algorithm)
         self.isTest = int(isTest)
-        self.inputFile = './../data/ZR/ZR' + str(n) + '_inst.dat'
-        self.outputFile = './../res/res.txt'
-        self.solutionPath = './../data/ZR/ZK' + str(n) + '_sol.dat'
         self.instances = []
         self.loadInstances()
 
     def loadInstances(self):
-        loadedInstances = FileLoader.readLines(self.inputFile)
+        loadedInstances = self.fileLoader.readInputLines()
 
         if self.algorithm == AlgorithmsEnum.BRUTEFORCE:
             for instance in loadedInstances:
@@ -32,19 +36,21 @@ class KnapsackSet:
             instance.print()
 
     def evaluate(self):
-        if os.path.exists(self.outputFile):
-            os.remove(self.outputFile)
+        if self.isTest:
+            self.fileLoader.cleanResultFile()
 
-        for instance in self.instances:
-            f = open(self.outputFile, 'a')
-            f.write(instance.evaluate() + '\n')
-            f.close()
+            result: str = ''
+            for instance in self.instances:
+                result += instance.evaluate() + '\n'
 
-        ok = FileLoader.compareFiles(self.outputFile, self.solutionPath)
+            self.fileLoader.writeResult(result)
 
-        if ok:
-            print('OK')
+            ok = self.fileLoader.compareResultToSolution()
+
+            if ok:
+                print('OK')
+            else:
+                print('ERROR')
         else:
-            print('ERROR')
-        # for instance in self.instances:
-        #     print(instance.evaluate())
+            for instance in self.instances:
+                instance.evaluate()

@@ -1,4 +1,4 @@
-from Bruteforce.Classes.Item import Item
+from Common.Item import Item
 
 
 class ItemSet:

@@ -3,19 +3,14 @@ from Common.Node import Node
 
 class Solution:
 
-    knapsackId = None
-    n = None
-    node = None
-    path = None
+    knapsackId: int
+    b: int
+    node: Node
 
-    def __init__(self, knapsackId: int, n: int, path: list, node: Node):
+    def __init__(self, knapsackId: int, b: int, node: Node):
         self.knapsackId = knapsackId
-        self.n = n
+        self.b = b
         self.node = node
-        self.path = path
-
-    def formatPath(self, separator=' '):
-        return separator.join(self.path)
 
     def serialize(self):
-        return '{} {} {} {} '.format(-1 * int(self.knapsackId), self.n, self.node.price, self.formatPath())
+        return '{} {}'.format(-1 * int(self.knapsackId), self.node.price >= self.b)

@@ -1,5 +1,9 @@
 class Node:
 
+    selected: int
+    weight: int
+    price: int
+
     def __init__(self, selected, weight, price):
         self.selected = selected
         self.weight = weight

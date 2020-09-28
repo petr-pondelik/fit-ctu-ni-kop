@@ -2,7 +2,7 @@ import copy
 
 from Common.Solution import Solution
 from Common.Node import Node
-from Bruteforce.Classes.ItemSet import ItemSet
+from Common.ItemSet import ItemSet
 
 
 class KnapsackBruteforce:
@@ -27,9 +27,9 @@ class KnapsackBruteforce:
             'Items': self.itemSet.serialize()
         })
 
-    def updateOptimalSolution(self, path: list, node: Node):
+    def updateOptimalSolution(self, node: Node):
         if self.optimalSolution is None and node.weight <= self.m:
-            self.optimalSolution = Solution(self.id, self.n, copy.deepcopy(path), copy.deepcopy(node))
+            self.optimalSolution = Solution(self.id, self.b, copy.deepcopy(node))
             return
 
         if (
@@ -37,56 +37,31 @@ class KnapsackBruteforce:
             and (node.price > self.optimalSolution.node.price or (node.price == self.optimalSolution.node.price and node.weight < self.optimalSolution.node.weight))
             and node.weight <= self.m
         ):
-            self.optimalSolution.path = copy.deepcopy(path)
             self.optimalSolution.node = copy.deepcopy(node)
 
-    def processItem(self, inx: int, node: Node, path: list):
-        path.append(str(node.selected))
-
-        if self.isTest == 1 and node.selected == 0:
-            print('LEFT')
-
-        if self.isTest == 1 and node.selected == 1:
-            print('RIGHT')
-
-        if self.isTest == 1:
-            print(path)
-            print(node.serialize())
+    def processItem(self, inx: int, node: Node):
 
         if inx >= self.n:
-            if self.isTest == 1:
-                print('RETURN')
-            self.updateOptimalSolution(path, node)
+            self.updateOptimalSolution(node)
             return node
 
         self.processItem(
             inx + 1,
-            node.skipItem(self.itemSet.items[inx]),
-            path
+            node.skipItem(self.itemSet.items[inx])
         )
-
-        path.pop()
 
         self.processItem(
             inx + 1,
-            node.addItem(self.itemSet.items[inx]),
-            path
+            node.addItem(self.itemSet.items[inx])
         )
-
-        path.pop()
 
     def evaluate(self):
         self.processItem(
             1,
-            Node(0, 0, 0),
-            []
+            Node(0, 0, 0)
         )
         self.processItem(
             1,
-            Node(1, self.itemSet.items[0].weight, self.itemSet.items[0].price),
-            []
+            Node(1, self.itemSet.items[0].weight, self.itemSet.items[0].price)
         )
-        if self.isTest == 1:
-            return self.optimalSolution.serialize()
-        else:
-            return self.optimalSolution.serialize()
+        return self.optimalSolution.serialize()
