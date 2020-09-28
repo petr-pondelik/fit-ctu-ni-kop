@@ -16,6 +16,9 @@ class ItemSet:
         for i in range(0, len(weights)):
             self.items.append(Item(weights[i], prices[i]))
 
+        # Sort items array descending by price/weight ratio
+        # self.items.sort(key=lambda x: int(x.price)/int(x.weight), reverse=True)
+
     def serialize(self):
         res = []
         for item in self.items:
