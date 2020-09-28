@@ -19,5 +19,5 @@ if __name__ == '__main__':
         isTest = input('Run application in testing mode? (1/0): ')
 
     knapsackSet = KnapsackSet(n, setType, algorithm, isTest)
-    cProfile.run('2 + 2')
-    cProfile.run('knapsackSet.evaluate()')
+    knapsackSet.evaluate()
+    # cProfile.run('knapsackSet.evaluate()')

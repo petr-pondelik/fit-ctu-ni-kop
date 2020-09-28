@@ -1,7 +1,7 @@
 from Common.AlgorithmsEnum import AlgorithmsEnum
 from Common.FileSystem.FileLoader import FileLoader
 from Bruteforce.KnapsackBruteforce import KnapsackBruteforce
-
+from BranchAndBound.KnapsackBranchAndBound import KnapsackBranchAndBound
 
 class KnapsackSet:
 
@@ -27,9 +27,9 @@ class KnapsackSet:
         if self.algorithm == AlgorithmsEnum.BRUTEFORCE:
             for instance in loadedInstances:
                 self.instances.append(KnapsackBruteforce(instance, self.isTest))
-
-        if self.isTest == 1:
-            self.print()
+        elif self.algorithm == AlgorithmsEnum.BRANCH_AND_BOUND:
+            for instance in loadedInstances:
+                self.instances.append(KnapsackBranchAndBound(instance, self.isTest))
 
     def print(self):
         for instance in self.instances:

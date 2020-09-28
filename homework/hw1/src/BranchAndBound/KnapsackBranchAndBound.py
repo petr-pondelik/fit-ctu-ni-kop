@@ -5,7 +5,7 @@ from Common.Node import Node
 from Common.ItemSet import ItemSet
 
 
-class KnapsackBruteforce:
+class KnapsackBranchAndBound:
 
     def __init__(self, instance: str, isTest: int):
         instance = instance.strip()
@@ -41,6 +41,21 @@ class KnapsackBruteforce:
 
     def processItem(self, inx: int, node: Node):
 
+        # Crop the search space when the knapsack gets overloaded
+        if node.weight > self.m:
+            if self.isTest == 1:
+                print('RETURN DUE TO WEIGHT')
+                print(node.serialize())
+            return node
+
+        # Crop the search space when our optimal solution satisfied the price bound condition
+        if type(self.optimalSolution) is Solution and self.optimalSolution.node.price >= self.b:
+            if self.isTest == 1:
+                print('RETURN DUE TO PRICE')
+                print(node.serialize())
+            return node
+
+        # Return from recursion at the bottom of the tree
         if inx >= self.n:
             if self.isTest == 1:
                 print('RETURN DUE TO RECURSION BOTTOM')
