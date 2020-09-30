@@ -43,23 +43,23 @@ class KnapsackBranchAndBound:
 
         # Crop the search space when the knapsack gets overloaded
         if node.weight > self.m:
-            if self.isTest == 1:
-                print('RETURN DUE TO WEIGHT')
-                print(node.serialize())
+            # if self.isTest == 1:
+            #     print('RETURN DUE TO WEIGHT')
+            #     print(node.serialize())
             return node
 
         # Crop the search space when our optimal solution satisfied the price bound condition
         if type(self.optimalSolution) is Solution and self.optimalSolution.node.price >= self.b:
-            if self.isTest == 1:
-                print('RETURN DUE TO PRICE')
-                print(node.serialize())
+            # if self.isTest == 1:
+            #     print('RETURN DUE TO PRICE')
+            #     print(node.serialize())
             return node
 
         # Return from recursion at the bottom of the tree
         if inx >= self.n:
-            if self.isTest == 1:
-                print('RETURN DUE TO RECURSION BOTTOM')
-                print(node.serialize())
+            # if self.isTest == 1:
+            #     print('RETURN DUE TO RECURSION BOTTOM')
+            #     print(node.serialize())
             self.updateOptimalSolution(node)
             return node
 
@@ -74,10 +74,10 @@ class KnapsackBranchAndBound:
         )
 
     def evaluate(self):
-        if self.isTest:
-            print('ID: ' + str(self.id))
-            print('B: ' + str(self.b))
-            print('M: ' + str(self.m))
+        # if self.isTest:
+        #     print('ID: ' + str(self.id))
+        #     print('B: ' + str(self.b))
+        #     print('M: ' + str(self.m))
         self.processItem(
             1,
             Node(0, 0, 0)
@@ -86,7 +86,7 @@ class KnapsackBranchAndBound:
             1,
             Node(1, self.itemSet.items[0].weight, self.itemSet.items[0].price)
         )
-        if self.isTest:
-            print('RES: ' + str(int(self.optimalSolution.node.price) >= int(self.b)))
-            print('\n')
+        # if self.isTest:
+        #     print('RES: ' + str(int(self.optimalSolution.node.price) >= int(self.b)))
+        #     print('\n')
         return self.optimalSolution.serialize()

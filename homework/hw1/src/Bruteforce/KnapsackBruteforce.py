@@ -42,9 +42,9 @@ class KnapsackBruteforce:
     def processItem(self, inx: int, node: Node):
 
         if inx >= self.n:
-            if self.isTest == 1:
-                print('RETURN DUE TO RECURSION BOTTOM')
-                print(node.serialize())
+            # if self.isTest == 1:
+            #     print('RETURN DUE TO RECURSION BOTTOM')
+            #     print(node.serialize())
             self.updateOptimalSolution(node)
             return node
 
@@ -59,10 +59,10 @@ class KnapsackBruteforce:
         )
 
     def evaluate(self):
-        if self.isTest:
-            print('ID: ' + str(self.id))
-            print('B: ' + str(self.b))
-            print('M: ' + str(self.m))
+        # if self.isTest:
+        #     print('ID: ' + str(self.id))
+        #     print('B: ' + str(self.b))
+        #     print('M: ' + str(self.m))
         self.processItem(
             1,
             Node(0, 0, 0)
@@ -71,7 +71,7 @@ class KnapsackBruteforce:
             1,
             Node(1, self.itemSet.items[0].weight, self.itemSet.items[0].price)
         )
-        if self.isTest:
-            print('RES: ' + str(int(self.optimalSolution.node.price) >= int(self.b)))
-            print('\n')
+        # if self.isTest:
+        #     print('RES: ' + str(int(self.optimalSolution.node.price) >= int(self.b)))
+        #     print('\n')
         return self.optimalSolution.serialize()

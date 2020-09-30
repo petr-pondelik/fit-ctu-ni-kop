@@ -36,6 +36,7 @@ class KnapsackSet:
             instance.print()
 
     def evaluate(self):
+        if self.isTest:
             self.fileLoader.cleanResultFile()
 
             result: str = ''
@@ -50,3 +51,6 @@ class KnapsackSet:
                 print('OK')
             else:
                 print('ERROR')
+        else:
+            for instance in self.instances:
+                instance.evaluate()
