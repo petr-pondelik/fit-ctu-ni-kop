@@ -7,6 +7,8 @@ from Common.ItemSet import ItemSet
 
 class KnapsackBranchAndBound:
 
+    time: int
+
     def __init__(self, instance: str, isTest: int):
         instance = instance.strip()
         instance = instance.split(' ')
@@ -17,6 +19,7 @@ class KnapsackBranchAndBound:
         self.b = int(instance[3])
         self.itemSet = ItemSet(instance[4:])
         self.optimalSolution = None
+        self.time = 0
 
     def print(self):
         print({
@@ -61,6 +64,7 @@ class KnapsackBranchAndBound:
             #     print('RETURN DUE TO RECURSION BOTTOM')
             #     print(node.serialize())
             self.updateOptimalSolution(node)
+            self.time += 1
             return node
 
         self.processItem(
@@ -89,4 +93,4 @@ class KnapsackBranchAndBound:
         # if self.isTest:
         #     print('RES: ' + str(int(self.optimalSolution.node.price) >= int(self.b)))
         #     print('\n')
-        return self.optimalSolution.serialize()
+        return self.time

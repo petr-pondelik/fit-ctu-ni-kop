@@ -10,6 +10,7 @@ class KnapsackSet:
     isTest: int
     setType: str
     n: int
+    time: list
 
     # Class constructor
     def __init__(self, n: int, setType: str, algorithm: int, isTest: int):
@@ -19,6 +20,7 @@ class KnapsackSet:
         self.algorithm = int(algorithm)
         self.isTest = int(isTest)
         self.instances = []
+        self.time = []
         self.loadInstances()
 
     def loadInstances(self):
@@ -53,4 +55,5 @@ class KnapsackSet:
                 print('ERROR')
         else:
             for instance in self.instances:
-                instance.evaluate()
+                self.time.append(instance.evaluate())
+        print(self.time)
