@@ -30,7 +30,10 @@ do
     do
       # Write result into measurement result file
       echo "${n}" >> "${resultPath}${method}${dataset}.txt"
-      python3 ./../src/main.py "${method}" "${dataset}" "${n}" 0 | head -n 2 | sed 's/.*in\s//' | sed 's/\sseconds//' >> "${resultPath}${method}${dataset}.txt"
+      for i in {1..3}
+      do
+        python3 ./../src/main.py "${method}" "${dataset}" "${n}" 0 | head -n 2 | sed 's/.*in\s//' | sed 's/\sseconds//' >> "${resultPath}${method}${dataset}.txt"
+      done
     done
   done
 done
