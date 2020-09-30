@@ -7,6 +7,7 @@ datasetsArr: list = ['N', 'Z']
 methodsArr: list = [1, 2]
 
 
+
 def averageFile(dataset: str, method: int):
     file = open('{}/{}{}.txt'.format(basePath, dataset, method), 'a+')
     lines: list = file.readlines()
