@@ -10,22 +10,24 @@ class KnapsackSet:
     isTest: int
     setType: str
     n: int
-    time: list
+    time: str
+    instancesInterval: list
 
     # Class constructor
-    def __init__(self, n: int, setType: str, algorithm: int, isTest: int):
+    def __init__(self, n: int, setType: str, algorithm: int, isTest: int, instancesInterval: list):
         self.setType = setType
         self.n = n
         self.fileLoader = FileLoader(self.setType, self.n)
         self.algorithm = int(algorithm)
         self.isTest = int(isTest)
         self.instances = []
-        self.time = []
+        self.time = ''
+        self.instancesInterval = [int(i) for i in instancesInterval]
         self.loadInstances()
 
     def loadInstances(self):
         loadedInstances = self.fileLoader.readInputLines()
-
+        loadedInstances = loadedInstances[self.instancesInterval[0]:self.instancesInterval[1]+1]
         if self.algorithm == AlgorithmsEnum.BRUTEFORCE:
             for instance in loadedInstances:
                 self.instances.append(KnapsackBruteforce(instance, self.isTest))
@@ -55,5 +57,5 @@ class KnapsackSet:
                 print('ERROR')
         else:
             for instance in self.instances:
-                self.time.append(instance.evaluate())
+                self.time += ' {}'.format(str(instance.evaluate()))
         print(self.time)

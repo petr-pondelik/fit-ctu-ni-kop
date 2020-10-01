@@ -16,43 +16,43 @@ def averageFile(dataset: str, method: int):
     file = open('{}/{}{}.txt'.format(basePath, method, dataset), 'a+')
 
     # Iterate the measurement result file (two indicators measured three times for each itemsCnt)
-    for i in range(0, len(itemsCntArr)):
-        timeCntAcc = 0
-        timeCPUAcc = 0
+    for itemsCntInx in range(0, len(itemsCntArr)):
+        timeCntAcc: float = 0.0
+        timeCPUAcc: float = 0.0
+        timeCntMax: float = 0.0
+        timeCPUMax: float = 0.0
 
-        lines[7*i + 1] = [float(i) for i in (lines[7*i + 1][1:-2].split(", "))]
-        # print(lines[7*i + 1])
-        timeCntAcc += sum(lines[7*i + 1])
+        for measurementRun in range(3):
+            for instanceMeasurementInx in range(0, 1000, 2):
+                timeCntTmp: float = float(lines[(itemsCntInx * 3000 + itemsCntInx + 1) + (measurementRun * 1000) + instanceMeasurementInx].strip())
+                # print(timeCntTmp)
+                timeCntAcc += timeCntTmp
+                if timeCntTmp > timeCntMax:
+                    timeCntMax = timeCntTmp
 
-        # print(lines[7*i + 2])
-        timeCPUAcc += float(lines[7*i + 2])
+                timeCPUTmp: float = 1000 * float(lines[(itemsCntInx * 3000 + itemsCntInx + 1) + (measurementRun * 1000) + instanceMeasurementInx + 1])
+                # print(timeCPUTmp)
+                timeCPUAcc += timeCPUTmp
+                if timeCPUTmp > timeCPUMax:
+                    timeCPUMax = timeCPUTmp
 
-        lines[7*i + 3] = [float(i) for i in (lines[7*i + 3][1:-2].split(", "))]
-        # print(lines[7*i + 3])
-        timeCntAcc += sum(lines[7*i + 3])
-
-        # print(lines[7*i + 4])
-        timeCPUAcc += float(lines[7*i + 4])
-
-        lines[7*i + 5] = [float(i) for i in (lines[7*i + 5][1:-2].split(", "))]
-        # print(lines[7*i + 5])
-        timeCntAcc += sum(lines[7*i + 5])
-
-        # print(lines[7*i + 6])
-        timeCPUAcc += float(lines[7*i + 6])
-
+        # Print times
         # print(timeCntAcc)
         # print(timeCntAcc/1500)
+        # print(timeCntMax)
         # print(timeCPUAcc)
         # print(timeCPUAcc/3)
+        # print(timeCPUMax)
 
-        file.write(str(itemsCntArr[i]) + '\n')
-        file.write(str(timeCntAcc/1500) + '\n')
-        file.write(str(timeCPUAcc/1500) + '\n')
+        # Write avg and max times
+        file.write('\nItems amount: ' + str(itemsCntArr[itemsCntInx]) + '\n')
+        file.write('TimeCnt avg: ' + str(timeCntAcc/1500) + '\n')
+        file.write('TimeCnt max: ' + str(timeCntMax) + '\n')
+        file.write('TimeCPU avg: ' + str(timeCPUAcc/1500) + '\n')
+        file.write('TimeCPU max: ' + str(timeCPUMax) + '\n')
 
     file.close()
 
-    # print(lines)
 
 for dataset in datasetsArr:
     for method in methodsArr:
