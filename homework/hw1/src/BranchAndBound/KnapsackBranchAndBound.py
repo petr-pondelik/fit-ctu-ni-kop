@@ -40,9 +40,12 @@ class KnapsackBranchAndBound:
             and (node.price > self.optimalSolution.node.price or (node.price == self.optimalSolution.node.price and node.weight < self.optimalSolution.node.weight))
             and node.weight <= self.m
         ):
-            self.optimalSolution.node = copy.deepcopy(node)
+            self.optimalSolution.node.price = node.price
+            self.optimalSolution.node.weight = node.weight
 
     def processItem(self, inx: int, node: Node):
+
+        self.updateOptimalSolution(node)
 
         # Crop the search space when the knapsack gets overloaded
         if node.weight > self.m:
@@ -52,7 +55,7 @@ class KnapsackBranchAndBound:
             return node
 
         # Crop the search space when our optimal solution satisfied the price bound condition
-        if type(self.optimalSolution) is Solution and self.optimalSolution.node.price >= self.b:
+        if self.optimalSolution.node.price >= self.b:
             # if self.isTest == 1:
             #     print('RETURN DUE TO PRICE')
             #     print(node.serialize())
@@ -63,7 +66,6 @@ class KnapsackBranchAndBound:
             # if self.isTest == 1:
             #     print('RETURN DUE TO RECURSION BOTTOM')
             #     print(node.serialize())
-            self.updateOptimalSolution(node)
             self.time += 1
             return node
 
@@ -84,13 +86,14 @@ class KnapsackBranchAndBound:
         #     print('M: ' + str(self.m))
         self.processItem(
             1,
-            Node(0, 0, 0)
+            Node(0, 0)
         )
         self.processItem(
             1,
-            Node(1, self.itemSet.items[0].weight, self.itemSet.items[0].price)
+            Node(self.itemSet.items[0].weight, self.itemSet.items[0].price)
         )
-        # if self.isTest:
-        #     print('RES: ' + str(int(self.optimalSolution.node.price) >= int(self.b)))
-        #     print('\n')
+        if self.isTest:
+            # print('RES: ' + str(int(self.optimalSolution.node.price) >= int(self.b)))
+            # print('\n')
+            return '{} {}'.format(-1 * self.id, str(self.optimalSolution.node.price >= int(self.b)))
         return self.time

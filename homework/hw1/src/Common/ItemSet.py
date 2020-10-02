@@ -18,6 +18,7 @@ class ItemSet:
 
         # Sort items array descending by price/weight ratio
         # self.items.sort(key=lambda x: int(x.price)/int(x.weight), reverse=True)
+        # self.items.sort(key=lambda x: int(x.price), reverse=True)
 
     def serialize(self):
         res = []

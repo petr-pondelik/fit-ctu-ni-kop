@@ -69,11 +69,11 @@ class KnapsackBruteforce:
         #     print('M: ' + str(self.m))
         self.processItem(
             1,
-            Node(0, 0, 0)
+            Node(0, 0)
         )
         self.processItem(
             1,
-            Node(1, self.itemSet.items[0].weight, self.itemSet.items[0].price)
+            Node(self.itemSet.items[0].weight, self.itemSet.items[0].price)
         )
         # if self.isTest:
         #     print('RES: ' + str(int(self.optimalSolution.node.price) >= int(self.b)))

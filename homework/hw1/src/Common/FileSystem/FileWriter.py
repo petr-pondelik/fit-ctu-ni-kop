@@ -7,8 +7,6 @@ class FileWriter:
     def writeLines(path: str, lines: dict):
         if os.path.exists(path):
             os.remove(path)
-        print(len(lines))
-        print(lines)
         f = open(path, 'a')
         with f:
             for i in range(1, len(lines) + 1):
