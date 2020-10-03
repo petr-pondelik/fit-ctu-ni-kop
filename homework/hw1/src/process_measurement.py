@@ -6,7 +6,7 @@ datasetsArr: list = ['N', 'Z']
 # Array of solution methods: 1 = bruteforce, 2 = Branch & Bounds
 methodsArr: list = [1, 2]
 
-itemsCntArr: list = [4, 10, 15]
+itemsCntArr: list = [4, 10]
 
 def averageFile(dataset: str, method: int):
     file = open('{}/{}{}.txt'.format(basePath, method, dataset), 'r')
@@ -22,6 +22,11 @@ def averageFile(dataset: str, method: int):
         timeCntMax: float = 0.0
         timeCPUMax: float = 0.0
 
+        occurrencesTotal: int = 0
+        valuesOccurrences: dict = {}
+        for i in range(2**itemsCntArr[itemsCntInx] + 1):
+            valuesOccurrences[i] = 0
+
         for measurementRun in range(3):
             for instanceMeasurementInx in range(0, 1000, 2):
                 timeCntTmp: float = float(lines[(itemsCntInx * 3000 + itemsCntInx + 1) + (measurementRun * 1000) + instanceMeasurementInx].strip())
@@ -36,6 +41,10 @@ def averageFile(dataset: str, method: int):
                 if timeCPUTmp > timeCPUMax:
                     timeCPUMax = timeCPUTmp
 
+                if measurementRun == 0:
+                    occurrencesTotal += 1
+                    valuesOccurrences[timeCntTmp] += 1
+
         # Print times
         # print(timeCntAcc)
         # print(timeCntAcc/1500)
@@ -48,6 +57,8 @@ def averageFile(dataset: str, method: int):
         file.write('\nItems amount: ' + str(itemsCntArr[itemsCntInx]) + '\n')
         file.write('TimeCnt avg: ' + str(timeCntAcc/1500) + '\n')
         file.write('TimeCnt max: ' + str(timeCntMax) + '\n')
+        file.write('Occurrences total: ' + str(occurrencesTotal) + '\n')
+        file.write('TimeCnt occurrences: ' + valuesOccurrences.__str__() + '\n')
         file.write('TimeCPU avg: ' + str(timeCPUAcc/1500) + '\n')
         file.write('TimeCPU max: ' + str(timeCPUMax) + '\n')
 
