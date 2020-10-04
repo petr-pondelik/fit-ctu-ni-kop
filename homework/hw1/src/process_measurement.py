@@ -47,6 +47,9 @@ def averageFile(dataset: str, method: int):
                     occurrencesTotal += 1
                     valuesOccurrences[timeCntTmp] += 1
 
+                if itemsCntInx == 3:
+                    file.write('{} {}\n'.format(str(timeCntTmp), str(timeCPUMax)))
+
         # Print times
         # print(timeCntAcc)
         # print(timeCntAcc/1500)
@@ -62,7 +65,7 @@ def averageFile(dataset: str, method: int):
         file.write('Occurrences total: ' + str(occurrencesTotal) + '\n')
         file.write('TimeCnt occurrences: ' + valuesOccurrences.__str__() + '\n')
         file.write('TimeCPU avg: ' + str(timeCPUAcc/1500) + '\n')
-        file.write('TimeCPU max: ' + str(timeCPUMax) + '\n')
+        file.write('TimeCPU max: ' + str(timeCPUMax) + '\n\n')
 
     file.close()
 
