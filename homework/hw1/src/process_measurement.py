@@ -6,7 +6,7 @@ datasetsArr: list = ['N', 'Z']
 # Array of solution methods: 1 = bruteforce, 2 = Branch & Bounds
 methodsArr: list = [1, 2]
 
-itemsCntArr: list = [4, 10]
+itemsCntArr: list = [4, 10, 15, 20, 22]
 
 def averageFile(dataset: str, method: int):
     file = open('{}/{}{}.txt'.format(basePath, method, dataset), 'r')
@@ -24,8 +24,10 @@ def averageFile(dataset: str, method: int):
 
         occurrencesTotal: int = 0
         valuesOccurrences: dict = {}
-        for i in range(2**itemsCntArr[itemsCntInx] + 1):
-            valuesOccurrences[i] = 0
+
+        if itemsCntInx == 1:
+            for i in range(2**itemsCntArr[itemsCntInx] + 1):
+                valuesOccurrences[i] = 0
 
         for measurementRun in range(3):
             for instanceMeasurementInx in range(0, 1000, 2):
@@ -41,7 +43,7 @@ def averageFile(dataset: str, method: int):
                 if timeCPUTmp > timeCPUMax:
                     timeCPUMax = timeCPUTmp
 
-                if measurementRun == 0:
+                if itemsCntInx == 1 and measurementRun == 0:
                     occurrencesTotal += 1
                     valuesOccurrences[timeCntTmp] += 1
 
