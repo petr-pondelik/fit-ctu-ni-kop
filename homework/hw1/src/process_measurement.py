@@ -48,7 +48,7 @@ def averageFile(dataset: str, method: int):
                     valuesOccurrences[timeCntTmp] += 1
 
                 if itemsCntInx == 3:
-                    file.write('{} {}\n'.format(str(timeCntTmp), str(timeCPUMax)))
+                    file.write('{} {}\n'.format(str(timeCntTmp), str(timeCPUTmp)))
 
         # Print times
         # print(timeCntAcc)
