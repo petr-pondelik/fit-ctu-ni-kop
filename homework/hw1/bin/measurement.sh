@@ -4,12 +4,12 @@
 resultPath='./../res/measurement/'
 
 # Array of data-sets
-datasetsArr=( N Z )
-#datasetsArr=( N )
+#datasetsArr=( N Z )
+datasetsArr=( N )
 
 # Array of solution methods: 1 = bruteforce, 2 = Branch & Bounds
 #methodsArr=( 1 2 )
-methodsArr=( 1 2 )
+methodsArr=( 2 )
 
 # Array of items number
 itemsCntArr=( 4 10 15 20 22 )

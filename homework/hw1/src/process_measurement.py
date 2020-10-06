@@ -26,7 +26,7 @@ def averageFile(dataset: str, method: int):
         valuesOccurrences: dict = {}
 
         if itemsCntInx == 1:
-            for i in range(2**itemsCntArr[itemsCntInx] + 1):
+            for i in range(2**itemsCntArr[itemsCntInx] + (2**(itemsCntArr[itemsCntInx]) - 1) + 1):
                 valuesOccurrences[i] = 0
 
         for measurementRun in range(3):

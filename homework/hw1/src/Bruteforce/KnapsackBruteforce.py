@@ -44,12 +44,13 @@ class KnapsackBruteforce:
 
     def processItem(self, inx: int, node: Node):
 
+        self.time += 1
+
         if inx >= self.n:
             # if self.isTest == 1:
             #     print('RETURN DUE TO RECURSION BOTTOM')
             #     print(node.serialize())
             self.updateOptimalSolution(node)
-            self.time += 1
             return node
 
         self.processItem(
@@ -67,6 +68,7 @@ class KnapsackBruteforce:
         #     print('ID: ' + str(self.id))
         #     print('B: ' + str(self.b))
         #     print('M: ' + str(self.m))
+        self.time += 1
         self.processItem(
             1,
             Node(0, 0)

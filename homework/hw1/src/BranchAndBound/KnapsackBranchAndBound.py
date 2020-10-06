@@ -45,6 +45,8 @@ class KnapsackBranchAndBound:
 
     def processItem(self, inx: int, node: Node):
 
+        self.time += 1
+
         self.updateOptimalSolution(node)
 
         # Crop the search space when the knapsack gets overloaded
@@ -66,31 +68,31 @@ class KnapsackBranchAndBound:
             # if self.isTest == 1:
             #     print('RETURN DUE TO RECURSION BOTTOM')
             #     print(node.serialize())
-            self.time += 1
             return node
-
-        self.processItem(
-            inx + 1,
-            node.skipItem(self.itemSet.items[inx])
-        )
 
         self.processItem(
             inx + 1,
             node.addItem(self.itemSet.items[inx])
         )
 
+        self.processItem(
+            inx + 1,
+            node.skipItem(self.itemSet.items[inx])
+        )
+
     def evaluate(self):
+        self.time += 1
         # if self.isTest:
         #     print('ID: ' + str(self.id))
         #     print('B: ' + str(self.b))
         #     print('M: ' + str(self.m))
         self.processItem(
             1,
-            Node(0, 0)
+            Node(self.itemSet.items[0].weight, self.itemSet.items[0].price)
         )
         self.processItem(
             1,
-            Node(self.itemSet.items[0].weight, self.itemSet.items[0].price)
+            Node(0, 0)
         )
         if self.isTest:
             # print('RES: ' + str(int(self.optimalSolution.node.price) >= int(self.b)))
