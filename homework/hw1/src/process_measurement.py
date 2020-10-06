@@ -22,12 +22,7 @@ def averageFile(dataset: str, method: int):
         timeCntMax: float = 0.0
         timeCPUMax: float = 0.0
 
-        occurrencesTotal: int = 0
-        valuesOccurrences: dict = {}
-
-        if itemsCntInx == 1:
-            for i in range(2**itemsCntArr[itemsCntInx] + (2**(itemsCntArr[itemsCntInx]) - 1) + 1):
-                valuesOccurrences[i] = 0
+        occurrences: list = []
 
         for measurementRun in range(3):
             for instanceMeasurementInx in range(0, 1000, 2):
@@ -43,9 +38,10 @@ def averageFile(dataset: str, method: int):
                 if timeCPUTmp > timeCPUMax:
                     timeCPUMax = timeCPUTmp
 
-                if itemsCntInx == 1 and measurementRun == 0:
-                    occurrencesTotal += 1
-                    valuesOccurrences[timeCntTmp] += 1
+                occurrences.append(timeCntTmp)
+
+                if itemsCntInx == 4 and measurementRun == 0:
+                    occurrences.append(timeCntTmp)
 
                 if itemsCntInx == 3:
                     file.write('{} {}\n'.format(str(timeCntTmp), str(timeCPUTmp)))
@@ -62,8 +58,10 @@ def averageFile(dataset: str, method: int):
         file.write('\nItems amount: ' + str(itemsCntArr[itemsCntInx]) + '\n')
         file.write('TimeCnt avg: ' + str(timeCntAcc/1500) + '\n')
         file.write('TimeCnt max: ' + str(timeCntMax) + '\n')
-        file.write('Occurrences total: ' + str(occurrencesTotal) + '\n')
-        file.write('TimeCnt occurrences: ' + valuesOccurrences.__str__() + '\n')
+        if itemsCntInx == 4:
+            file.write('TimeCnt occurrences: \n')
+            for o in occurrences:
+                file.write(str(int(o)) + '\n')
         file.write('TimeCPU avg: ' + str(timeCPUAcc/1500) + '\n')
         file.write('TimeCPU max: ' + str(timeCPUMax) + '\n\n')
 
