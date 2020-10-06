@@ -38,8 +38,6 @@ def averageFile(dataset: str, method: int):
                 if timeCPUTmp > timeCPUMax:
                     timeCPUMax = timeCPUTmp
 
-                occurrences.append(timeCntTmp)
-
                 if itemsCntInx == 4 and measurementRun == 0:
                     occurrences.append(timeCntTmp)
 
