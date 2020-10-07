@@ -58,4 +58,3 @@ class KnapsackSet:
         else:
             for instance in self.instances:
                 self.time += ' {}'.format(str(instance.evaluate()))
-        print(self.time)
