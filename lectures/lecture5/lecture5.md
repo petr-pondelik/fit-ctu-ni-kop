@@ -1,0 +1,1 @@
+Jak převést SAT na 3SAT?
