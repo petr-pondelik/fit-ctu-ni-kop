@@ -12,7 +12,7 @@ class BruteForce:
     n: int
     m: int
     itemSet: ItemSet
-    optimalSolutions: Solution
+    optimalSolution: Solution
     time: int
 
     def __init__(self, instance: str, isTest: int):
