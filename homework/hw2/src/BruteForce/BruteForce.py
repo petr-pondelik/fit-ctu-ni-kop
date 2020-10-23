@@ -1,8 +1,11 @@
 import copy
+import math
 
 from Common.Solution import Solution
 from Common.Node import Node
 from Common.ItemSet import ItemSet
+
+from Common.Configuration import Configuration
 
 
 class BruteForce:
@@ -12,7 +15,7 @@ class BruteForce:
     n: int
     m: int
     itemSet: ItemSet
-    optimalSolution: Solution
+    solution: Solution
     time: int
 
     def __init__(self, instance: str, isTest: int):
@@ -23,7 +26,7 @@ class BruteForce:
         self.n = int(instance[1])
         self.m = int(instance[2])
         self.itemSet = ItemSet(instance[3:])
-        self.optimalSolution = None
+        self.solution = Solution(self.id, self.n, 0, math.inf, Configuration([]))
         self.time = 0
 
     def print(self):
@@ -34,18 +37,31 @@ class BruteForce:
             'Items': self.itemSet.serialize()
         })
 
-    def updateOptimalSolution(self, path: list, node: Node):
-        if self.optimalSolution is None and node.weight <= self.m:
-            self.optimalSolution = Solution(self.id, self.n, copy.deepcopy(path), copy.deepcopy(node))
-            return
-
+    def isBetterSolution(self, node: Node):
         if (
-            type(self.optimalSolution) is Solution
-            and (node.cost > self.optimalSolution.node.cost or (node.cost == self.optimalSolution.node.cost and node.weight < self.optimalSolution.node.weight))
+            (
+                node.cost > self.solution.cost or
+                (node.cost == self.solution.cost and node.weight < self.solution.weight)
+            )
             and node.weight <= self.m
         ):
-            self.optimalSolution.path = copy.deepcopy(path)
-            self.optimalSolution.node = copy.deepcopy(node)
+            return True
+        return False
+
+    def isEqualSolution(self, node: Node):
+        if node.cost == self.solution.cost and node.weight == self.solution.weight:
+            return True
+        return False
+
+    def updateSolution(self, path: list, node: Node):
+        if self.isBetterSolution(node):
+            self.solution.resetConfigurations()
+            self.solution.cost = node.cost
+            self.solution.weight = node.weight
+            self.solution.addConfiguration(Configuration(copy.deepcopy(path)))
+            return
+        if self.isEqualSolution(node):
+            self.solution.addConfiguration(Configuration(copy.deepcopy(path)))
 
     def processItem(self, level: int, itemAdded: bool, node: Node, path: list):
 
@@ -54,7 +70,7 @@ class BruteForce:
         self.time += 1
 
         if level >= self.n:
-            self.updateOptimalSolution(path, node)
+            self.updateSolution(path, node)
             return node
 
         self.processItem(
@@ -90,6 +106,6 @@ class BruteForce:
             []
         )
         if self.isTest:
-            return self.optimalSolution.print()
+            return self.solution.print()
         else:
             return str(self.time)

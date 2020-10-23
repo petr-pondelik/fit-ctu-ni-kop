@@ -3,10 +3,13 @@ from Common.FileSystem.FileSystem import FileSystem
 from BruteForce.BruteForce import BruteForce
 from BranchAndBound.BranchAndBound import BranchAndBound
 
+from Common.Comparator.ResultComparator import ResultComparator
+
 
 class Application:
 
     fileLoader: FileSystem
+    resultComparator: ResultComparator
     algorithm: int
     isTest: int
     setType: str
@@ -19,6 +22,7 @@ class Application:
         self.setType = setType
         self.n = n
         self.fileLoader = FileSystem(self.setType, self.n)
+        self.resultComparator = ResultComparator(self.setType, self.n)
         self.algorithm = int(algorithm)
         self.isTest = int(isTest)
         self.instances = []
@@ -46,13 +50,11 @@ class Application:
 
             result: str = ''
             for instance in self.instances:
-                result += instance.evaluate() + '\n'
+                result += instance.evaluate()
 
             self.fileLoader.writeResult(result)
 
-            ok = self.fileLoader.compareResultToSolution()
-
-            if ok:
+            if self.resultComparator.compare():
                 print('OK')
             else:
                 print('ERROR')

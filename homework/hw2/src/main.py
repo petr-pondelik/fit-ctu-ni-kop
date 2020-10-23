@@ -21,5 +21,5 @@ if __name__ == '__main__':
         isTest = input('Run application in testing mode? (1/0): ')
 
     application = Application(n, setType, algorithm, isTest, instancesInterval)
-    # knapsackSet.evaluate()
-    cProfile.run('application.evaluate()')
+    application.evaluate()
+    # cProfile.run('application.evaluate()')

@@ -25,6 +25,12 @@ class FileSystem:
     def readInputLines(self):
         return self.readLines(self.buildInputPath())
 
+    def readResultLines(self):
+        return self.readLines(self.buildResultPath())
+
+    def readSolutionLines(self):
+        return self.readLines(self.buildSolutionPath())
+
     def cleanResultFile(self):
         if os.path.exists(self.buildResultPath()):
             os.remove(self.buildResultPath())
@@ -52,9 +58,6 @@ class FileSystem:
         f1.close()
         f2.close()
         return res
-
-    def compareResultToSolution(self) -> bool:
-        return self.compareFiles(self.buildResultPath(), self.buildSolutionPath())
 
     @staticmethod
     def writeLines(path: str, lines: dict):
