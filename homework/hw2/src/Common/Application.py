@@ -1,16 +1,20 @@
-from Common.AlgorithmsEnum import AlgorithmsEnum
 from Common.FileSystem.FileSystem import FileSystem
-from BruteForce.BruteForce import BruteForce
-from BranchAndBound.BranchAndBound import BranchAndBound
+from Algorithms.AlgorithmsEnum import AlgorithmsEnum
+from Algorithms.BruteForce.BruteForce import BruteForce
+from Algorithms.BranchAndBound.BranchAndBound import BranchAndBound
 
 from Common.Comparator.ResultComparator import ResultComparator
+
+from Algorithms.Greedy.Greedy import Greedy
+
+from Algorithms.GreedyRedux.GreedyRedux import GreedyRedux
 
 
 class Application:
 
     fileLoader: FileSystem
     resultComparator: ResultComparator
-    algorithm: int
+    algorithm: str
     isTest: int
     setType: str
     n: int
@@ -18,15 +22,16 @@ class Application:
     instancesInterval: list
 
     # Class constructor
-    def __init__(self, n: int, setType: str, algorithm: int, isTest: int, instancesInterval: list):
+    def __init__(self, n: int, setType: str, algorithm: str, isTest: int, instancesInterval: list):
+        print(algorithm)
         self.setType = setType
         self.n = n
-        self.fileLoader = FileSystem(self.setType, self.n)
-        self.resultComparator = ResultComparator(self.setType, self.n)
-        self.algorithm = int(algorithm)
+        self.algorithm = algorithm
         self.isTest = int(isTest)
         self.instances = []
         self.time = ''
+        self.fileLoader = FileSystem(self.setType, algorithm, self.n)
+        self.resultComparator = ResultComparator(self.setType, self.algorithm, self.n)
         self.instancesInterval = [int(i) for i in instancesInterval]
         self.loadInstances()
 
@@ -39,6 +44,12 @@ class Application:
         elif self.algorithm == AlgorithmsEnum.BRANCH_AND_BOUND:
             for instance in loadedInstances:
                 self.instances.append(BranchAndBound(instance, self.isTest))
+        elif self.algorithm == AlgorithmsEnum.GREEDY:
+            for instance in loadedInstances:
+                self.instances.append(Greedy(instance, self.isTest))
+        elif self.algorithm == AlgorithmsEnum.GREEDY_REDUX:
+            for instance in loadedInstances:
+                self.instances.append(GreedyRedux(instance, self.isTest))
 
     def print(self):
         for instance in self.instances:

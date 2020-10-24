@@ -10,8 +10,8 @@ class ResultComparator:
     results: [Solution]
     solutions: [Solution]
 
-    def __init__(self, setType: str, n: int):
-        self.fileSystem = FileSystem(setType, n)
+    def __init__(self, setType: str, algorithm: str, n: int):
+        self.fileSystem = FileSystem(setType, algorithm, n)
         self.results = []
         self.solutions = []
 

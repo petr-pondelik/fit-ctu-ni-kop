@@ -19,16 +19,20 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ef9b74e1-9a16-4f5c-bb74-9d68daf7c6da" name="Default Changelist" comment="HW2: BruteForce done with result testing service.">
-      <change beforePath="$PROJECT_DIR$/../hw1/res/measurement/2N.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../hw1/res/measurement/2N.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../hw1/res/res.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../hw1/res/res.txt" afterDir="false" />
+    <list default="true" id="ef9b74e1-9a16-4f5c-bb74-9d68daf7c6da" name="Default Changelist" comment="HW2: BranchAndBound modified for constructive knapsack problem and tested. Bash script for automatic tests.">
+      <change afterPath="$PROJECT_DIR$/src/Algorithms/AlgorithmsEnum.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Algorithms/Greedy/Greedy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Algorithms/Greedy/ItemSet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Algorithms/GreedyRedux/GreedyRedux.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/test.sh" beforeDir="false" afterPath="$PROJECT_DIR$/bin/test.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/results.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BranchAndBound/BranchAndBound.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/BranchAndBound/BranchAndBound.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BruteForce/BruteForce.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/BruteForce/BruteForce.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BranchAndBound/BranchAndBound.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Algorithms/BranchAndBound/BranchAndBound.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BruteForce/BruteForce.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Algorithms/BruteForce/BruteForce.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/AlgorithmsEnum.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/Application.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Comparator/ResultComparator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Comparator/ResultComparator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/FileSystem/FileSystem.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/FileSystem/FileSystem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +63,9 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Algorithms" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/data" />
     </key>
@@ -102,7 +109,7 @@
       <updated>1603462613434</updated>
       <workItem from="1603462614669" duration="49000" />
       <workItem from="1603462690297" duration="19892000" />
-      <workItem from="1603532250499" duration="5095000" />
+      <workItem from="1603532250499" duration="12832000" />
     </task>
     <task id="LOCAL-00001" summary="HW2: BruteForce without multiple optimal solutions.">
       <created>1603471225514</created>
@@ -125,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603487029478</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="HW2: BranchAndBound modified for constructive knapsack problem and tested. Bash script for automatic tests.">
+      <created>1603544982896</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1603544982896</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,13 +161,18 @@
     <MESSAGE value="HW2: BruteForce without multiple optimal solutions." />
     <MESSAGE value="HW2: BruteForce optimal solutions fix." />
     <MESSAGE value="HW2: BruteForce done with result testing service." />
-    <option name="LAST_COMMIT_MESSAGE" value="HW2: BruteForce done with result testing service." />
+    <MESSAGE value="HW2: BranchAndBound modified for constructive knapsack problem and tested. Bash script for automatic tests." />
+    <option name="LAST_COMMIT_MESSAGE" value="HW2: BranchAndBound modified for constructive knapsack problem and tested. Bash script for automatic tests." />
   </component>
   <component name="WindowStateProjectService">
     <state x="424" y="180" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603479930280">
       <screen x="0" y="60" width="1920" height="1080" />
     </state>
     <state x="424" y="180" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1200/0.60.1920.1080@0.60.1920.1080" timestamp="1603479930280" />
+    <state x="2608" y="384" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1603549157585">
+      <screen x="1920" y="0" width="1920" height="1200" />
+    </state>
+    <state x="2608" y="384" key="#com.intellij.fileTypes.FileTypeChooser/1920.0.1920.1200/0.60.1920.1080@1920.0.1920.1200" timestamp="1603549157585" />
     <state x="742" y="265" key="FileChooserDialogImpl" timestamp="1603479992403">
       <screen x="0" y="60" width="1920" height="1080" />
     </state>
@@ -178,14 +197,16 @@
       <screen x="0" y="60" width="1920" height="1080" />
     </state>
     <state x="461" y="157" key="SettingsEditor/1920.0.1920.1200/0.60.1920.1080@0.60.1920.1080" timestamp="1603479995871" />
-    <state x="560" y="258" key="Vcs.Push.Dialog.v2" timestamp="1603487033351">
-      <screen x="0" y="60" width="1920" height="1080" />
+    <state x="2480" y="220" key="Vcs.Push.Dialog.v2" timestamp="1603544991336">
+      <screen x="1920" y="0" width="1920" height="1200" />
     </state>
     <state x="560" y="258" key="Vcs.Push.Dialog.v2/1920.0.1920.1200/0.60.1920.1080@0.60.1920.1080" timestamp="1603487033351" />
-    <state x="664" y="130" width="1113" height="783" key="find.popup" timestamp="1603480770544">
-      <screen x="0" y="60" width="1920" height="1080" />
+    <state x="2480" y="220" key="Vcs.Push.Dialog.v2/1920.0.1920.1200/0.60.1920.1080@1920.0.1920.1200" timestamp="1603544991336" />
+    <state x="2584" y="78" width="1113" height="870" key="find.popup" timestamp="1603549067199">
+      <screen x="1920" y="0" width="1920" height="1200" />
     </state>
     <state x="664" y="130" width="1113" height="783" key="find.popup/1920.0.1920.1200/0.60.1920.1080@0.60.1920.1080" timestamp="1603480770544" />
+    <state x="2584" y="78" width="1113" height="870" key="find.popup/1920.0.1920.1200/0.60.1920.1080@1920.0.1920.1200" timestamp="1603549067199" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/hw2$main.coverage" NAME="main Coverage Results" MODIFIED="1603470736611" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />

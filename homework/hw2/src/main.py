@@ -2,7 +2,7 @@ import sys
 import cProfile
 from Common.Application import Application
 
-sys.path.append('BruteForce')
+sys.path.append('Algorithms/BruteForce')
 sys.path.append('Common')
 
 if __name__ == '__main__':
@@ -14,7 +14,7 @@ if __name__ == '__main__':
         isTest = sys.argv[4]
         instancesInterval = sys.argv[5].split("-")
     else:
-        algorithm = input('Select Knapsack algorithm (1: BruteForce, 2: Branch and Bound): ')
+        algorithm = input('Select Knapsack algorithm (BruteForce, BranchAndBound, Greedy, GreedyRedux): ')
         setType = input('Select data-set type (NK, ZKC, ZKW): ')
         n = input('Enter amount of items: ')
         instancesInterval = input('Enter interval of instances to evaluate (in "startInx-endInx" format): ').split("-")

@@ -7,10 +7,12 @@ class FileSystem:
     baseResPath = './../results'
 
     setType: str
+    algorithm: str
     n: int
 
-    def __init__(self, setType: str, n: int):
+    def __init__(self, setType: str, algorithm: str, n: int):
         self.setType = setType
+        self.algorithm = algorithm
         self.n = n
 
     def buildInputPath(self) -> str:
@@ -20,7 +22,7 @@ class FileSystem:
         return '{}/{}/{}{}_sol.dat'.format(self.baseDataPath, self.setType, self.setType, self.n)
 
     def buildResultPath(self) -> str:
-        return '{}/{}{}_sol.dat'.format(self.baseResPath, self.setType, self.n)
+        return '{}/{}/{}{}_sol.dat'.format(self.baseResPath, self.algorithm, self.setType, self.n)
 
     def readInputLines(self):
         return self.readLines(self.buildInputPath())

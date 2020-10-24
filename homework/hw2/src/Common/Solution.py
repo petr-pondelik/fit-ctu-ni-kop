@@ -9,13 +9,14 @@ class Solution:
     weight: int
     configurations: [Configuration]
 
-    def __init__(self, knapsackId: int, n: int, cost: int, weight: int, configuration: Configuration):
+    def __init__(self, knapsackId: int, n: int, cost: int, weight: int, configuration: Configuration = None):
         self.knapsackId = knapsackId
         self.n = n
         self.cost = cost
         self.weight = weight
         self.configurations = []
-        self.configurations.append(configuration)
+        if configuration is not None:
+            self.configurations.append(configuration)
 
     def addConfiguration(self, configuration: Configuration):
         self.configurations.insert(0, configuration)
