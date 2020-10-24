@@ -1,6 +1,5 @@
 from Algorithms.Greedy.ItemSet import ItemSet
 from Common.Solution import Solution
-
 from Common.Configuration import Configuration
 
 
