@@ -1,12 +1,21 @@
 import copy
+import math
 
 from Common.Solution import Solution
 from Common.Node import Node
 from Common.ItemSet import ItemSet
 
+from Common.Configuration import Configuration
+
 
 class BranchAndBound:
 
+    isTest: int
+    id: int
+    n: int
+    m: int
+    itemSet: ItemSet
+    solution: Solution
     time: int
 
     def __init__(self, instance: str, isTest: int):
@@ -17,7 +26,7 @@ class BranchAndBound:
         self.n = int(instance[1])
         self.m = int(instance[2])
         self.itemSet = ItemSet(instance[3:])
-        self.optimalSolution = None
+        self.solution = Solution(self.id, self.n, 0, math.inf, Configuration([]))
         self.time = 0
 
     def print(self):
@@ -28,53 +37,89 @@ class BranchAndBound:
             'Items': self.itemSet.serialize()
         })
 
-    def updateOptimalSolution(self, node: Node):
-        if self.optimalSolution is None and node.weight <= self.m:
-            self.optimalSolution = Solution(self.id, copy.deepcopy(node))
-            return
-
+    def isBetterSolution(self, node: Node):
         if (
-            type(self.optimalSolution) is Solution
-            and (node.cost > self.optimalSolution.node.cost or (node.cost == self.optimalSolution.node.cost and node.weight < self.optimalSolution.node.weight))
+            (
+                node.cost > self.solution.cost or
+                (node.cost == self.solution.cost and node.weight < self.solution.weight)
+            )
             and node.weight <= self.m
         ):
-            self.optimalSolution.node.cost = node.cost
-            self.optimalSolution.node.weight = node.weight
+            return True
+        return False
 
-    def processItem(self, inx: int, node: Node):
+    def isEqualSolution(self, node: Node):
+        if node.cost == self.solution.cost and node.weight == self.solution.weight:
+            return True
+        return False
 
+    def potentiallyBetter(self, node: Node, level: int):
+        remainingItems = self.itemSet.items[level:]
+        potentialCost: float = node.cost
+        for item in remainingItems:
+            potentialCost += item.cost
+        return potentialCost > self.solution.cost
+
+    def updateSolution(self, path: list, node: Node):
+        if self.isBetterSolution(node):
+            self.solution.resetConfigurations()
+            self.solution.cost = node.cost
+            self.solution.weight = node.weight
+            self.solution.addConfiguration(Configuration(copy.deepcopy(path)))
+            return
+        if self.isEqualSolution(node):
+            self.solution.addConfiguration(Configuration(copy.deepcopy(path)))
+
+    def processItem(self, level: int, itemAdded: bool, node: Node, path: list):
+
+        path.append(str(int(itemAdded)))
         self.time += 1
 
-        self.updateOptimalSolution(node)
-
-        # Crop the search space when the knapsack gets overloaded
+        # Crop the search space when the knapsack gets overloaded (from above)
         if node.weight > self.m:
             return node
 
+        # Crop the search space if the branch potentially can't generate better solution than the current best (from below)
+        if not self.potentiallyBetter(node, level):
+            return node
+
         # Return from recursion at the bottom of the tree
-        if inx >= self.n:
+        if level >= self.n:
+            self.updateSolution(path, node)
             return node
 
         self.processItem(
-            inx + 1,
-            node.addItem(self.itemSet.items[inx])
+            level + 1,
+            True,
+            node.addItem(self.itemSet.items[level]),
+            path
         )
+
+        path.pop()
 
         self.processItem(
-            inx + 1,
-            node.skipItem(self.itemSet.items[inx])
+            level + 1,
+            False,
+            node.skipItem(self.itemSet.items[level]),
+            path
         )
 
-    def evaluate(self):
+        path.pop()
+
+    def evaluate(self) -> str:
         self.time += 1
         self.processItem(
             1,
-            Node(self.itemSet.items[0].weight, self.itemSet.items[0].cost)
+            True,
+            Node(self.itemSet.items[0].weight, self.itemSet.items[0].cost),
+            []
         )
         self.processItem(
             1,
-            Node(0, 0)
+            False,
+            Node(0, 0),
+            []
         )
         if self.isTest:
-            return '{}'.format(-1 * self.id)
-        return self.time
+            return self.solution.print()
+        return str(self.time)

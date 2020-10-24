@@ -20,7 +20,7 @@ class FileSystem:
         return '{}/{}/{}{}_sol.dat'.format(self.baseDataPath, self.setType, self.setType, self.n)
 
     def buildResultPath(self) -> str:
-        return '{}/results.txt'.format(self.baseResPath)
+        return '{}/{}{}_sol.dat'.format(self.baseResPath, self.setType, self.n)
 
     def readInputLines(self):
         return self.readLines(self.buildInputPath())

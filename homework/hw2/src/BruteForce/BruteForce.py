@@ -66,7 +66,6 @@ class BruteForce:
     def processItem(self, level: int, itemAdded: bool, node: Node, path: list):
 
         path.append(str(int(itemAdded)))
-
         self.time += 1
 
         if level >= self.n:
