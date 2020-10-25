@@ -1,0 +1,3 @@
+class DynamicProgramming:
+
+    isTest: int
