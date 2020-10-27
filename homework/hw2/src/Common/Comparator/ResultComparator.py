@@ -55,18 +55,19 @@ class ResultComparator:
                 sol.configurations.append(Configuration(solutionsGrouped[inx][i][3:]))
             self.solutions.append(sol)
 
-    def compareResToSol(self) -> bool:
+    def compareResToSol(self) -> list:
+        errors = []
         for i in range(0, len(self.results)):
             result: Solution = self.results[i]
             solution: Solution = self.solutions[i]
             if result.cost != solution.cost:
-                return False
+                errors.append(i+1)
             resConf: Configuration = result.configurations[0]
             if not solution.containsConfiguration(resConf):
-                return False
-        return True
+                errors.append(i+1)
+        return errors
 
-    def compare(self) -> bool:
+    def compare(self) -> list:
         self.loadResults()
         self.loadSolutions()
         return self.compareResToSol()

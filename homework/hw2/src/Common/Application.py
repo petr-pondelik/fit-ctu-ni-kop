@@ -66,10 +66,12 @@ class Application:
 
             self.fileLoader.writeResult(result)
 
-            if self.resultComparator.compare():
-                print('OK')
+            errors: list = self.resultComparator.compare()
+            if len(errors) > 0:
+                print('ERRORS')
+                print(errors)
             else:
-                print('ERROR')
+                print('OK')
         else:
             for instance in self.instances:
                 self.time += ' {}'.format(str(instance.evaluate()))

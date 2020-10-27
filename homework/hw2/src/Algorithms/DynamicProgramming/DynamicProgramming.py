@@ -65,16 +65,19 @@ class DynamicProgramming:
         itemCoordinate = solution[2]
         for i in range(1, self.n + 1):
             originWeight = self.memory[costCoordinate][itemCoordinate - 1]
-            costCoordinateNew = costCoordinate
-            print(self.memory[costCoordinate - self.C[self.n - i]][itemCoordinate - 1])
-            if originWeight > self.m:
+            costCoordinateOrigin = costCoordinate
+            # print('leftOriginWeight: {}, leftOriginCost: {}'.format(originWeight, costCoordinateOrigin))
+            if originWeight != self.memory[costCoordinate][itemCoordinate]:
                 originWeight = self.memory[costCoordinate - self.C[self.n - i]][itemCoordinate - 1]
-                costCoordinateNew = costCoordinate - self.C[self.n - i]
-            print('i: {}, originWeight: {}, actualWeight: {}'.format(i, originWeight, actualWeight))
+                costCoordinateOrigin = costCoordinate - self.C[self.n - i]
+            # print(
+            #     'i: {}, originWeight: {}, originCost: {}, actualWeight: {}, actualCost: {}'
+            #         .format(i, originWeight, costCoordinateOrigin, actualWeight, costCoordinate)
+            # )
             if actualWeight != originWeight:
                 vector[self.n - i] = 1
             actualWeight = originWeight
-            costCoordinate = costCoordinateNew
+            costCoordinate = costCoordinateOrigin
             itemCoordinate = itemCoordinate - 1
         return vector
 
