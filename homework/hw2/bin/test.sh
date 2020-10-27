@@ -9,7 +9,7 @@ datasetsArr=( NK ZKC ZKW )
 methodsArr=( DynamicProgramming )
 
 # Array of items number
-itemsCntArr=( 10 )
+itemsCntArr=( 4 10 15 )
 
 for dataset in "${datasetsArr[@]}"
 do
@@ -17,7 +17,7 @@ do
   do
     for n in "${itemsCntArr[@]}"
     do
-      python3 ./../src/main.py "${method}" "${dataset}" "${n}" 1 0-2
+      python3 ./../src/main.py "${method}" "${dataset}" "${n}" 1 0-499
     done
   done
 done

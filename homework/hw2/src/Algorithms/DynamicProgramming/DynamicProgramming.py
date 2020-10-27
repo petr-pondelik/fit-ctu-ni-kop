@@ -60,25 +60,26 @@ class DynamicProgramming:
 
     def findSolutionVector(self, solution):
         vector = [0 for i in range(self.n)]
-        actualWeight = solution[0]
-        costCoordinate = solution[1]
-        itemCoordinate = solution[2]
+        # Get cost of optimal weight cell
+        actualCost = solution[1]
+        # Get item inx of optimal weight cell
+        actualItem = solution[2]
         for i in range(1, self.n + 1):
-            originWeight = self.memory[costCoordinate][itemCoordinate - 1]
-            costCoordinateOrigin = costCoordinate
+            originItem = actualItem - 1
+            originCost = actualCost
+            originWeight = self.memory[actualCost][originItem]
+            actualWeight = self.memory[actualCost][actualItem]
             # print('leftOriginWeight: {}, leftOriginCost: {}'.format(originWeight, costCoordinateOrigin))
-            if originWeight != self.memory[costCoordinate][itemCoordinate]:
-                originWeight = self.memory[costCoordinate - self.C[self.n - i]][itemCoordinate - 1]
-                costCoordinateOrigin = costCoordinate - self.C[self.n - i]
+            if actualWeight != originWeight:
+                originWeight = self.memory[actualCost - self.C[self.n - i]][originItem]
+                originCost = actualCost - self.C[self.n - i]
+                vector[self.n - i] = 1
             # print(
             #     'i: {}, originWeight: {}, originCost: {}, actualWeight: {}, actualCost: {}'
             #         .format(i, originWeight, costCoordinateOrigin, actualWeight, costCoordinate)
             # )
-            if actualWeight != originWeight:
-                vector[self.n - i] = 1
-            actualWeight = originWeight
-            costCoordinate = costCoordinateOrigin
-            itemCoordinate = itemCoordinate - 1
+            actualCost = originCost
+            actualItem = originItem
         return vector
 
     def evaluate(self) -> str:
