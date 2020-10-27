@@ -14,6 +14,7 @@ class Application:
     fileLoader: FileSystem
     resultComparator: ResultComparator
     algorithm: str
+    eps: float
     isTest: int
     setType: str
     n: int
@@ -21,10 +22,11 @@ class Application:
     instancesInterval: list
 
     # Class constructor
-    def __init__(self, n: int, setType: str, algorithm: str, isTest: int, instancesInterval: list):
+    def __init__(self, n: int, setType: str, algorithm: str, eps: float, isTest: int, instancesInterval: list):
         print(algorithm)
         self.setType = setType
         self.n = n
+        self.eps = eps
         self.algorithm = algorithm
         self.isTest = int(isTest)
         self.instances = []
@@ -38,8 +40,12 @@ class Application:
         loadedInstances = self.fileLoader.readInputLines()
         loadedInstances = loadedInstances[self.instancesInterval[0]:self.instancesInterval[1]+1]
 
-        for instance in loadedInstances:
-            self.instances.append(eval(self.algorithm)(instance, self.isTest))
+        if self.algorithm == 'FPTAS':
+            for instance in loadedInstances:
+                self.instances.append(eval(self.algorithm)(instance, self.eps, self.isTest))
+        else:
+            for instance in loadedInstances:
+                self.instances.append(eval(self.algorithm)(instance, self.isTest))
 
     def print(self):
         for instance in self.instances:
@@ -50,6 +56,7 @@ class Application:
             self.fileLoader.cleanResultFile()
 
             result: str = ''
+
             for instance in self.instances:
                 result += instance.evaluate()
 

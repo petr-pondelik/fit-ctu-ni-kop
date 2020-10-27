@@ -30,8 +30,7 @@ class DynamicProgramming:
         self.solution = Solution(self.id, self.n, 0, 0)
         self.C = []
         self.W = []
-        self.extractCosts()
-        self.extractWeights()
+        self.preprocessItems()
         self.sumCost()
         self.initMemory()
 
@@ -39,21 +38,17 @@ class DynamicProgramming:
         sumC = 0
         for cost in self.C:
             sumC += cost
-        # for key in self.itemSet.items:
-        #     sumC += self.itemSet.items[key].cost
-        # print(sumC)
         self.sumC = sumC
 
-    def extractCosts(self):
+    def preprocessItems(self):
         for key in self.itemSet.items:
-            self.C.append(self.itemSet.items[key].cost)
-
-    def extractWeights(self):
-        for key in self.itemSet.items:
+            c = self.itemSet.items[key].cost
             w = self.itemSet.items[key].weight
             self.W.append(w)
             if w > self.m:
-                self.C[key] = 0
+                self.C.append(0)
+            else:
+                self.C.append(c)
 
     def initMemory(self):
         self.memory = [[math.inf for i in range(self.n + 1)] for j in range(self.sumC + 1)]

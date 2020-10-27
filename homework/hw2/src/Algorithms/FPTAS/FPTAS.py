@@ -6,19 +6,23 @@ from Common.Configuration import Configuration
 class FPTAS:
 
     isTest: int
+    eps: float
+    k: float
     time: int
     id: int
     n: int
     m: int
     C: list
     W: list
+    maxC: int
     sumC: int
     memory: list
     itemSet: ItemSet
     solution: Solution
 
-    def __init__(self, instance: str, isTest: int):
+    def __init__(self, instance: str, eps: float, isTest: int):
         self.isTest = isTest
+        self.eps = eps
         self.time = 0
         instance = instance.strip()
         instance = instance.split(' ')
@@ -31,8 +35,10 @@ class FPTAS:
         self.W = []
         self.sumCost()
         self.initMemory()
-        self.extractCosts()
-        self.extractWeights()
+        self.preprocessItems()
+        self.maxC = max(self.C)
+        self.computeK()
+        self.normalizeCosts()
 
     def sumCost(self):
         sumC = 0
@@ -40,17 +46,26 @@ class FPTAS:
             sumC += self.itemSet.items[key].cost
         self.sumC = sumC
 
-    def extractCosts(self):
-        for key in self.itemSet.items:
-            self.C.append(self.itemSet.items[key].cost)
+    # Compute cost normalization constant
+    def computeK(self):
+        self.k = (float(self.eps) * float(self.maxC)) / float(self.n)
 
-    def extractWeights(self):
+    # Normalize costs using k constant
+    def normalizeCosts(self):
+        newC: list = []
+        for cost in self.C:
+            newC.append(int(float(cost)/self.k))
+        self.C = newC
+
+    def preprocessItems(self):
         for key in self.itemSet.items:
+            c = self.itemSet.items[key].cost
             w = self.itemSet.items[key].weight
             self.W.append(w)
             if w > self.m:
-                self.C[key] = 0
-
+                self.C.append(0)
+            else:
+                self.C.append(c)
 
     def initMemory(self):
         self.memory = [[math.inf for i in range(self.n + 1)] for j in range(self.sumC + 1)]
@@ -73,7 +88,6 @@ class FPTAS:
             originWeight = self.memory[actualCost][originItem]
             actualWeight = self.memory[actualCost][actualItem]
             if actualWeight != originWeight:
-                originWeight = self.memory[actualCost - self.C[self.n - i]][originItem]
                 originCost = actualCost - self.C[self.n - i]
                 vector[self.n - i] = 1
             actualCost = originCost
