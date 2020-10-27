@@ -47,7 +47,11 @@ class DynamicProgramming:
 
     def extractWeights(self):
         for key in self.itemSet.items:
-            self.W.append(self.itemSet.items[key].weight)
+            w = self.itemSet.items[key].weight
+            self.W.append(w)
+            if w > self.m:
+                self.C[key] = 0
+
 
     def initMemory(self):
         self.memory = [[math.inf for i in range(self.n + 1)] for j in range(self.sumC + 1)]
