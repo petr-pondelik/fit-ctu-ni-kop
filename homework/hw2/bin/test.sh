@@ -4,11 +4,12 @@
 datasetsArr=( NK ZKC ZKW )
 
 # Array of solution methods: 1 = bruteforce, 2 = Branch & Bounds
-#methodsArr=( 1 2 )
-methodsArr=( 2 )
+#methodsArr=( BruteForce )
+#methodsArr=( BranchAndBound )
+methodsArr=( DynamicProgramming )
 
 # Array of items number
-itemsCntArr=( 4 10 15 20 )
+itemsCntArr=( 10 )
 
 for dataset in "${datasetsArr[@]}"
 do
@@ -16,7 +17,7 @@ do
   do
     for n in "${itemsCntArr[@]}"
     do
-      python3 ./../src/main.py "${method}" "${dataset}" "${n}" 1 0-499
+      python3 ./../src/main.py "${method}" "${dataset}" "${n}" 1 0-2
     done
   done
 done

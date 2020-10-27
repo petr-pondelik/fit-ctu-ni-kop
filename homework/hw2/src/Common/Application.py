@@ -4,11 +4,9 @@ from Algorithms.BruteForce.BruteForce import BruteForce
 from Algorithms.BranchAndBound.BranchAndBound import BranchAndBound
 
 from Common.Comparator.ResultComparator import ResultComparator
-
 from Algorithms.Greedy.Greedy import Greedy
-
 from Algorithms.GreedyRedux.GreedyRedux import GreedyRedux
-
+from Algorithms.DynamicProgramming.DynamicProgramming import DynamicProgramming
 
 class Application:
 
@@ -50,6 +48,9 @@ class Application:
         elif self.algorithm == AlgorithmsEnum.GREEDY_REDUX:
             for instance in loadedInstances:
                 self.instances.append(GreedyRedux(instance, self.isTest))
+        elif self.algorithm == AlgorithmsEnum.DYNAMIC_PROGRAMMING:
+            for instance in loadedInstances:
+                self.instances.append(DynamicProgramming(instance, self.isTest))
 
     def print(self):
         for instance in self.instances:

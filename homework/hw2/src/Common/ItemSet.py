@@ -3,6 +3,8 @@ from Common.Item import Item
 
 class ItemSet:
 
+    items: list
+
     def __init__(self, items):
 
         self.items = []

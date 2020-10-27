@@ -26,7 +26,7 @@ class BranchAndBound:
         self.n = int(instance[1])
         self.m = int(instance[2])
         self.itemSet = ItemSet(instance[3:])
-        self.solution = Solution(self.id, self.n, 0, math.inf, Configuration([]))
+        self.solution = Solution(self.id, self.n, 0, math.inf, Configuration(['0' for i in range(self.n)]))
         self.time = 0
 
     def print(self):
@@ -56,9 +56,11 @@ class BranchAndBound:
     def potentiallyBetter(self, node: Node, level: int):
         remainingItems = self.itemSet.items[level:]
         potentialCost: float = node.cost
+        potentialWeight: float = node.weight
         for item in remainingItems:
             potentialCost += item.cost
-        return potentialCost > self.solution.cost
+            potentialWeight += item.weight
+        return potentialCost > self.solution.cost or (potentialCost == self.solution.cost and potentialWeight < self.solution.weight)
 
     def updateSolution(self, path: list, node: Node):
         if self.isBetterSolution(node):

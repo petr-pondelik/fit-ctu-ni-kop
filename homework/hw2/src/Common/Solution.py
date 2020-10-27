@@ -25,8 +25,8 @@ class Solution:
         self.configurations = []
 
     def containsConfiguration(self, configuration: Configuration):
-        for configuration in self.configurations:
-            if configuration.values == configuration.values:
+        for conf in self.configurations:
+            if conf.values == configuration.values:
                 return True
         return False
 
