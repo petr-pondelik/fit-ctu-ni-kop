@@ -30,15 +30,18 @@ class DynamicProgramming:
         self.solution = Solution(self.id, self.n, 0, 0)
         self.C = []
         self.W = []
-        self.sumCost()
-        self.initMemory()
         self.extractCosts()
         self.extractWeights()
+        self.sumCost()
+        self.initMemory()
 
     def sumCost(self):
         sumC = 0
-        for key in self.itemSet.items:
-            sumC += self.itemSet.items[key].cost
+        for cost in self.C:
+            sumC += cost
+        # for key in self.itemSet.items:
+        #     sumC += self.itemSet.items[key].cost
+        # print(sumC)
         self.sumC = sumC
 
     def extractCosts(self):
@@ -51,7 +54,6 @@ class DynamicProgramming:
             self.W.append(w)
             if w > self.m:
                 self.C[key] = 0
-
 
     def initMemory(self):
         self.memory = [[math.inf for i in range(self.n + 1)] for j in range(self.sumC + 1)]
@@ -75,7 +77,6 @@ class DynamicProgramming:
             actualWeight = self.memory[actualCost][actualItem]
             # print('leftOriginWeight: {}, leftOriginCost: {}'.format(originWeight, costCoordinateOrigin))
             if actualWeight != originWeight:
-                originWeight = self.memory[actualCost - self.C[self.n - i]][originItem]
                 originCost = actualCost - self.C[self.n - i]
                 vector[self.n - i] = 1
             # print(
@@ -99,7 +100,6 @@ class DynamicProgramming:
                         self.memory[cost - self.C[itemAmount - 1]][itemAmount - 1] + self.W[itemAmount - 1]
                     )
         solution = self.findSolution()
-        # print(solution)
         solutionVector = self.findSolutionVector(solution)
         self.solution.weight = solution[0]
         self.solution.cost = solution[1]

@@ -1,12 +1,12 @@
 from Common.FileSystem.FileSystem import FileSystem
-from Algorithms.AlgorithmsEnum import AlgorithmsEnum
+from Common.Comparator.ResultComparator import ResultComparator
+
 from Algorithms.BruteForce.BruteForce import BruteForce
 from Algorithms.BranchAndBound.BranchAndBound import BranchAndBound
-
-from Common.Comparator.ResultComparator import ResultComparator
 from Algorithms.Greedy.Greedy import Greedy
 from Algorithms.GreedyRedux.GreedyRedux import GreedyRedux
 from Algorithms.DynamicProgramming.DynamicProgramming import DynamicProgramming
+
 
 class Application:
 
@@ -36,21 +36,9 @@ class Application:
     def loadInstances(self):
         loadedInstances = self.fileLoader.readInputLines()
         loadedInstances = loadedInstances[self.instancesInterval[0]:self.instancesInterval[1]+1]
-        if self.algorithm == AlgorithmsEnum.BRUTEFORCE:
-            for instance in loadedInstances:
-                self.instances.append(BruteForce(instance, self.isTest))
-        elif self.algorithm == AlgorithmsEnum.BRANCH_AND_BOUND:
-            for instance in loadedInstances:
-                self.instances.append(BranchAndBound(instance, self.isTest))
-        elif self.algorithm == AlgorithmsEnum.GREEDY:
-            for instance in loadedInstances:
-                self.instances.append(Greedy(instance, self.isTest))
-        elif self.algorithm == AlgorithmsEnum.GREEDY_REDUX:
-            for instance in loadedInstances:
-                self.instances.append(GreedyRedux(instance, self.isTest))
-        elif self.algorithm == AlgorithmsEnum.DYNAMIC_PROGRAMMING:
-            for instance in loadedInstances:
-                self.instances.append(DynamicProgramming(instance, self.isTest))
+
+        for instance in loadedInstances:
+            self.instances.append(eval(self.algorithm)(instance, self.isTest))
 
     def print(self):
         for instance in self.instances:
