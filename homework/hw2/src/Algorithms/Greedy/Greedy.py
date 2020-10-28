@@ -42,4 +42,6 @@ class Greedy:
                 self.solution.weight += item[1].weight
                 selectedIndexes.append(item[0])
         self.solution.addConfiguration(Configuration(self.prepareConfiguration(selectedIndexes)))
-        return self.solution.print()
+        if self.isTest:
+            return self.solution.print()
+        return str(self.n)

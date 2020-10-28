@@ -18,19 +18,18 @@ class Application:
     isTest: int
     setType: str
     n: int
-    time: str
+    result: str
     instancesInterval: list
 
     # Class constructor
     def __init__(self, n: int, setType: str, algorithm: str, eps: float, isTest: int, instancesInterval: list):
-        print(algorithm)
         self.setType = setType
         self.n = n
         self.eps = eps
         self.algorithm = algorithm
         self.isTest = int(isTest)
         self.instances = []
-        self.time = ''
+        self.result = ''
         self.fileLoader = FileSystem(self.setType, algorithm, self.n)
         self.resultComparator = ResultComparator(self.setType, self.algorithm, self.n)
         self.instancesInterval = [int(i) for i in instancesInterval]
@@ -70,5 +69,5 @@ class Application:
                 print('OK')
         else:
             for instance in self.instances:
-                self.time += ' {}'.format(str(instance.evaluate()))
-            print(self.time)
+                self.result += instance.evaluate()
+            print(self.result)

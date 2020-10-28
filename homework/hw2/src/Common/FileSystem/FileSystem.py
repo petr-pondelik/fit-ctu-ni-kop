@@ -4,7 +4,7 @@ import os
 class FileSystem:
 
     baseDataPath = './../data'
-    baseResPath = './../results/test'
+    baseResPath = './../results/measurement'
 
     setType: str
     algorithm: str

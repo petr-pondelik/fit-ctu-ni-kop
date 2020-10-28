@@ -107,4 +107,4 @@ class BruteForce:
         if self.isTest:
             return self.solution.print()
         else:
-            return str(self.time)
+            return str(self.n)

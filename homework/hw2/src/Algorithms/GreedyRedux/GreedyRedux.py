@@ -60,6 +60,8 @@ class GreedyRedux:
     def evaluate(self) -> str:
         self.evaluateGreedy()
         self.evaluateGreedyRedux()
-        if self.solution.cost > self.reduxSolution.cost:
-            return self.solution.print()
-        return self.reduxSolution.print()
+        if self.isTest:
+            if self.solution.cost > self.reduxSolution.cost:
+                return self.solution.print()
+            return self.reduxSolution.print()
+        return str(self.n)

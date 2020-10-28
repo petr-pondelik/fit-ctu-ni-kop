@@ -99,4 +99,6 @@ class DynamicProgramming:
         self.solution.weight = solution[0]
         self.solution.cost = solution[1]
         self.solution.addConfiguration(Configuration(map(str, solutionVector)))
-        return self.solution.print()
+        if self.isTest:
+            return self.solution.print()
+        return str(self.n)

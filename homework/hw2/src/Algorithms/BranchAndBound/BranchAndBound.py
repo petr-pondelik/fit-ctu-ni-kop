@@ -124,4 +124,4 @@ class BranchAndBound:
         )
         if self.isTest:
             return self.solution.print()
-        return str(self.time)
+        return str(self.n)
