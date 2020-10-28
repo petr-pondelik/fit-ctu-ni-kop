@@ -75,11 +75,22 @@ class ResultComparator:
             maxRelErr, maxRealErr = max(maxRelErr, relErr), max(maxRealErr, realErr)
             if maxRelErr > eps:
                 errors.append(i)
-        # print(maxRealErr)
-        print(maxRelErr)
         return errors
 
-    def compareResToSol(self) -> list:
+    def compareResToSolGreedyRedux(self) -> list:
+        errors: list = []
+        errorThreshold: float = 0.5
+        for i in range(len(self.results)):
+            result: Solution = self.results[i]
+            solution: Solution = self.solutions[i]
+            resCost: float = float(result.cost)
+            solCost: float = float(solution.cost)
+            if resCost != 0.0 and solCost != 0.0:
+                if float(result.cost)/float(solution.cost) < errorThreshold:
+                    errors.append(i + 1)
+        return errors
+
+    def compareResToSolExact(self) -> list:
         errors = []
         for i in range(0, len(self.results)):
             result: Solution = self.results[i]
@@ -96,5 +107,9 @@ class ResultComparator:
         self.loadSolutions()
         if self.algorithm == 'FPTAS':
             return self.compareResToSolFPTAS()
+        elif self.algorithm == 'GreedyRedux':
+            return self.compareResToSolGreedyRedux()
+        elif self.algorithm in ['BruteForce', 'BranchAndBound', 'DynamicProgramming']:
+            return self.compareResToSolExact()
         else:
-            return self.compareResToSol()
+            return []
