@@ -12,7 +12,9 @@ class FPTAS:
     id: int
     n: int
     m: int
+    isTrivial: bool = False
     C: list
+    normalizedC: list
     W: list
     maxC: int
     sumC: int
@@ -32,18 +34,26 @@ class FPTAS:
         self.itemSet = ItemSet(instance[3:])
         self.solution = Solution(self.id, self.n, 0, 0)
         self.C = []
+        self.normalizedC = []
         self.W = []
-        self.sumCost()
-        self.initMemory()
         self.preprocessItems()
+        self.findMaxC()
+        if not self.isTrivial:
+            self.computeK()
+            self.normalizeCosts()
+            self.sumCost()
+            self.initMemory()
+
+    def findMaxC(self):
         self.maxC = max(self.C)
-        self.computeK()
-        self.normalizeCosts()
+        print(self.maxC)
+        if self.maxC <= 0:
+            self.isTrivial = True
 
     def sumCost(self):
         sumC = 0
-        for key in self.itemSet.items:
-            sumC += self.itemSet.items[key].cost
+        for cost in self.normalizedC:
+            sumC += cost
         self.sumC = sumC
 
     # Compute cost normalization constant
@@ -52,10 +62,8 @@ class FPTAS:
 
     # Normalize costs using k constant
     def normalizeCosts(self):
-        newC: list = []
         for cost in self.C:
-            newC.append(int(float(cost)/self.k))
-        self.C = newC
+            self.normalizedC.append(int(float(cost)/self.k))
 
     def preprocessItems(self):
         for key in self.itemSet.items:
@@ -73,8 +81,16 @@ class FPTAS:
     def findSolution(self) -> [int, int, int]:
         rowsCnt = len(self.memory)
         for lineInx in range(1, rowsCnt + 1):
+            # Find first (from above) weight that fits knapsack capacity in the last column (using all the items)
             if self.memory[rowsCnt - lineInx][self.n] <= self.m:
+                # Return solution in format: [weight, cost, itemsAmount]
                 return [self.memory[rowsCnt - lineInx][self.n], rowsCnt - lineInx, self.n]
+
+    def findSolutionCost(self, vector: list) -> int:
+        cost: int = 0
+        for i in range(len(vector)):
+            cost += vector[i] * self.C[i]
+        return cost
 
     def findSolutionVector(self, solution):
         vector = [0 for i in range(self.n)]
@@ -88,13 +104,19 @@ class FPTAS:
             originWeight = self.memory[actualCost][originItem]
             actualWeight = self.memory[actualCost][actualItem]
             if actualWeight != originWeight:
-                originCost = actualCost - self.C[self.n - i]
+                originCost = actualCost - self.normalizedC[self.n - i]
                 vector[self.n - i] = 1
             actualCost = originCost
             actualItem = originItem
         return vector
 
+    def solveTrivial(self):
+        self.solution.addConfiguration(Configuration(['0' for i in range(self.n)]))
+
     def evaluate(self) -> str:
+        if self.isTrivial:
+            self.solveTrivial()
+            return self.solution.print()
         for itemAmount in range(self.n + 1):
             for cost in range(self.sumC + 1):
                 if itemAmount == 0 and cost == 0:
@@ -104,12 +126,11 @@ class FPTAS:
                 elif itemAmount > 0:
                     self.memory[cost][itemAmount] = min(
                         self.memory[cost][itemAmount - 1],
-                        self.memory[cost - self.C[itemAmount - 1]][itemAmount - 1] + self.W[itemAmount - 1]
+                        self.memory[cost - self.normalizedC[itemAmount - 1]][itemAmount - 1] + self.W[itemAmount - 1]
                     )
         solution = self.findSolution()
-        # print(solution)
         solutionVector = self.findSolutionVector(solution)
         self.solution.weight = solution[0]
-        self.solution.cost = solution[1]
+        self.solution.cost = self.findSolutionCost(solutionVector)
         self.solution.addConfiguration(Configuration(map(str, solutionVector)))
         return self.solution.print()

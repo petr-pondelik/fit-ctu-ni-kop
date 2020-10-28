@@ -4,7 +4,7 @@ import os
 class FileSystem:
 
     baseDataPath = './../data'
-    baseResPath = './../results'
+    baseResPath = './../results/test'
 
     setType: str
     algorithm: str
@@ -22,7 +22,7 @@ class FileSystem:
         return '{}/{}/{}{}_sol.dat'.format(self.baseDataPath, self.setType, self.setType, self.n)
 
     def buildResultPath(self) -> str:
-        return '{}/{}/{}{}_sol.dat'.format(self.baseResPath, self.algorithm, self.setType, self.n)
+        return '{}/{}/{}/{}{}_sol.dat'.format(self.baseResPath, self.setType, self.algorithm, self.setType, self.n)
 
     def readInputLines(self):
         return self.readLines(self.buildInputPath())

@@ -23,5 +23,8 @@ if __name__ == '__main__':
         isTest = input('Run application in testing mode? (1/0): ')
 
     application = Application(n, setType, algorithm, eps, isTest, instancesInterval)
-    application.evaluate()
-    # cProfile.run('application.evaluate()')
+
+    if isTest == '1':
+        application.evaluate()
+    else:
+        cProfile.run('application.evaluate()')
