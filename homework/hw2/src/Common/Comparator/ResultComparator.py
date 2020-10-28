@@ -7,11 +7,13 @@ from Common.Configuration import Configuration
 class ResultComparator:
 
     fileSystem: FileSystem
+    algorithm: str
     results: [Solution]
     solutions: [Solution]
 
     def __init__(self, setType: str, algorithm: str, n: int):
         self.fileSystem = FileSystem(setType, algorithm, n)
+        self.algorithm = algorithm
         self.results = []
         self.solutions = []
 
@@ -27,10 +29,12 @@ class ResultComparator:
 
         for inx in resultsGrouped:
             inx = str(inx)
+            eps: float = float(resultsGrouped[inx][0][-1:][0])
             sol: Solution = Solution(
                 resultsGrouped[inx][0][0], resultsGrouped[inx][0][1],
-                resultsGrouped[inx][0][2], 0, Configuration(resultsGrouped[inx][0][3:])
+                resultsGrouped[inx][0][2], 0, Configuration(resultsGrouped[inx][0][3:-1])
             )
+            sol.setEps(eps)
             for i in range(1, len(resultsGrouped[inx])):
                 sol.configurations.append(Configuration(resultsGrouped[inx][i][3:]))
             self.results.append(sol)
@@ -55,6 +59,26 @@ class ResultComparator:
                 sol.configurations.append(Configuration(solutionsGrouped[inx][i][3:]))
             self.solutions.append(sol)
 
+    def compareResToSolFPTAS(self) -> list:
+        errors: list = []
+        maxRelErr: float = 0.0
+        maxRealErr: float = 0.0
+        for i in range(len(self.results)):
+            result: Solution = self.results[i]
+            solution: Solution = self.solutions[i]
+            eps = result.eps
+            maxCost = max(float(result.cost), float(solution.cost))
+            relErr, realErr = 0.0, 0.0
+            if maxCost > 0:
+                relErr = abs(float(result.cost) - float(solution.cost)) / maxCost
+                realErr = abs(float(result.cost) - float(solution.cost))
+            maxRelErr, maxRealErr = max(maxRelErr, relErr), max(maxRealErr, realErr)
+            if maxRelErr > eps:
+                errors.append(i)
+        # print(maxRealErr)
+        print(maxRelErr)
+        return errors
+
     def compareResToSol(self) -> list:
         errors = []
         for i in range(0, len(self.results)):
@@ -70,4 +94,7 @@ class ResultComparator:
     def compare(self) -> list:
         self.loadResults()
         self.loadSolutions()
-        return self.compareResToSol()
+        if self.algorithm == 'FPTAS':
+            return self.compareResToSolFPTAS()
+        else:
+            return self.compareResToSol()

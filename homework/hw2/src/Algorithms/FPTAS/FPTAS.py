@@ -11,6 +11,7 @@ class FPTAS:
     time: int
     id: int
     n: int
+    overWeightItems: int = 0
     m: int
     isTrivial: bool = False
     C: list
@@ -33,6 +34,7 @@ class FPTAS:
         self.m = int(instance[2])
         self.itemSet = ItemSet(instance[3:])
         self.solution = Solution(self.id, self.n, 0, 0)
+        self.solution.setEps(self.eps)
         self.C = []
         self.normalizedC = []
         self.W = []
@@ -46,7 +48,6 @@ class FPTAS:
 
     def findMaxC(self):
         self.maxC = max(self.C)
-        print(self.maxC)
         if self.maxC <= 0:
             self.isTrivial = True
 
@@ -58,7 +59,7 @@ class FPTAS:
 
     # Compute cost normalization constant
     def computeK(self):
-        self.k = (float(self.eps) * float(self.maxC)) / float(self.n)
+        self.k = (float(self.eps) * float(self.maxC)) / float(self.n - self.overWeightItems)
 
     # Normalize costs using k constant
     def normalizeCosts(self):
@@ -71,6 +72,7 @@ class FPTAS:
             w = self.itemSet.items[key].weight
             self.W.append(w)
             if w > self.m:
+                self.overWeightItems += 1
                 self.C.append(0)
             else:
                 self.C.append(c)
