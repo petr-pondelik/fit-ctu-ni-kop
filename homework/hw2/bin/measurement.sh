@@ -50,30 +50,58 @@ resultPath='./../results/measurement'
 ##  Measure greedy heuristics  ##
 #################################
 
-# TODO: Run algorithms in verbose mode to write results into results/measurement directory
-
-## Array of data-sets
-greedyDatasetsArr=( NK ZKC ZKW )
-
-## Array of algorithms
-greedyAlgorithmsArr=( Greedy GreedyRedux )
-
-## Array of items number
-greedyItemsCntArr=( 4 10 15 20 22)
-
-for dataset in "${greedyDatasetsArr[@]}"
-do
-  for algorithm in "${greedyAlgorithmsArr[@]}"
-  do
-    for n in "${greedyItemsCntArr[@]}"
-    do
-      python3 ./../src/main.py "${algorithm}" "${dataset}" "${n}" 1 0-499 1
-    done
-  done
-done
+### Array of data-sets
+#greedyDatasetsArr=( NK ZKC ZKW )
+#
+### Array of algorithms
+#greedyAlgorithmsArr=( Greedy GreedyRedux )
+#
+### Array of items number
+#greedyItemsCntArr=( 4 10 15 20 22)
+#
+#for dataset in "${greedyDatasetsArr[@]}"
+#do
+#  for algorithm in "${greedyAlgorithmsArr[@]}"
+#  do
+#    for n in "${greedyItemsCntArr[@]}"
+#    do
+#      python3 ./../src/main.py "${algorithm}" "${dataset}" "${n}" 1 0-499 1
+#    done
+#  done
+#done
 
 ###############################
 ##  Measure FPTAS algorithm  ##
 ###############################
 
-# TODO: Run algorithms in verbose mode to write results into results/measurement directory
+## Array of data-sets
+FPTASDatasetsArr=( NK ZKC ZKW )
+
+## Array of items number
+greedyItemsCntArr=( 22 )
+
+## FPTAS eps values array
+epsArr=( 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 )
+
+for dataset in "${FPTASDatasetsArr[@]}"
+do
+  rm "${resultPath}/${dataset}/FPTAS/time.txt"
+  touch "${resultPath}/${dataset}/FPTAS/time.txt"
+done
+
+for dataset in "${FPTASDatasetsArr[@]}"
+do
+  for n in "${greedyItemsCntArr[@]}"
+  do
+    for eps in "${epsArr[@]}"
+    do
+      for measurementRun in {1..3}
+      do
+        for instanceInx in {0..499}
+        do
+          python3 ./../src/main.py FPTAS "${dataset}" "${n}" 0 "${instanceInx}"-"${instanceInx}" "${eps}" | head -n 2 | sed 's/.*in\s//' | sed 's/\sseconds//' | awk -v mr="$measurementRun" 'NR%2{printf "%s %s ",$0,mr;next;}1' >> "${resultPath}/${dataset}/FPTAS/time.txt"
+        done
+      done
+    done
+  done
+done

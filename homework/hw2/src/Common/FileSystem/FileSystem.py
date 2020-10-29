@@ -48,7 +48,7 @@ class FileSystem:
 
     def writeResult(self, result: str):
         resultPath: str = self.buildResultPath()
-        f = open(resultPath, 'w')
+        f = open(resultPath, 'a+')
         f.write(result)
         f.close()
 

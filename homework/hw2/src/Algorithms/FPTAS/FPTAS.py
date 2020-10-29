@@ -135,6 +135,4 @@ class FPTAS:
         self.solution.weight = solution[0]
         self.solution.cost = self.findSolutionCost(solutionVector)
         self.solution.addConfiguration(Configuration(map(str, solutionVector)))
-        if self.isTest:
-            return self.solution.print()
-        return str(self.n)
+        return self.solution.print()

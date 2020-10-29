@@ -70,4 +70,8 @@ class Application:
         else:
             for instance in self.instances:
                 self.result += instance.evaluate()
-            print(self.result)
+            if self.algorithm != 'FPTAS':
+                print(self.result)
+            else:
+                print(self.eps)
+                self.fileLoader.writeResult(self.result)
