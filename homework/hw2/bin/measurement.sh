@@ -11,10 +11,11 @@ resultPath='./../results/measurement'
 datasetsArr=( NK )
 
 # Array of algorithms
-algorithmsArr=( BruteForce BranchAndBound GreedyRedux DynamicProgramming )
+#algorithmsArr=( BruteForce BranchAndBound GreedyRedux DynamicProgramming )
+algorithmsArr=( DynamicProgramming )
 
 # Array of items number
-itemsCntArr=( 10 )
+itemsCntArr=( 10 15 )
 
 # Prepare result files
 for dataset in "${datasetsArr[@]}"
