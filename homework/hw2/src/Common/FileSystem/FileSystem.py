@@ -10,9 +10,18 @@ class FileSystem:
     algorithm: str
     n: int
 
-    def __init__(self, setType: str, algorithm: str, n: int):
+    def __init__(self, setType: str = '', algorithm: str = '', n: int = 0):
         self.setType = setType
         self.algorithm = algorithm
+        self.n = n
+
+    def setDataset(self, dataset: str):
+        self.setType = dataset
+
+    def setAlgorithm(self, algorithm: str):
+        self.algorithm = algorithm
+
+    def setN(self, n: int):
         self.n = n
 
     def buildInputPath(self) -> str:

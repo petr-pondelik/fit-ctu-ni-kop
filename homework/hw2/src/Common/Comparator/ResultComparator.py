@@ -1,6 +1,5 @@
 from Common.FileSystem.FileSystem import FileSystem
 from Common.Solution import Solution
-
 from Common.Configuration import Configuration
 
 

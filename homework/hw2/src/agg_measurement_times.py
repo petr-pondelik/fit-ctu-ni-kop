@@ -9,7 +9,8 @@ methodsArr: list = ['BruteForce', 'DynamicProgramming']
 
 itemsCntArr: list = [10, 15]
 
-def averageFile(dataset: str, method: int):
+
+def aggregate(dataset: str, method: str):
     sourceFile = open('{}/{}/{}/time.txt'.format(basePath, dataset, method), 'r')
     outputFile = open('{}/{}/{}/time_agg.txt'.format(basePath, dataset, method), 'w+')
 
@@ -52,4 +53,4 @@ def averageFile(dataset: str, method: int):
 
 for dataset in datasetsArr:
     for method in methodsArr:
-        averageFile(dataset, method)
+        aggregate(dataset, method)
