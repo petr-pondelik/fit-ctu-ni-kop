@@ -1,13 +1,36 @@
 basePath = './../results/measurement'
 
 # Array of data-sets
-datasetsArr: list = ['NK']
+datasetsArr: list = ['NK', 'ZKC', 'ZKW']
 
 # Array of algorithms
-# methodsArr: list = ['BruteForce', 'BranchAndBound', 'GreedyRedux', 'DynamicProgramming']
-methodsArr: list = ['BruteForce', 'DynamicProgramming']
+methodsArr: list = ['BruteForce', 'BranchAndBound', 'GreedyRedux', 'DynamicProgramming']
 
 itemsCntArr: list = [10, 15]
+
+instancesCntMapping: dict = {
+    'NK': {
+        4: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+    'ZKC': {
+        4: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+    'ZKW': {
+        4: 2862,
+        10: 888,
+        15: 462,
+        20: 231,
+        22: 237
+    }
+}
 
 
 def aggregate(dataset: str, method: str):
@@ -40,9 +63,9 @@ def aggregate(dataset: str, method: str):
         if lineTime > timeMax:
             timeMax = lineTime
 
-        if cnt == 1500:
+        if cnt == instancesCntMapping[dataset][itemsCnt]:
             timeAvg = timeAcc/cnt
-            outputFile.write('{} {} {}\n'.format(itemsCnt, timeAvg, timeMax))
+            outputFile.write('{}\t{}\t{}\n'.format(itemsCnt, timeAvg, timeMax))
 
         if lineMeasurementRun != measurementRun:
             measurementRun = lineMeasurementRun
