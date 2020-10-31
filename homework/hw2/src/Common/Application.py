@@ -73,5 +73,5 @@ class Application:
             if self.algorithm != 'FPTAS':
                 print(self.result)
             else:
-                print(self.eps)
+                print('{} {}'.format(self.n, self.eps))
                 self.fileLoader.writeResult(self.result)
