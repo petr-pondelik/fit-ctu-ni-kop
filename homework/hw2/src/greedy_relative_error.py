@@ -86,7 +86,7 @@ def relativeErrors(dataset: str, algorithm: str):
                 errMax = relativeError
         errMax = errMax * 100
         errAvg = errAcc/cnt
-        outputFile.write('{} {} {}\n'.format(itemsCnt, errAvg, errMax))
+        outputFile.write('{}\t{}\t{}\n'.format(itemsCnt, errAvg, errMax))
     outputFile.close()
 
 
