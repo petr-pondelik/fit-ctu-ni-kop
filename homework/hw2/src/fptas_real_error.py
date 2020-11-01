@@ -90,8 +90,9 @@ def realErrors(dataset: str, algorithm: str):
                 instanceId: int = epsResults.knapsackId
                 solutionCost: int = solutions[instanceId].cost
                 resultCost: int = epsResults.cost
+                if abs(float(solutionCost) - float(resultCost)) > errMax:
+                    errMaxInstanceId = instanceId
                 errMax = max(errMax, abs(float(solutionCost) - float(resultCost)))
-                errMaxInstanceId = instanceId
             errMaxExpected = float(eps) * float(solutions[errMaxInstanceId].cost)
             if errMax > errMaxExpected:
                 print('ERROR')
