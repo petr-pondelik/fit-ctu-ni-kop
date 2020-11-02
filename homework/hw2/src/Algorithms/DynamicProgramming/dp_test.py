@@ -78,12 +78,12 @@ def knapsackDP():
             if itemAmount == 0 and cost > 0:
                 memory[cost][itemAmount] = math.inf
             elif itemAmount > 0:
-                print('Item: {}'.format(itemAmount))
+                # print('Item: {}'.format(itemAmount))
                 if memory[cost][itemAmount - 1] <= memory[cost - C[itemAmount - 1]][itemAmount - 1] + W[itemAmount - 1]:
-                    print('Step: [{}, {}] -> [{}, {}]'.format(cost, itemAmount-1, cost, itemAmount))
+                    # print('Step: [{}, {}] -> [{}, {}]'.format(cost, itemAmount-1, cost, itemAmount))
                     memory[cost][itemAmount] = memory[cost][itemAmount - 1]
                 else:
-                    print('Step: [{}, {}] -> [{}, {}]'.format(cost - C[itemAmount-1], itemAmount-1, cost, itemAmount))
+                    # print('Step: [{}, {}] -> [{}, {}]'.format(cost - C[itemAmount-1], itemAmount-1, cost, itemAmount))
                     memory[cost][itemAmount] = memory[cost - C[itemAmount - 1]][itemAmount - 1] + W[itemAmount - 1]
                 # memory[cost][itemAmount] = min(
                 #     memory[cost][itemAmount - 1],
@@ -99,22 +99,25 @@ def findSolution() -> [int, int, int]:
 
 
 def findSolutionVector(solution):
-    actualWeight = solution[0]
-    costCoordinate = solution[1]
-    itemCoordinate = solution[2]
+    actualCost = solution[1]
+    actualItem = solution[2]
     vector = [0, 0, 0, 0, 0]
     for i in range(1, n+1):
-        originWeight = memory[costCoordinate][itemCoordinate-1]
-        costCoordinateNew = costCoordinate
-        if originWeight == math.inf:
-            originWeight = memory[costCoordinate - C[n-i]][itemCoordinate-1]
-            costCoordinateNew = costCoordinate - C[n-i]
-        print('i: {}, originWeight: {}, actualWeight: {}'.format(i, originWeight, actualWeight))
+        originItem = actualItem - 1
+        originCost = actualCost
+        originWeight = memory[actualCost][originItem]
+        actualWeight = memory[actualCost][actualItem]
+        print('leftOriginWeight: {}, leftOriginCost: {}'.format(originWeight, originCost))
         if actualWeight != originWeight:
-            vector[n-i] = 1
-        actualWeight = originWeight
-        costCoordinate = costCoordinateNew
-        itemCoordinate = itemCoordinate-1
+            if actualWeight != originWeight:
+                originCost = actualCost - C[n-i]
+                vector[n-i] = 1
+        print(
+            'i: {}, originWeight: {}, originCost: {}, actualWeight: {}, actualCost: {}'
+            .format(i, originWeight, originCost, actualWeight, actualCost)
+        )
+        actualCost = originCost
+        actualItem = originItem
     return vector
 
 
@@ -126,35 +129,5 @@ solution = findSolution()
 # print('SOLUTION: {}'.format(solution))
 
 solutionVector = findSolutionVector(solution)
-# print('SOLUTION VECTOR: {}'.format(solutionVector))
-
-# migratedTables = [
-#     {
-#         'function': 'MigrateAdmins',
-#         'parameters': {'admins': 'admin'}},
-#     {
-#         'function': 'MigrateProviders',
-#         'parameters': {'providers': 'provider'}
-#     }
-# ]
-#
-# for calling in migratedTables:
-#     print(calling['function'])
-#     print(calling['parameters'])
-#
-# migratedTables2 = {
-#     'f1': {
-#         'MigrateAdmins': {'admins': 'admin'}
-#     },
-#     'f3': {
-#         'MigrateProviders': {'providers': 'provider'}
-#     },
-#     'f2': {
-#         'MigrateResellers': {'resellers': 'reseller'}
-#     }
-# }
-#
-# migratedTables2Sorted = sorted(migratedTables2.items(), key=operator.itemgetter(0))
-# print(migratedTables2Sorted)
-# for calling in migratedTables2Sorted:
-#     print(calling[1])
+print('SOLUTION VECTOR: {}'.format(solutionVector))
+print(math.inf == math.inf)
