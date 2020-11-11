@@ -5,12 +5,13 @@ from Common.Configuration import Configuration
 basePath = './../results/measurement'
 
 # List of data-sets
-# datasets: list = ['Greedy']
+datasets: list = ['k5', 'k60', 'k120']
 
 # List of algorithms
+# algorithms: list = ['Greedy', 'GreedyRedux']
 algorithms: list = ['Greedy']
 
-itemsCntList: list = [22]
+itemsCntList: list = [5, 10, 15, 20, 22, 25, 30]
 
 fileSystem: FileSystem = FileSystem()
 
@@ -60,9 +61,10 @@ def loadSolutions():
         solutions.append(sol)
     return solutions
 
-def relativeErrors(algorithm: str):
+def relativeErrors(dataset: str, algorithm: str):
 
-    outputFile = open('{}/{}/relative_error_6.txt'.format(basePath, algorithm), 'w+')
+    outputFile = open('{}/{}/{}/relative_error.txt'.format(basePath, dataset, algorithm), 'w+')
+    fileSystem.setDataset(dataset)
     fileSystem.setAlgorithm(algorithm)
 
     for itemsCnt in itemsCntList:
@@ -89,6 +91,6 @@ def relativeErrors(algorithm: str):
     outputFile.close()
 
 
-# for dataset in datasets:
-for algorithm in algorithms:
-    relativeErrors(algorithm)
+for dataset in datasets:
+    for algorithm in algorithms:
+        relativeErrors(dataset, algorithm)
