@@ -8,14 +8,13 @@ resultPath='./../results/measurement'
 ################################
 
 # Array of data-sets
-datasetsArr=( normal )
+datasetsArr=( m005 )
 
 # Array of algorithms
 algorithmsArr=( BranchAndBound )
 
 # Array of items number
-#itemsCntArr=( 25 )
-itemsCntArr=( 15 )
+itemsCntArr=( 5 10 15 20 22 25 )
 
 # Prepare result files
 for dataset in "${datasetsArr[@]}"
@@ -33,13 +32,11 @@ do
   do
     for n in "${itemsCntArr[@]}"
     do
-      # Write result into measurement result file
-#      echo "Items amount: ${n}" >> "${resultPath}/${dataset}/${algorithm}/time1.txt"
-      for measurementRun in {1..3}
+      for measurementRun in {1..1}
         do
         for instanceInx in {0..499}
         do
-          python3 ./../src/main.py "${algorithm}" "${dataset}" "${n}" 0 "${instanceInx}"-"${instanceInx}" 1 | head -n 2 | sed 's/.*in\s//' | sed 's/\sseconds//' | awk -v mr="$measurementRun" 'NR%2{printf "%s %s ",$0,mr;next;}1' >> "${resultPath}/${algorithm}/time.txt"
+          python3 ./../src/main.py "${algorithm}" "${dataset}" "${n}" 0 "${instanceInx}"-"${instanceInx}" 1 | head -n 2 | sed 's/.*in\s//' | sed 's/\sseconds//' | awk -v mr="$measurementRun" 'NR%2{printf "%s %s ",$0,mr;next;}1' >> "${resultPath}/${dataset}/${algorithm}/time.txt"
         done
       done
     done

@@ -23,7 +23,7 @@ Volíme několik hodnot max C.
 
 #### Závislost výpočetního času na poměru kapacity batohu k sumární váze.
 
-ČÍm nižší bude poměr kapacity bahotu k sumární váze, tím nižší výpočetní čas (ořezávání shora dle hmotnosti).
+Čím nižší bude poměr kapacity bahotu k sumární váze, tím nižší výpočetní čas (ořezávání shora dle hmotnosti).
 
 Vlastnosti:
 * Počet instancí = 500
@@ -36,36 +36,23 @@ Vlastnosti:
 
 ##### Generování dat pilotního testu
 
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.05 -W 300 -w heavy -C 1500 -c corr -k 1 > data/BranchAndBound/25_1_inst.dat
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -c corr -k 1 > data/BranchAndBound/25_2_inst.dat
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.2 -W 300 -w heavy -C 1500 -c corr -k 1 > data/BranchAndBound/25_3_inst.dat
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.3 -W 300 -w heavy -C 1500 -c corr -k 1 > data/BranchAndBound/25_4_inst.dat
+    ./kg2/gen/kg2 -n 25 -N 500 -m 0.05 -W 300 -w heavy -C 1500 -c corr > data/m005/m005_25_inst.dat
+    ./kg2/gen/kg2 -n 25 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -c corr > data/m01/m01_25_inst.dat
+    ./kg2/gen/kg2 -n 25 -N 500 -m 0.2 -W 300 -w heavy -C 1500 -c corr > data/m02/m02_25_inst.dat
+    ./kg2/gen/kg2 -n 25 -N 500 -m 0.3 -W 300 -w heavy -C 1500 -c corr > data/m03/m03_25_inst.dat
     
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.05 -W 300 -w bal -C 1500 -c corr -k 1 > data/BranchAndBound/25_1_inst.dat
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.1 -W 300 -w bal -C 1500 -c corr -k 1 > data/BranchAndBound/25_2_inst.dat
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.2 -W 300 -w bal -C 1500 -c corr -k 1 > data/BranchAndBound/25_3_inst.dat
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.3 -W 300 -w bal -C 1500 -c corr -k 1 > data/BranchAndBound/25_4_inst.dat
-    
-    ./kg2/gen/kg2 -n 15 -N 500 -m 0.05 -W 300 -w bal -C 1500 -c corr -k 1 > data/BranchAndBound/15_1_inst.dat
-    ./kg2/gen/kg2 -n 15 -N 500 -m 0.1 -W 300 -w bal -C 1500 -c corr -k 1 > data/BranchAndBound/15_2_inst.dat
-    ./kg2/gen/kg2 -n 15 -N 500 -m 0.2 -W 300 -w bal -C 1500 -c corr -k 1 > data/BranchAndBound/15_3_inst.dat
-    ./kg2/gen/kg2 -n 15 -N 500 -m 0.3 -W 300 -w bal -C 1500 -c corr -k 1 > data/BranchAndBound/15_4_inst.dat
-
-#### Závislost výpočetního čase na granularitě
-
-    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -w heavy -C 2000 -c corr -k 1 > data/Greedy/22_1_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -w heavy -C 2000 -c corr -k 10 > data/Greedy/22_2_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -w heavy -C 2000 -c corr -k 40 > data/Greedy/22_3_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -w heavy -C 2000 -c corr -k 160 > data/Greedy/22_4_inst.dat
+    ./kg2/gen/kg2 -n 25 -N 500 -m 0.05 -W 300 -C 1500 -c corr > data/m005/m005_25_inst.dat
+    ./kg2/gen/kg2 -n 25 -N 500 -m 0.1 -W 300 -C 1500 -c corr > data/m01/m01_25_inst.dat
+    ./kg2/gen/kg2 -n 25 -N 500 -m 0.2 -W 300 -C 1500 -c corr > data/m02/m02_25_inst.dat
+    ./kg2/gen/kg2 -n 25 -N 500 -m 0.3 -W 300 -C 1500 -c corr > data/m03/m03_25_inst.dat
 
 ### Greedy heuristika
 
+#### Závislost výpočetního času na granularitě
+
 Závislost chyby heuristiky na granularitě při těžkých předmětech? -> Potvrzeno
 
-    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 2000 -k 1 > data/Greedy/22_1_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 2000 -k 10 > data/Greedy/22_2_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 2000 -k 40 > data/Greedy/22_3_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 2000 -k 80 > data/Greedy/22_4_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 2000 -k 120 > data/Greedy/22_5_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 2000 -k 160 > data/Greedy/22_6_inst.dat
-
+    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 5 > data/k5/k5_22_inst.dat
+    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 60 > data/k60/k60_22_inst.dat
+    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 120 > data/k120/k120_22_inst.dat
+    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 180 > data/k180/k180_22_inst.dat
