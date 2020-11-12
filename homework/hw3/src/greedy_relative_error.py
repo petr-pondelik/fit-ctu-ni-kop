@@ -6,9 +6,9 @@ basePath = './../results/measurement'
 
 # List of data-sets
 datasets: list = ['k1', 'k5', 'k10', 'k50', 'k100', 'k200', 'k300']
+mDatasets: list = ['gm01', 'gm02', 'gm04', 'gm08', 'gm1']
 
 # List of algorithms
-# algorithms: list = ['Greedy', 'GreedyRedux']
 algorithms: list = ['Greedy']
 
 itemsCntList: list = [5, 10, 15, 20, 22, 25]
@@ -92,5 +92,9 @@ def relativeErrors(dataset: str, algorithm: str):
 
 
 for dataset in datasets:
+    for algorithm in algorithms:
+        relativeErrors(dataset, algorithm)
+
+for dataset in mDatasets:
     for algorithm in algorithms:
         relativeErrors(dataset, algorithm)
