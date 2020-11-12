@@ -31,46 +31,50 @@ int rng_options (int opt, char* optarg, char* prog) {
 
     switch (opt) {
 
-    case 'r': 						/* RNG seed */
-	rtn = rng_seed_deseri (optarg, &rng_seed);	/* can be interpreted as seed */
-        if (rtn) break; 
-        if (strcmp ("time", optarg) == 0) { 		/* given the time keyword */
-	    rng_seed_time(&rng_seed); 
-	    rng_seed_given = 1;
-	    break; 
-	}
-        in = fopen (optarg, "r");			/* must be filename */
+    case 'r': 						            /* RNG seed */
+        rtn = rng_seed_deseri (optarg, &rng_seed);	/* can be interpreted as seed */
+        if (rtn) {
+            rng_seed_given = 1;
+            break; 
+        }
+        if (strcmp ("time", optarg) == 0) { 	/* given the time keyword */
+            rng_seed_time(&rng_seed); 
+            rng_seed_given = 1;
+            break; 
+        }
+        in = fopen (optarg, "r");               /* must be filename */
         if (!in) { 
-	    perror (prog); 
-	    err++; 
-	    break;
-	}
+            perror (prog); 
+            err++; 
+            break;
+        }
         rtn = rng_seed_read (in, &rng_seed);
         if (!rtn) { 
-	    fprintf (stderr, "%s: RNG seed in %s incorrect\n", prog, optarg); 
+            fprintf (stderr, "%s: RNG seed in %s incorrect\n", prog, optarg); 
             err++;
-	    break; 
-	}
-	fclose (in);
+            break; 
+        }
+        fclose (in);
         rng_seed_given = 1;
         break;
 
-    case 'R': 						/* RNG status given */
-	rtn = rng_state_deseri(optarg, &rng_state);     /* is of the correct format */
+    case 'R':                                   /* RNG status given */
+        rtn = rng_state_deseri(optarg, &rng_state);     /* is of the correct format */
         if (!rtn) {
             in = fopen (optarg, "r");			/* must be filename */
             if (!in) { 
-		perror (prog); 
-		err++; 
-	    }
+                perror (prog); 
+                err++; 
+                break;
+	        }
             rtn = rng_state_read (in, &rng_state);
             if (!rtn) { 
-		fprintf (stderr, "%s: RNG status in %s incorrect\n", prog, optarg); 
-		err++; 
-	    }
-	    fclose (in);
+                fprintf (stderr, "%s: RNG status in %s incorrect\n", prog, optarg); 
+                err++; 
+            }
+            fclose (in);
         }
-	rng_state_given = 1;
+        rng_state_given = 1;
         break;
          
     case 's': begsts = optarg;				/* save status at the beginning */
@@ -100,10 +104,13 @@ int rng_apply_options (char* prog) {
     
     if (begsts) {
         out = fopen (begsts, "w");
-        if (!out) { perror (prog); err++; }
-        rng_get_state(&state);
-        rng_state_write(out, &state); 
-        fclose(out);
+        if (!out) { 
+            perror (prog); err++; 
+        } else {
+            rng_get_state(&state);
+            rng_state_write(out, &state); 
+            fclose(out);
+        }
     }      
     return (err == 0);
 }
@@ -113,11 +120,14 @@ int rng_end_options (char* prog) {
     rng_state_t state;
     
     if (endsts) {
-        out = fopen (begsts, "w");
-        if (!out) { perror (prog); err++; }
-        rng_get_state(&state);
-        rng_state_write(out, &state); 
-        fclose(out);
+        out = fopen (endsts, "w");
+        if (!out) { 
+            perror (prog); err++; 
+        } else {
+            rng_get_state(&state);
+            rng_state_write(out, &state); 
+            fclose(out);
+        }
     }      
     return (err == 0);
 }

@@ -54,7 +54,8 @@ typedef struct {
     inst_cost_t   C;        /* max cost */
     double        k;        /* distribution exponent */
 } pars_t;
-
+/*   I  n       N       mlow mhigh  w_ctrl c_ctrl W       C         k    */
+/* { 1, U_NONE, U_NONE, 0.8, 0.8,   w_bal, c_uni, U_NONE, U_NONE,  1.0}; */
 /* --------------------------------------------------------------------------- */
 /*  option decoding strings                                                    */
 
@@ -85,8 +86,8 @@ int inst_gen (pars_t* pars, inst_t* inst) {
         /* generate weights */
         switch (pars->w_ctrl) {
         case w_bal:   relw = rng_next_double(); break;
-        case w_light: relw = rng_next_dist(&pw, &(pars->k)); break;
-        case w_heavy: relw = 1.0 - rng_next_dist(&pw, &(pars->k)); break;
+        case w_light: relw = 1.0 - rng_next_dist(&pw, &(pars->k)); break;
+        case w_heavy: relw = rng_next_dist(&pw, &(pars->k)); break;
         default:      relw = rng_next_double(); break;
         }
         inst->weights[i] = rng_to_range (1, pars->W, relw);
@@ -95,8 +96,8 @@ int inst_gen (pars_t* pars, inst_t* inst) {
         switch (pars->c_ctrl) {
         case c_uni:    relc = rng_next_double(); break;
         case c_corr:   do {
-                           relc = (rng_next_double()-0.5) * disturb * 2.0;      /* random excursion */
-                           relc = (1.0-relc) * relw + relc;           /* from relw */
+                           relc = (rng_next_double()-0.5) * disturb * 2.0;    /* random excursion */
+                           relc = (1.0-relc) * relw + relc;                   /* from relw */
                        } while (relc < 0.0);
                        break;
         case c_strong: relc = (1.0-disturb) * relw + disturb; break;
@@ -104,7 +105,7 @@ int inst_gen (pars_t* pars, inst_t* inst) {
         }
         inst->costs[i] = rng_to_range (1, pars->C, relc);
     }
-    inst->capacity = rng_next_range (total*pars->mlow, total*pars->mhigh); /* pars->m * total; */
+    inst->capacity = rng_next_range (total*pars->mlow, total*pars->mhigh);   /* pars->m * total; */
     return 1;
 }
 
@@ -116,10 +117,9 @@ int main (int argc, char** argv) {
     char *     epf;                              /* end-of-numeric-string from strtol etc. */
     unsigned   instno;                           /* current instance number */
     
-    pars_t pars = { 1, U_NONE, U_NONE, 0.8, 0.8, w_bal, U_NONE, 1.0, c_uni, U_NONE};  
+    pars_t pars = { 1, U_NONE, U_NONE, 0.8, 0.8,   w_bal, c_uni, U_NONE, U_NONE,  1.0}; 
     inst_t inst;
 
-        
     while ((opt = getopt(argc, argv, "aI:n:N:m:w:W:k:c:C:r:R:s:S:h")) != -1) {
          switch (opt) {
          case 'I': pars.I = strtoul (optarg, &epf, 0);
@@ -166,7 +166,7 @@ int main (int argc, char** argv) {
 
          case 'r': 
          case 'R': 
-	 case 's':
+	     case 's':
          case 'S': if (!rng_options (opt, optarg, argv[0])) err++;
                    break;
          default: fprintf (stderr, synopsis); return 0;

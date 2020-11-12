@@ -5,7 +5,7 @@ from Common.Configuration import Configuration
 basePath = './../results/measurement'
 
 # List of data-sets
-datasets: list = ['k5', 'k60', 'k120', 'k200']
+datasets: list = ['k1', 'k5', 'k10', 'k50', 'k100', 'k200', 'k300']
 
 # List of algorithms
 # algorithms: list = ['Greedy', 'GreedyRedux']

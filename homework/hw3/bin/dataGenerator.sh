@@ -26,16 +26,16 @@ done
 #############################################################
 
 # Array of knapsack generator granularity exponents
-kArr=( 5 60 120 200 )
+kArr=( 1 5 10 50 100 200 300 )
 
 # Array of result files names
-kNamesArr=( k5 k60 k120 k200 )
+kNamesArr=( k1 k5 k10 k50 k100 k200 k300 )
 
 for n in "${itemsCntArr[@]}"
 do
   for kInx in "${!kArr[@]}"
   do
-    ./../kg2/gen/kg2 -n "${n}" -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k ${kArr[kInx]} > ./../data/"${kNamesArr[kInx]}"/"${kNamesArr[kInx]}"_"${n}"_inst.dat
+    ./../kg2/gen/kg2 -n "${n}" -m 0.2 -N 500 -W 300 -w light -C 1500 -k ${kArr[kInx]} > ./../data/"${kNamesArr[kInx]}"/"${kNamesArr[kInx]}"_"${n}"_inst.dat
   done
 done
 

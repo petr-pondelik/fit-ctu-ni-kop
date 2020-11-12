@@ -68,7 +68,7 @@ BBMethodsArr: list = ['BranchAndBound']
 BBItemsCntArr: list = [5, 10, 15, 20, 22, 25]
 
 # Array of data-sets
-DPDatasetsArr: list = ['k5', 'k60', 'k120', 'k200']
+DPDatasetsArr: list = ['k_50', 'k1', 'k_50', 'k50']
 
 # Array of algorithms
 DPMethodsArr: list = ['DynamicProgramming']
