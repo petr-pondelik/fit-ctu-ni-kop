@@ -29,10 +29,10 @@
 itemsCntArr=( 5 10 15 20 22 25 30 )
 
 # Array of knapsack generator granularity exponents
-kArr=( 5 60 120 180 )
+kArr=( 5 60 120 200 )
 
 # Array of result files names
-kNamesArr=( k5 k60 k120 k180 )
+kNamesArr=( k5 k60 k120 k200 )
 
 for n in "${itemsCntArr[@]}"
 do
@@ -41,3 +41,8 @@ do
     ./../kg2/gen/kg2 -n "${n}" -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k ${kArr[kInx]} > ./../data/"${kNamesArr[kInx]}"/"${kNamesArr[kInx]}"_"${n}"_inst.dat
   done
 done
+
+#############################################################
+#   Generate data for Dynamic Programming dependency
+#############################################################
+

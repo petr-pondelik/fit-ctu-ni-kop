@@ -29,7 +29,7 @@
 #########################################
 
 # Array of data-sets
-datasetsArr=( k5 k60 k120 k180 )
+datasetsArr=( k5 k60 k120 k200 )
 
 # Array of algorithms
 methodsArr=( Greedy )

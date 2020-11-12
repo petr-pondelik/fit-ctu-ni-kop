@@ -26,11 +26,11 @@ Volíme několik hodnot max C.
 Čím nižší bude poměr kapacity bahotu k sumární váze, tím nižší výpočetní čas (ořezávání shora dle hmotnosti).
 
 Vlastnosti:
-* Počet instancí = 500
+* Počet instancí: 500
 * Proměnný poměr kapacity batohu k sumární váze
 * Maximální váha věcí: 300
 * Menší korelace váha:cena
-* Maximální váha = 2000
+* Maximální váha: 1500
 * Vyvážené rozložení vah
 * Exponent granuality 1
 
@@ -52,7 +52,20 @@ Vlastnosti:
 
 Závislost chyby heuristiky na granularitě při těžkých předmětech? -> Potvrzeno
 
+Vlastnosti:
+* Počet instancí: 500
+* Poměr kapacity batohu k sumární váze: 0.8
+* Maximální váha věcí: 300
+* Žádná korelace váha:cena
+* Maximální váha: 1500
+* Převaha těžkých věcí
+* Proměnný exponent granularity k
+
+
     ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 5 > data/k5/k5_22_inst.dat
     ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 60 > data/k60/k60_22_inst.dat
     ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 120 > data/k120/k120_22_inst.dat
     ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 180 > data/k180/k180_22_inst.dat
+
+### Dynamické programování
+
