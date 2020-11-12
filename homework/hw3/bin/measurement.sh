@@ -32,7 +32,7 @@ do
   do
     for n in "${itemsCntArr[@]}"
     do
-      for measurementRun in {1..1}
+      for measurementRun in {1..3}
         do
         for instanceInx in {0..499}
         do
@@ -69,7 +69,7 @@ do
   do
     for n in "${itemsCntArr[@]}"
     do
-      for measurementRun in {1..1}
+      for measurementRun in {1..3}
         do
           for instanceInx in {0..499}
           do
