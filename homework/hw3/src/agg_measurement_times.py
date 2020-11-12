@@ -1,40 +1,83 @@
 basePath = './../results/measurement'
 
+instancesCntMapping: dict = {
+    'm005': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+    'm01': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+    'm02': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+    'm03': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+    'C100': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+    'C500': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+    'C1500': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+    'C4000': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+}
+
 # Array of data-sets
-datasetsArr: list = ['NK', 'ZKC', 'ZKW']
+BBDatasetsArr: list = ['m005', 'm01', 'm02', 'm03']
 
 # Array of algorithms
-methodsArr: list = ['BruteForce', 'BranchAndBound', 'GreedyRedux', 'DynamicProgramming']
+BBMethodsArr: list = ['BranchAndBound']
 
-itemsCntArr: list = [10, 15]
+BBItemsCntArr: list = [5, 10, 15, 20, 22, 25]
 
-instancesCntMapping: dict = {
-    'NK': {
-        4: 1500,
-        10: 1500,
-        15: 1500,
-        20: 1500,
-        22: 1500
-    },
-    'ZKC': {
-        4: 1500,
-        10: 1500,
-        15: 1500,
-        20: 1500,
-        22: 1500
-    },
-    'ZKW': {
-        4: 2862,
-        10: 888,
-        15: 462,
-        20: 231,
-        22: 237
-    }
-}
+# Array of data-sets
+DPDatasetsArr: list = ['k5', 'k60', 'k120', 'k200']
+
+# Array of algorithms
+DPMethodsArr: list = ['DynamicProgramming']
+
+DPItemsCntArr: list = [5, 10, 15, 20, 22, 25]
 
 
 def aggregate(dataset: str, method: str):
-    sourceFile = open('{}/{}/{}/time1.txt'.format(basePath, dataset, method), 'r')
+    sourceFile = open('{}/{}/{}/time.txt'.format(basePath, dataset, method), 'r')
     outputFile = open('{}/{}/{}/time_agg.txt'.format(basePath, dataset, method), 'w+')
 
     lines: list = sourceFile.readlines()
@@ -74,6 +117,10 @@ def aggregate(dataset: str, method: str):
     outputFile.close()
 
 
-for dataset in datasetsArr:
-    for method in methodsArr:
+for dataset in BBDatasetsArr:
+    for method in BBMethodsArr:
+        aggregate(dataset, method)
+
+for dataset in DPDatasetsArr:
+    for method in DPMethodsArr:
         aggregate(dataset, method)
