@@ -11,7 +11,7 @@ datasetsArr=( k5 k60 k120 k200 )
 methodsArr=( BranchAndBound )
 
 # Array of items number
-itemsCntArr=( 5 10 15 20 22 25 30 )
+itemsCntArr=( 5 10 15 20 22 25 )
 
 for dataset in "${datasetsArr[@]}"
 do

@@ -11,7 +11,7 @@ datasets: list = ['k5', 'k60', 'k120', 'k200']
 # algorithms: list = ['Greedy', 'GreedyRedux']
 algorithms: list = ['Greedy']
 
-itemsCntList: list = [5, 10, 15, 20, 22, 25, 30]
+itemsCntList: list = [5, 10, 15, 20, 22, 25]
 
 fileSystem: FileSystem = FileSystem()
 
