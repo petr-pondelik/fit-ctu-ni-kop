@@ -64,34 +64,38 @@ instancesCntMapping: dict = {
         20: 1500,
         22: 1500
     },
-    # 'C100': {
-    #     5: 1500,
-    #     10: 1500,
-    #     15: 1500,
-    #     20: 1500,
-    #     22: 1500
-    # },
-    # 'C500': {
-    #     5: 1500,
-    #     10: 1500,
-    #     15: 1500,
-    #     20: 1500,
-    #     22: 1500
-    # },
-    # 'C1500': {
-    #     5: 1500,
-    #     10: 1500,
-    #     15: 1500,
-    #     20: 1500,
-    #     22: 1500
-    # },
-    # 'C4000': {
-    #     5: 1500,
-    #     10: 1500,
-    #     15: 1500,
-    #     20: 1500,
-    #     22: 1500
-    # },
+    'C100': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500,
+        25: 1500
+    },
+    'C500': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500,
+        25: 1500
+    },
+    'C1500': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500,
+        25: 1500
+    },
+    'C4000': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500,
+        25: 1500
+    },
 }
 
 # Array of data-sets
@@ -103,7 +107,7 @@ BBMethodsArr: list = ['BranchAndBound']
 BBItemsCntArr: list = [5, 10, 15, 20, 22]
 
 # Array of data-sets
-DPDatasetsArr: list = ['k_50', 'k1', 'k_50', 'k50']
+DPDatasetsArr: list = ['C100', 'C500', 'C1500', 'C4000']
 
 # Array of algorithms
 DPMethodsArr: list = ['DynamicProgramming']
@@ -152,10 +156,10 @@ def aggregate(dataset: str, method: str):
     outputFile.close()
 
 
-for dataset in BBDatasetsArr:
-    for method in BBMethodsArr:
-        aggregate(dataset, method)
-
-# for dataset in DPDatasetsArr:
-#     for method in DPMethodsArr:
+# for dataset in BBDatasetsArr:
+#     for method in BBMethodsArr:
 #         aggregate(dataset, method)
+
+for dataset in DPDatasetsArr:
+    for method in DPMethodsArr:
+        aggregate(dataset, method)
