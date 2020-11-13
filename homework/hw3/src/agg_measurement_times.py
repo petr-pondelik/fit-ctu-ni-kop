@@ -1,13 +1,6 @@
 basePath = './../results/measurement'
 
 instancesCntMapping: dict = {
-    'm005': {
-        5: 1500,
-        10: 1500,
-        15: 1500,
-        20: 1500,
-        22: 1500
-    },
     'm01': {
         5: 1500,
         10: 1500,
@@ -29,43 +22,85 @@ instancesCntMapping: dict = {
         20: 1500,
         22: 1500
     },
-    'C100': {
+    'm04': {
         5: 1500,
         10: 1500,
         15: 1500,
         20: 1500,
         22: 1500
     },
-    'C500': {
+    'm05': {
         5: 1500,
         10: 1500,
         15: 1500,
         20: 1500,
         22: 1500
     },
-    'C1500': {
+    'm06': {
         5: 1500,
         10: 1500,
         15: 1500,
         20: 1500,
         22: 1500
     },
-    'C4000': {
+    'm07': {
         5: 1500,
         10: 1500,
         15: 1500,
         20: 1500,
         22: 1500
     },
+    'm08': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+    'm09': {
+        5: 1500,
+        10: 1500,
+        15: 1500,
+        20: 1500,
+        22: 1500
+    },
+    # 'C100': {
+    #     5: 1500,
+    #     10: 1500,
+    #     15: 1500,
+    #     20: 1500,
+    #     22: 1500
+    # },
+    # 'C500': {
+    #     5: 1500,
+    #     10: 1500,
+    #     15: 1500,
+    #     20: 1500,
+    #     22: 1500
+    # },
+    # 'C1500': {
+    #     5: 1500,
+    #     10: 1500,
+    #     15: 1500,
+    #     20: 1500,
+    #     22: 1500
+    # },
+    # 'C4000': {
+    #     5: 1500,
+    #     10: 1500,
+    #     15: 1500,
+    #     20: 1500,
+    #     22: 1500
+    # },
 }
 
 # Array of data-sets
-BBDatasetsArr: list = ['m005', 'm01', 'm02', 'm03']
+BBDatasetsArr: list = ['m01', 'm02', 'm03', 'm04', 'm05', 'm06', 'm07', 'm08', 'm09']
 
 # Array of algorithms
 BBMethodsArr: list = ['BranchAndBound']
 
-BBItemsCntArr: list = [5, 10, 15, 20, 22, 25]
+BBItemsCntArr: list = [5, 10, 15, 20, 22]
 
 # Array of data-sets
 DPDatasetsArr: list = ['k_50', 'k1', 'k_50', 'k50']
@@ -121,6 +156,6 @@ for dataset in BBDatasetsArr:
     for method in BBMethodsArr:
         aggregate(dataset, method)
 
-for dataset in DPDatasetsArr:
-    for method in DPMethodsArr:
-        aggregate(dataset, method)
+# for dataset in DPDatasetsArr:
+#     for method in DPMethodsArr:
+#         aggregate(dataset, method)
