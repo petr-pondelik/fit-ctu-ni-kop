@@ -7,19 +7,21 @@ itemsCntArr=( 5 10 15 20 22 25 )
 #   Generate data for Branch & Bound dependency
 #############################################################
 
-## Array of knapsack generator m parameters
-#mArr=( 0.05 0.1 0.2 0.3 )
-#
-## Array of result files names
-#namesArr=( m005 m01 m02 m03 )
-#
-#for n in "${itemsCntArr[@]}"
-#do
-#  for mInx in "${!mArr[@]}"
-#  do
-#    ./../kg2/gen/kg2 -n "${n}" -N 500 -m ${mArr[mInx]} -W 300 -C 1500 -c corr > ./../data/"${namesArr[mInx]}"/"${namesArr[mInx]}"_"${n}"_inst.dat
-#  done
-#done
+mItemsCntArr=( 5 10 15 20 22 )
+
+# Array of knapsack generator m parameters
+mArr=( 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 )
+
+# Array of result files names
+namesArr=( m01 m02 m03 m04 m05 m06 m07 m08 m09 )
+
+for n in "${mItemsCntArr[@]}"
+do
+  for mInx in "${!mArr[@]}"
+  do
+    ./../kg2/gen/kg2 -n "${n}" -N 500 -m ${mArr[mInx]} -W 300 -C 1500 -c corr > ./../data/"${namesArr[mInx]}"/"${namesArr[mInx]}"_"${n}"_inst.dat
+  done
+done
 
 #############################################################
 #   Generate data for Greedy dependency
@@ -39,19 +41,19 @@ itemsCntArr=( 5 10 15 20 22 25 )
 #  done
 #done
 
-# Array of knapsack generator granularity exponents
-gmArr=( 0.1 0.2 0.4 0.8 1.0 )
-
-# Array of result files names
-gmNamesArr=( gm01 gm02 gm04 gm08 gm1 )
-
-for n in "${itemsCntArr[@]}"
-do
-  for gmInx in "${!gmArr[@]}"
-  do
-    ./../kg2/gen/kg2 -n "${n}" -m ${gmArr[gmInx]} -N 500 -W 300 -w heavy -C 1500 > ./../data/"${gmNamesArr[gmInx]}"/"${gmNamesArr[gmInx]}"_"${n}"_inst.dat
-  done
-done
+## Array of knapsack generator granularity exponents
+#gmArr=( 0.1 0.2 0.4 0.8 1.0 )
+#
+## Array of result files names
+#gmNamesArr=( gm01 gm02 gm04 gm08 gm1 )
+#
+#for n in "${itemsCntArr[@]}"
+#do
+#  for gmInx in "${!gmArr[@]}"
+#  do
+#    ./../kg2/gen/kg2 -n "${n}" -m ${gmArr[gmInx]} -N 500 -W 300 -w heavy -C 1500 > ./../data/"${gmNamesArr[gmInx]}"/"${gmNamesArr[gmInx]}"_"${n}"_inst.dat
+#  done
+#done
 
 #############################################################
 #   Generate data for Dynamic Programming dependency
