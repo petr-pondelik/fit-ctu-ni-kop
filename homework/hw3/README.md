@@ -16,7 +16,7 @@
         Generátor instancí problému batohu.
         
     results/
-        Výsledky běhu programu (algoritmů).
+        Výsledky běhu programu (algoritmů) a zpráva k úloze (včetně zdrojového kódu pro LaTeX).
         
     src/
         Zdrojový kód řešení algoritmů a skriptů pro transformaci výsledků běhu programu.
