@@ -1,4 +1,26 @@
-# HW3
+# HW3: Experimentální hodnocení kvality algoritmů
+
+## Prerequisites
+
+* python3
+
+## Struktura projektu
+
+    bin/
+        Bash scripty pro získávání optimálních řešení a měření.
+
+    data/
+        Vstupní datové sady vygenerované pomocí generátoru instancí problému batohu.
+        
+    kg2/
+        Generátor instancí problému batohu.
+        
+    results/
+        Výsledky běhu programu (algoritmů).
+        
+    src/
+        Zdrojový kód řešení algoritmů a skriptů pro transformaci výsledků běhu programu.
+        
 
 ## Příklady volání generátoru
 
@@ -12,25 +34,21 @@
 
 #### Závislost výpočetního času na poměru kapacity batohu k sumární váze
 
-Hypotéza: Čím nižší bude poměr kapacity bahotu k sumární váze, tím nižší výpočetní čas (ořezávání shora dle hmotnosti).
+**Hypotéza**  
+Předpokládejme, že pro poměr kapacity batohu k sumární váze v intervalu $[0.0, 0.5]$ bude při rostoucím poměru růst rovněž výpočetní čas. Dále předpokládejme, že pro poměr v intervalu $(0.5, 1.0]$ bude výpočetní čas klesat. Hypotéza je založena na myšlence, že pokud je poměr v intervalu $[0.0, 0.5]$, dochází s klesajícím poměrem k většímu ořezávání shora (na základě překročení kapacity batohu), resp. pokud je poměr v intervalu $(0.5, 1.0]$, dochází s rostoucím poměrem k většímu ořezávání zdola (stávající řešení nemůže být lepší než nejlepší dosud nalezené).
 
--> POTVRZENO
+PILOTNĚ POTVRZENO
 
-Vlastnosti:
+**Vlastnosti datových sad:**
 * Počet instancí: 500
-* Proměnný poměr kapacity batohu k sumární váze
+* Poměr kapacity batohu k sumární váze: {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9}
 * Maximální váha věcí: 300
 * Vyvážené rozložení vah
 * Maximální cena: 1500
 * Menší korelace váha:cena
 * Exponent granuality 1
 
-##### Generování dat pilotního testu
-
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.05 -W 300 -w heavy -C 1500 -c corr > data/m005/m005_25_inst.dat
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -c corr > data/m01/m01_25_inst.dat
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.2 -W 300 -w heavy -C 1500 -c corr > data/m02/m02_25_inst.dat
-    ./kg2/gen/kg2 -n 25 -N 500 -m 0.3 -W 300 -w heavy -C 1500 -c corr > data/m03/m03_25_inst.dat
+##### Příklad generování dat pilotního testu
     
     ./kg2/gen/kg2 -n 25 -N 500 -m 0.05 -W 300 -C 1500 -c corr > data/m005/m005_25_inst.dat
     ./kg2/gen/kg2 -n 25 -N 500 -m 0.1 -W 300 -C 1500 -c corr > data/m01/m01_25_inst.dat
@@ -41,43 +59,50 @@ Vlastnosti:
 
 #### Závislost chyby na granularitě
 
-Hypozéta: Závislost chyby heuristiky na granularitě při těžkých předmětech a nízké kapacitě batohu vůči sumě vah.
+**Hypotéza**  
+Mějme batoh s kapacitou relativně nízkou vůči sumární váze předmětů. Dále měníme granularitu předmětů směrem dolů (tedy dostáváme stále menší předměty - předměty s nižší vahou). Předpokládejme, že chyba heuristiky bude klesat.
 
--> POTVRZENO
+PILOTNĚ POTVRZENO
 
-Vlastnosti:
+**Vlastnosti datových sad:**
 * Počet instancí: 500
 * Poměr kapacity batohu k sumární váze: 0.2
 * Maximální váha věcí: 300
-* Převaha těžkých věcí
+* Převaha lehkých věcí
 * Maximální cena: 1500
 * Žádná korelace váha:cena
-* Proměnný exponent granularity k
+* Exponent granularity k: {1, 5, 10, 50, 100, 200, 300}
 
-Díky -m 0.1 lze rychle získat výsledky za využití Branch&Bound (viz předchozí závislost).
+**Získání optimálních řešení**  
+Díky -m 0.2 lze rychle získat výsledky za využití Branch&Bound (viz předchozí závislost).
 
+**Pozn.:**  
 S jinými vlastnostmi tato závislost neplatí !!!
 
-    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 5 > data/k5/k5_22_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 60 > data/k60/k60_22_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 120 > data/k120/k120_22_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -m 0.1 -W 300 -w heavy -C 1500 -k 180 > data/k180/k180_22_inst.dat
+##### Příklad generování dat pilotního testu
+
+    ./kg2/gen/kg2 -n 22 -N 500 -m 0.2 -W 300 -w light -C 1500 -k 50 > data/k5/k5_22_inst.dat
+    ./kg2/gen/kg2 -n 22 -N 500 -m 0.2 -W 300 -w light -C 1500 -k 100 > data/k60/k60_22_inst.dat
+    ./kg2/gen/kg2 -n 22 -N 500 -m 0.2 -W 300 -w light -C 1500 -k 200 > data/k120/k120_22_inst.dat
+    ./kg2/gen/kg2 -n 22 -N 500 -m 0.2 -W 300 -w light -C 1500 -k 300 > data/k180/k180_22_inst.dat
 
 #### Závislost chyby na poměru kapacity batohu k sumární váze
 
-Hypotéza: S rostoucí relativní kapacitou batohů vůči sumární váze by měla klesat chybovost heuristiky.
+**Hypotéza**  
+Předpokládejme, že s rostoucím poměrem kapacity batohu vůči sumární váze předmětů bude chybovost heuristiky klesat. Hypotéza je založena na myšlence, že na konci pole předmětů seřazeného dle poměru $\frac{C_i}{m_i}$ zbude méně předmětů tvořících případnou chybu heuristiky.
 
--> POTVRZENO
+PILOTNĚ POTVRZENO
 
-Vlastnosti:
+**Vlastnosti datových sad:**
 * Počet instancí: 500
-* Proměnný poměr kapacity batohu k sumární váze
+* Poměr kapacity batohu k sumární váze: {0.1 0.2 0.4 0.8 1.0}
 * Maximální váha věcí: 300
 * Převaha těžkých věcí
 * Maximální cena: 1500
 * Žádná korelace váha:cena
-* Exponent granularity: 1 
+* Exponent granularity: 1
 
+##### Příklad generování dat pilotního testu
 
     ./kg2/gen/kg2 -n 22 -m 0.1 -N 500 -W 300 -w heavy -C 1500 > data/gm01/gm01_22_inst.dat
     ./kg2/gen/kg2 -n 22 -m 0.2 -N 500 -W 300 -w heavy -C 1500 > data/gm02/gm02_22_inst.dat
@@ -89,21 +114,24 @@ Vlastnosti:
 
 #### Závislost výpočetního času na maximální ceně
 
-Hypotéza: Mějme silnou korelaci váhy s cenou. S rostoucí maximální cenou roste výpočetní čas DP.
+**Hypotéza**  
+Mějme silnou korelaci váhy s cenou. Předpokládejme, že s rostoucí maximální cenou poroste výpočetní čas DP. Hypotéza je založena na skutečnosti, že vyšší maximální cena předmětů povede na vyšší sumární váhu $C_M$, což povede na vyšší složitost, jelikož $C_M$ vystupuje jako činitel v asymptotické složitosti DP při dekompozici dle ceny ($O(n^2 C_M)$).
 
--> POTVRZENO
+PILOTNĚ POTVRZENO
 
-Vlastnosti:
+**Vlastnosti datových sad:**
 * Počet instancí: 500
 * Poměr kapacity batohu k sumární váze: 0.8
 * Maximální váha věcí: 300
 * Vyvážené věci
-* Proměnná maximální cena
+* Maximální cena: {100, 500, 1500, 4000}
 * Silná korelace váha:cena
 * Exponent granularity: 1  
 
+##### Příklad generování dat pilotního testu
 
-    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -C 200 -c strong > data/k5/k5_22_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -C 400 -c strong > data/k60/k60_22_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -C 800 -c strong > data/k120/k120_22_inst.dat
-    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -C 1600 -c strong > data/k180/k180_22_inst.dat
+    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -C 100 -c strong > data/C100/C100_22_inst.dat
+    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -C 500 -c strong > data/C500/C500_22_inst.dat
+    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -C 1500 -c strong > data/C1500/C1500_22_inst.dat
+    ./kg2/gen/kg2 -n 22 -N 500 -W 300 -C 4000 -c strong > data/C4000/C4000_22_inst.dat
+
