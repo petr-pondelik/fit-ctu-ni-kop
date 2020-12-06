@@ -77,6 +77,7 @@ class BranchAndBoundSolver(AbstractSolver):
         # state.configuration.values.pop()
 
     def solve(self, instance: KnapsackInstance) -> KnapsackSolution:
+        self.startMeasurement()
         self.instance = instance
         confArr: list = [0 for i in range(self.instance.n)]
         self.result = KnapsackSolution(self.instance.id, self.instance.n, 0, 0, KnapsackConfiguration(confArr))
@@ -90,4 +91,6 @@ class BranchAndBoundSolver(AbstractSolver):
             1,
             KnapsackState(0, 0, KnapsackConfiguration(confArr)),
         )
+        self.stopMeasurement()
+        print(self.solutionTime)
         return self.result
