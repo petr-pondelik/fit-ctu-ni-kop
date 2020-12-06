@@ -8,7 +8,6 @@ from Algorithms.GreedyRedux.GreedyRedux import GreedyRedux
 from Algorithms.DynamicProgramming.DynamicProgramming import DynamicProgramming
 from Algorithms.FPTAS.FPTAS import FPTAS
 
-
 class Application:
 
     fileLoader: FileSystem
