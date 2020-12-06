@@ -16,7 +16,7 @@ class KnapsackItemsList:
         costs = items[1::2]
 
         for i in range(0, len(weights)):
-            self.items.append(KnapsackItem(weights[i], costs[i]))
+            self.items.append(KnapsackItem(int(weights[i]), int(costs[i])))
 
     def serialize(self):
         res = []

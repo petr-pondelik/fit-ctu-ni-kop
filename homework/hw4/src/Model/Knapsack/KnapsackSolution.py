@@ -35,5 +35,5 @@ class KnapsackSolution:
     def print(self):
         res = ''
         for conf in self.configurations:
-            res += '{} {} {} {}\n'.format(self.id, self.n, self.cost, conf.print())
+            res += '{} {} {} {} \n'.format(self.id, self.n, self.cost, conf.print())
         return res

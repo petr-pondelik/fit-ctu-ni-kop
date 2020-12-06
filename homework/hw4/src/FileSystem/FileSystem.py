@@ -1,10 +1,13 @@
 import os
+from typing import Dict
+
+from Model.Knapsack.KnapsackSolution import KnapsackSolution
 
 
 class FileSystem:
 
     baseDataPath = './../data'
-    baseResPath = './../results/measurement'
+    baseResPath = './../results'
 
     n: int
     dataset: str
@@ -31,10 +34,18 @@ class FileSystem:
     def readSolutionLines(self):
         return self.readLines(self.buildSolutionPath())
 
-    def writeResult(self, result: str):
+    def cleanResultFile(self):
+        if os.path.exists(self.buildResultPath()):
+            os.remove(self.buildResultPath())
+
+    def writeResults(self, results: Dict[int, KnapsackSolution]):
+        self.cleanResultFile()
+        resultStr: str = ''
+        for resId, res in results.items():
+            resultStr += res.print()
         resultPath: str = self.buildResultPath()
         f = open(resultPath, 'a+')
-        f.write(result)
+        f.write(resultStr)
         f.close()
 
     @staticmethod

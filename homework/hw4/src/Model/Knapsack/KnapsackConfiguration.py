@@ -6,7 +6,8 @@ class KnapsackConfiguration:
         self.values = values
 
     def format(self, separator=' '):
-        return separator.join(self.values)
+        strValues: list = [str(val) for val in self.values]
+        return separator.join(strValues)
 
     def print(self):
         return '{}'.format(self.format())

@@ -4,6 +4,7 @@ from FileSystem.FileSystem import FileSystem
 from Model.Knapsack.KnapsackConfiguration import KnapsackConfiguration
 from Model.Knapsack.KnapsackInstance import KnapsackInstance
 from Model.Knapsack.KnapsackSolution import KnapsackSolution
+from Solver.BranchAndBoundSolver import BranchAndBoundSolver
 from Solver.SaSolver import SaSolver
 
 
@@ -15,9 +16,14 @@ class Application:
 
     fileSystem: FileSystem
 
-    saSolver: SaSolver
     knapsackInstances: Dict[int, KnapsackInstance]
     knapsackSolutions: Dict[int, KnapsackSolution]
+
+    branchAndBoundSolver: BranchAndBoundSolver
+    branchAndBoundResults: Dict[int, KnapsackSolution]
+
+    saSolver: SaSolver
+    saResults: Dict[int, KnapsackSolution]
 
     def __init__(self, n: int, dataset: str, detailLog: bool):
         self.n = n
@@ -26,12 +32,16 @@ class Application:
 
         self.fileSystem = FileSystem(self.n, self.dataset)
 
-        self.saSolver = SaSolver()
         self.knapsackInstances = {}
         self.knapsackSolutions = {}
-
         self.loadInstances()
         self.loadSolutions()
+
+        self.branchAndBoundSolver = BranchAndBoundSolver()
+        self.branchAndBoundResults = {}
+
+        self.saSolver = SaSolver()
+        self.saResults = {}
 
     def loadInstances(self):
         instancesLines: list = self.fileSystem.readInputLines()
@@ -62,4 +72,8 @@ class Application:
     def run(self):
         print(self.knapsackSolutions[488].print())
         for key, val in self.knapsackInstances.items():
-            self.saSolver.solve(val)
+            res: KnapsackSolution = self.branchAndBoundSolver.solve(val)
+            self.branchAndBoundResults[res.id] = res
+        # for key, val in self.knapsackInstances.items():
+        #     self.saSolver.solve(val)
+        self.fileSystem.writeResults(self.branchAndBoundResults)
