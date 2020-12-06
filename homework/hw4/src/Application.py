@@ -12,7 +12,7 @@ class Application:
 
     n: int
     dataset: str
-    detailLog: bool
+    isDebug: bool
 
     fileSystem: FileSystem
 
@@ -25,10 +25,10 @@ class Application:
     saSolver: SaSolver
     saResults: Dict[int, KnapsackSolution]
 
-    def __init__(self, n: int, dataset: str, detailLog: bool):
+    def __init__(self, n: int, dataset: str, isDebug: bool):
         self.n = n
         self.dataset = dataset
-        self.detailLog = detailLog
+        self.isDebug = isDebug
 
         self.fileSystem = FileSystem(self.n, self.dataset)
 
@@ -40,7 +40,7 @@ class Application:
         self.branchAndBoundSolver = BranchAndBoundSolver()
         self.branchAndBoundResults = {}
 
-        self.saSolver = SaSolver()
+        self.saSolver = SaSolver(self.isDebug, 1000, 0.8)
         self.saResults = {}
 
     def loadInstances(self):

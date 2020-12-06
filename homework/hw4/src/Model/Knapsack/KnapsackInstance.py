@@ -1,4 +1,5 @@
 from Model.Knapsack.KnapsackItemsList import KnapsackItemsList
+from Model.Knapsack.KnapsackState import KnapsackState
 
 
 class KnapsackInstance:
@@ -16,3 +17,7 @@ class KnapsackInstance:
         self.n = int(instance[1])
         self.M = int(instance[2])
         self.itemsList = KnapsackItemsList(instance[3:])
+
+    def getRandomState(self): KnapsackState
+        # TODO
+

@@ -6,6 +6,8 @@ from Model.Knapsack.KnapsackSolution import KnapsackSolution
 
 class AbstractSolver:
 
+    isDebug: bool
+
     startTime: float
     endTime: float
     solutionTime: float
