@@ -40,7 +40,7 @@ class Application:
         self.branchAndBoundSolver = BranchAndBoundSolver()
         self.branchAndBoundResults = {}
 
-        self.saSolver = SaSolver(self.isDebug, 1000, 0.8)
+        self.saSolver = SaSolver(self.isDebug, 1000, 0.8, 5)
         self.saResults = {}
 
     def loadInstances(self):

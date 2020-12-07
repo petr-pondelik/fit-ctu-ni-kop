@@ -21,10 +21,9 @@ class KnapsackState:
         self.configuration.values[level] = 1
         return KnapsackState(self.accWeight + item.weight, self.accCost + item.cost, self.configuration)
 
-    # def formatConf(self, separator=' '):
-    #     confList: [int] = self.configuration.values
-    #     print(confList)
-    #     return separator.join(self.configuration.values)
-    #
-    # def printConf(self):
-    #     return '{}'.format(self.configuration.p)
+    def isBetter(self, state) -> bool:
+        return state.accCost > self.accCost
+
+    def getRandomNeighbour(self):
+        # TODO
+        return self
