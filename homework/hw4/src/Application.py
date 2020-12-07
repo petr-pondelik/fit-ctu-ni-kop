@@ -70,10 +70,9 @@ class Application:
             self.knapsackSolutions[int(sol.id)] = sol
 
     def run(self):
-        print(self.knapsackSolutions[488].print())
-        for key, val in self.knapsackInstances.items():
-            res: KnapsackSolution = self.branchAndBoundSolver.solve(val)
-            self.branchAndBoundResults[res.id] = res
         # for key, val in self.knapsackInstances.items():
-        #     self.saSolver.solve(val)
+        #     res: KnapsackSolution = self.branchAndBoundSolver.solve(val)
+        #     self.branchAndBoundResults[res.id] = res
+        for key, val in self.knapsackInstances.items():
+            res: KnapsackSolution = self.saSolver.solve(val)
         self.fileSystem.writeResults(self.branchAndBoundResults)

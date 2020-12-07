@@ -92,5 +92,4 @@ class BranchAndBoundSolver(AbstractSolver):
             KnapsackState(0, 0, KnapsackConfiguration(confArr)),
         )
         self.stopMeasurement()
-        print(self.solutionTime)
         return self.result

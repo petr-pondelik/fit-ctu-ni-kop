@@ -1,8 +1,11 @@
+from typing import List
+
+
 class KnapsackConfiguration:
 
-    values: list
+    values: List[int]
 
-    def __init__(self, values: list):
+    def __init__(self, values: List[int]):
         self.values = values
 
     def format(self, separator=' '):
