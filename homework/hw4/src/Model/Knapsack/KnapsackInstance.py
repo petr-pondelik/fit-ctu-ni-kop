@@ -38,7 +38,7 @@ class KnapsackInstance:
         for i in range(self.n):
             # Get random knapsack item
             inx: int = self.getRandomItemInx()
-            item: KnapsackItem = self.itemsList.at(inx)
+            item: KnapsackItem = self.itemsList.get(inx)
 
             # If the configuration
             if (accWeight + item.weight) > self.M:

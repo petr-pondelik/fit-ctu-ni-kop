@@ -1,3 +1,5 @@
+import random
+
 from Model.Knapsack import KnapsackConfiguration
 from Model.Knapsack.KnapsackItem import KnapsackItem
 
@@ -22,8 +24,4 @@ class KnapsackState:
         return KnapsackState(self.accWeight + item.weight, self.accCost + item.cost, self.configuration)
 
     def isBetter(self, state) -> bool:
-        return state.accCost > self.accCost
-
-    def getRandomNeighbour(self):
-        # TODO
-        return self
+        return self.accCost > state.accCost

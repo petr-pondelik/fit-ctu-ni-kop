@@ -4,6 +4,7 @@ from FileSystem.FileSystem import FileSystem
 from Model.Knapsack.KnapsackConfiguration import KnapsackConfiguration
 from Model.Knapsack.KnapsackInstance import KnapsackInstance
 from Model.Knapsack.KnapsackSolution import KnapsackSolution
+from Model.Knapsack.KnapsackState import KnapsackState
 from Solver.BranchAndBoundSolver import BranchAndBoundSolver
 from Solver.SaSolver import SaSolver
 
@@ -40,7 +41,7 @@ class Application:
         self.branchAndBoundSolver = BranchAndBoundSolver()
         self.branchAndBoundResults = {}
 
-        self.saSolver = SaSolver(self.isDebug, 1000, 0.8, 5)
+        self.saSolver = SaSolver(self.isDebug, 10000, 0.8, 0)
         self.saResults = {}
 
     def loadInstances(self):
@@ -73,6 +74,13 @@ class Application:
         # for key, val in self.knapsackInstances.items():
         #     res: KnapsackSolution = self.branchAndBoundSolver.solve(val)
         #     self.branchAndBoundResults[res.id] = res
+        relErrorAcc: float = 0.0
         for key, val in self.knapsackInstances.items():
-            res: KnapsackSolution = self.saSolver.solve(val)
+            res: KnapsackState = self.saSolver.solve(val)
+            if self.knapsackSolutions.get(key).cost > 0:
+                relError: float = 1 - (res.accCost / self.knapsackSolutions.get(key).cost)
+                # print('Relative error: {}'.format(str(relError)))
+                relErrorAcc += relError
+        relErrorAvg = relErrorAcc/500
+        print('Relative error avg: {}'.format(str(relErrorAvg)))
         self.fileSystem.writeResults(self.branchAndBoundResults)

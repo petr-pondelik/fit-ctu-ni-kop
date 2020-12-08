@@ -13,10 +13,10 @@ class KnapsackSolution:
     configurations: List[KnapsackConfiguration]
 
     def __init__(self, id: int, n: int, weight: int, cost: int, configuration: KnapsackConfiguration):
-        self.id = id
-        self.n = n
-        self.weight = weight
-        self.cost = cost
+        self.id = int(id)
+        self.n = int(n)
+        self.weight = int(weight)
+        self.cost = int(cost)
         self.configurations = []
         self.addConfiguration(configuration)
 

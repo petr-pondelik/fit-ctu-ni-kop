@@ -1,9 +1,11 @@
+from typing import List
+
 from Model.Knapsack.KnapsackItem import KnapsackItem
 
 
 class KnapsackItemsList:
 
-    items: [int]
+    items: List[KnapsackItem]
 
     def __init__(self, items):
 
@@ -18,11 +20,11 @@ class KnapsackItemsList:
         for i in range(0, len(weights)):
             self.items.append(KnapsackItem(int(weights[i]), int(costs[i])))
 
-    def at(self, inx: int) -> KnapsackItem or False:
+    def get(self, inx: int) -> KnapsackItem or None:
         try:
             item = self.items[inx]
         except IndexError:
-            return False
+            return None
         return item
 
     # def serialize(self):

@@ -1,7 +1,8 @@
+import copy
 import random
-import time
 
 from Model.Knapsack.KnapsackInstance import KnapsackInstance
+from Model.Knapsack.KnapsackItem import KnapsackItem
 from Model.Knapsack.KnapsackState import KnapsackState
 from Solver.AbstractSolver import AbstractSolver
 
@@ -33,17 +34,19 @@ class SaSolver(AbstractSolver):
         return state.accWeight <= self.instance.M
 
     def coolDown(self) -> None:
-        self.currentTemp = self.currentTemp * (1 - self.coolRate)
+        self.currentTemp = self.currentTemp * self.coolRate
 
     def isFrozen(self) -> bool:
+        # print('isFrozen: {}'.format(self.accepted))
         return (self.accepted is not None) and self.accepted <= self.freezeThreshold
 
     def isEquilibrium(self) -> bool:
-        if self.accepted <= self.instance.n:
-            return True
-        if self.currentEquilibrium <= 2 * self.instance.n:
-            return True
-        return False
+        # print('isEquilibrium: {}'.format(self.currentEquilibrium))
+        if self.accepted > self.instance.n:
+            return False
+        if self.currentEquilibrium > 2 * self.instance.n:
+            return False
+        return True
 
     @staticmethod
     def getOptimalCriteriaDistance(current: KnapsackState, neighbour: KnapsackState) -> int:
@@ -60,21 +63,38 @@ class SaSolver(AbstractSolver):
         # Accept neighbor state by probability
         return self.shouldAcceptByProbability(self.currentState, neighbour)
 
+    def getRandomStateNeighbor(self) -> KnapsackState:
+        neighbor: KnapsackState = copy.deepcopy(self.currentState)
+        inx: int = self.instance.getRandomItemInx()
+        val: int = neighbor.configuration.get(inx)
+        item: KnapsackItem = self.instance.itemsList.get(inx)
+        if val == 1:
+            neighbor.configuration.set(inx, 0)
+            neighbor.accCost -= item.cost
+            neighbor.accWeight -= item.weight
+        else:
+            neighbor.configuration.set(inx, 1)
+            neighbor.accCost += item.cost
+            neighbor.accWeight += item.weight
+        return neighbor
+
     def tryGetNeighbour(self) -> KnapsackState:
-        neighbour: KnapsackState = self.currentState.getRandomNeighbour()
+        neighbour: KnapsackState = self.getRandomStateNeighbor()
         if self.isStateSolution(neighbour):
             if self.shouldAccept(neighbour):
                 self.accepted += 1
                 return neighbour
+            return self.currentState
         return self.currentState
 
-    def solve(self, instance: KnapsackInstance):
+    def solve(self, instance: KnapsackInstance) -> KnapsackState:
         self.startMeasurement()
 
         # Set instance, current and result (best reached) state
         self.instance = instance
         self.currentState: KnapsackState = self.instance.getRandomState()
-        print(self.currentState.configuration.print())
+        # print('Init cost: {}'.format(self.currentState.accCost))
+        # print(self.currentState.configuration.print())
         self.resultState = self.currentState
         self.accepted = None
 
@@ -84,12 +104,20 @@ class SaSolver(AbstractSolver):
             self.accepted = 0
 
             while self.isEquilibrium():
-                print(self.currentEquilibrium)
                 self.currentEquilibrium += 1
                 self.currentState = self.tryGetNeighbour()
                 if self.currentState.isBetter(self.resultState):
+                    # print('IS BETTER')
+                    # print(self.currentState.accCost)
                     self.resultState = self.currentState
+
+            # print('Current cost: {}'.format(self.currentState.accCost))
+            # print('Accepted: {}'.format(self.accepted))
 
             self.coolDown()
 
+        print('Result: {}'.format(self.resultState.accCost))
+
         self.stopMeasurement()
+
+        return self.resultState
