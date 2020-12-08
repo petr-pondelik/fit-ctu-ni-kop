@@ -26,9 +26,3 @@ class KnapsackItemsList:
         except IndexError:
             return None
         return item
-
-    # def serialize(self):
-    #     res = []
-    #     for item in self.items:
-    #         res.append(item.serialize())
-    #     return res

@@ -22,4 +22,3 @@ class AbstractSolver:
     def stopMeasurement(self):
         self.endTime = time.time()
         self.solutionTime = (self.endTime - self.startTime) * 1000 * 1000
-        # print(self.solutionTime)
