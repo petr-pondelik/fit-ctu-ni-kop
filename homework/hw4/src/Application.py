@@ -41,7 +41,7 @@ class Application:
         self.branchAndBoundSolver = BranchAndBoundSolver()
         self.branchAndBoundResults = {}
 
-        self.saSolver = SaSolver(self.isDebug, 10000, 0.8, 0)
+        self.saSolver = SaSolver(self.isDebug, 10000, 0.995, 0.1)
         self.saResults = {}
 
     def loadInstances(self):
@@ -75,12 +75,14 @@ class Application:
         #     res: KnapsackSolution = self.branchAndBoundSolver.solve(val)
         #     self.branchAndBoundResults[res.id] = res
         relErrorAcc: float = 0.0
+        cnt: int = 0
         for key, val in self.knapsackInstances.items():
-            res: KnapsackState = self.saSolver.solve(val)
-            if self.knapsackSolutions.get(key).cost > 0:
-                relError: float = 1 - (res.accCost / self.knapsackSolutions.get(key).cost)
-                # print('Relative error: {}'.format(str(relError)))
-                relErrorAcc += relError
-        relErrorAvg = relErrorAcc/500
+            if 0 < key < 50:
+                res: KnapsackState = self.saSolver.solve(val)
+                if self.knapsackSolutions.get(key).cost > 0:
+                    relError: float = 1 - (res.accCost / self.knapsackSolutions.get(key).cost)
+                    relErrorAcc += relError
+                cnt += 1
+        relErrorAvg = relErrorAcc / cnt
         print('Relative error avg: {}'.format(str(relErrorAvg)))
         self.fileSystem.writeResults(self.branchAndBoundResults)

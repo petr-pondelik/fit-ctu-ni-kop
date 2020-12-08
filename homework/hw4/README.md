@@ -1,0 +1,1 @@
+# HW4: Seznámení se se zvolenou pokročilou iterativní metodou na problému batohu

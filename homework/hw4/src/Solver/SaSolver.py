@@ -12,7 +12,7 @@ class SaSolver(AbstractSolver):
 
     initTemp: float
     coolRate: float
-    freezeThreshold: int
+    freezeThreshold: float
 
     currentState: KnapsackState
     resultState: KnapsackState
@@ -20,7 +20,7 @@ class SaSolver(AbstractSolver):
     currentEquilibrium: int
     accepted: int or None
 
-    def __init__(self, isDebug: bool, initTemp: float, coolRate: float, freezeThreshold: int):
+    def __init__(self, isDebug: bool, initTemp: float, coolRate: float, freezeThreshold: float):
         self.isDebug = isDebug
         self.initTemp = initTemp
         self.coolRate = coolRate
@@ -38,15 +38,15 @@ class SaSolver(AbstractSolver):
 
     def isFrozen(self) -> bool:
         # print('isFrozen: {}'.format(self.accepted))
-        return (self.accepted is not None) and self.accepted <= self.freezeThreshold
+        # return (self.accepted is not None) and self.accepted < self.freezeThreshold
+        return self.currentTemp < self.freezeThreshold
 
     def isEquilibrium(self) -> bool:
         # print('isEquilibrium: {}'.format(self.currentEquilibrium))
-        if self.accepted > self.instance.n:
-            return False
-        if self.currentEquilibrium > 2 * self.instance.n:
-            return False
-        return True
+        # if self.accepted > self.instance.n:
+        #     return False
+        return self.currentEquilibrium < 4 * self.instance.n
+        # return self.currentEquilibrium < 100
 
     @staticmethod
     def getOptimalCriteriaDistance(current: KnapsackState, neighbour: KnapsackState) -> int:
@@ -54,7 +54,7 @@ class SaSolver(AbstractSolver):
 
     def shouldAcceptByProbability(self, current: KnapsackState, neighbor: KnapsackState) -> bool:
         optimalCriteriaDistance: int = self.getOptimalCriteriaDistance(current, neighbor)
-        return (10 ** (-optimalCriteriaDistance / self.currentTemp)) >= random.random()
+        return (10 ** (- optimalCriteriaDistance / self.currentTemp)) >= random.random()
 
     def shouldAccept(self, neighbour: KnapsackState) -> bool:
         # Always accept better solution
@@ -92,6 +92,8 @@ class SaSolver(AbstractSolver):
 
         # Set instance, current and result (best reached) state
         self.instance = instance
+        self.currentTemp = self.initTemp
+        self.currentEquilibrium = 0
         self.currentState: KnapsackState = self.instance.getRandomState()
         # print('Init cost: {}'.format(self.currentState.accCost))
         # print(self.currentState.configuration.print())
@@ -107,7 +109,6 @@ class SaSolver(AbstractSolver):
                 self.currentEquilibrium += 1
                 self.currentState = self.tryGetNeighbour()
                 if self.currentState.isBetter(self.resultState):
-                    # print('IS BETTER')
                     # print(self.currentState.accCost)
                     self.resultState = self.currentState
 
@@ -116,7 +117,7 @@ class SaSolver(AbstractSolver):
 
             self.coolDown()
 
-        print('Result: {}'.format(self.resultState.accCost))
+        # print('Result: {}'.format(self.resultState.accCost))
 
         self.stopMeasurement()
 
