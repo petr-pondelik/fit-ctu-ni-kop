@@ -27,7 +27,7 @@ class SaLogProcessor:
 
         for instanceId, stateList in stateLog.items():
             for i in range(len(stateList)):
-                res[i].relativeError = relErrorsBySteps[i] / 10
+                res[i].relativeError = relErrorsBySteps[i] / 500
                 # print('Step {} relative error: {}'.format(i, res[i].relativeError))
 
         return res

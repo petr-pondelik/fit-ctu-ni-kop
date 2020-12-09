@@ -108,7 +108,7 @@ class Application:
         cnt: int = 0
 
         for key, val in self.knapsackInstances.items():
-            if 51 <= key <= 60:
+            if 1 <= key <= 500:
                 res: KnapsackState = self.saSolver.solve(val)
                 if self.knapsackSolutions.get(key).cost > 0:
                     relError: float = 1 - (res.accCost / self.knapsackSolutions.get(key).cost)
