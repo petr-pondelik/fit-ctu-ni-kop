@@ -22,6 +22,7 @@ class Application:
     coolRate: float
     freezeThreshold: float
     equilibrium: float
+    acceptanceExpBase: float
 
     saLog: List[SaLogLine]
 
@@ -39,7 +40,7 @@ class Application:
     def __init__(
             self,
             dataset: str, n: int,
-            initTemperature: float, coolRate: float, freezeThreshold: float, equilibrium: float,
+            initTemperature: float, coolRate: float, freezeThreshold: float, equilibrium: float, acceptanceExpBase: float,
             isLogMode: bool
     ):
         self.dataset = dataset
@@ -49,11 +50,13 @@ class Application:
         self.coolRate = coolRate
         self.freezeThreshold = freezeThreshold
         self.equilibrium = equilibrium
+        self.acceptanceExpBase = acceptanceExpBase
 
         self.isLogMode = isLogMode
 
         self.fileSystem = FileSystem(
-            self.dataset, self.n, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium
+            self.dataset, self.n, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium,
+            self.acceptanceExpBase
         )
 
         self.knapsackInstances = {}
@@ -65,10 +68,10 @@ class Application:
         self.branchAndBoundResults = {}
 
         self.saSolver = SaSolver(
-            self.isLogMode, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium
+            self.isLogMode, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium,
+            self.acceptanceExpBase
         )
         self.saResults = {}
-        # self.saLogProcessor = SaLogProcessor()
 
     def loadInstances(self):
         instancesLines: list = self.fileSystem.readInputLines()
@@ -100,13 +103,12 @@ class Application:
         # for key, val in self.knapsackInstances.items():
         #     res: KnapsackSolution = self.branchAndBoundSolver.solve(val)
         #     self.branchAndBoundResults[res.id] = res
-        self.fileSystem.cleanLogFile()
         relErrorAcc: float = 0.0
         timeAcc: float = 0.0
         cnt: int = 0
 
         for key, val in self.knapsackInstances.items():
-            if 1 <= key <= 500:
+            if 51 <= key <= 60:
                 res: KnapsackState = self.saSolver.solve(val)
                 if self.knapsackSolutions.get(key).cost > 0:
                     relError: float = 1 - (res.accCost / self.knapsackSolutions.get(key).cost)
@@ -128,5 +130,6 @@ class Application:
                 self.saSolver.stepsLog, self.knapsackSolutions
             )
             self.fileSystem.writeSaStepsRelErrors(saStepsRelErrors)
+            self.fileSystem.writeSaStepsLog(self.saSolver.stepsLog)
 
         self.fileSystem.writeResults(self.branchAndBoundResults)

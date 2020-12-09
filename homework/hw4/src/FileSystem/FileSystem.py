@@ -1,8 +1,9 @@
 import os
-from typing import Dict
+from typing import Dict, List
 
 from Model.Knapsack.KnapsackSolution import KnapsackSolution
 from Model.SA.SaLogLine import SaLogLine
+from Model.SA.SaState import SaState
 
 
 class FileSystem:
@@ -16,11 +17,13 @@ class FileSystem:
     coolRate: float
     freezeThreshold: float
     equilibrium: float
+    acceptanceExpBase: float
 
     def __init__(
             self,
             dataset: str, n: int,
-            initTemperature: float, coolRate: float, freezeThreshold: float, equilibrium: float
+            initTemperature: float, coolRate: float, freezeThreshold: float, equilibrium: float,
+            acceptanceExpBase: float
     ):
         self.dataset = dataset
         self.n = n
@@ -28,6 +31,7 @@ class FileSystem:
         self.coolRate = coolRate
         self.freezeThreshold = freezeThreshold
         self.equilibrium = equilibrium
+        self.acceptanceExpBase = acceptanceExpBase
 
     def buildInputPath(self) -> str:
         return '{}/{}/{}{}_inst.dat'.format(self.baseDataPath, self.dataset, self.dataset, self.n)
@@ -39,12 +43,19 @@ class FileSystem:
         return '{}/{}/{}{}_sol.dat'.format(self.baseResPath, self.dataset, self.dataset, self.n)
 
     def buildSaStepsLogPath(self) -> str:
-        return '{}/{}/steps_log_t{}_cr{}_ft{}_eq{}.txt'.format(
-            self.baseResPath, self.dataset, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium
+        return '{}/{}/log_t{}_cr{}_ft{}_eq{}_base{}.txt'.format(
+            self.baseResPath, self.dataset, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium,
+            self.acceptanceExpBase
+        )
+
+    def buildSaStepsLogRelErrorPath(self) -> str:
+        return '{}/{}/log_err_t{}_cr{}_ft{}_eq{}_base{}.txt'.format(
+            self.baseResPath, self.dataset, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium,
+            self.acceptanceExpBase
         )
 
     def buildSaStatsPath(self) -> str:
-        return '{}/{}/sa_stats.txt'.format(self.baseResPath, self.dataset)
+        return '{}/{}/sa_stats_base{}.txt'.format(self.baseResPath, self.dataset, self.acceptanceExpBase)
 
     def readInputLines(self):
         return self.readLines(self.buildInputPath())
@@ -84,11 +95,21 @@ class FileSystem:
         f.write(statsStr)
         f.close()
 
+    def writeSaStepsLog(self, stepsLog: Dict[int, List[SaState]]):
+        logStr: str = ''
+        for key, instanceSteps in stepsLog.items():
+            for step in instanceSteps:
+                logStr += ('{}\n'.format(step.serialize()))
+        logPath: str = self.buildSaStepsLogPath()
+        f = open(logPath, 'a+')
+        f.write(logStr)
+        f.close()
+
     def writeSaStepsRelErrors(self, saStepsRelErrors: Dict[int, SaLogLine]):
         logStr: str = ''
         for key, logLine in saStepsRelErrors.items():
             logStr += ('{}\n'.format(logLine.serialize()))
-        logPath: str = self.buildSaStepsLogPath()
+        logPath: str = self.buildSaStepsLogRelErrorPath()
         f = open(logPath, 'a+')
         f.write(logStr)
         f.close()

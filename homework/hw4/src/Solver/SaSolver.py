@@ -18,6 +18,7 @@ class SaSolver(AbstractSolver):
     coolRate: float
     freezeThreshold: float
     equilibriumVal: float
+    acceptanceExpBase: float
 
     currentState: KnapsackState
     resultState: KnapsackState
@@ -25,7 +26,8 @@ class SaSolver(AbstractSolver):
     currentEquilibrium: int
 
     def __init__(
-            self, isLogMode: bool, initTemp: float, coolRate: float, freezeThreshold: float, equilibriumVal: float
+            self, isLogMode: bool, initTemp: float, coolRate: float, freezeThreshold: float, equilibriumVal: float,
+            acceptanceExpBase: float
     ):
         self.isLogMode = isLogMode
         self.stepsLog = {}
@@ -34,6 +36,7 @@ class SaSolver(AbstractSolver):
         self.coolRate = coolRate
         self.freezeThreshold = freezeThreshold
         self.equilibriumVal = equilibriumVal
+        self.acceptanceExpBase = acceptanceExpBase
 
         self.currentTemp = self.initTemp
         self.currentEquilibrium = 0
@@ -71,7 +74,7 @@ class SaSolver(AbstractSolver):
 
     def shouldAcceptByProbability(self, current: KnapsackState, neighbor: KnapsackState) -> bool:
         optimalCriteriaDistance: int = self.getOptimalCriteriaDistance(current, neighbor)
-        return (10 ** (- optimalCriteriaDistance / self.currentTemp)) >= random.random()
+        return random.random() < (self.acceptanceExpBase ** (- optimalCriteriaDistance / self.currentTemp))
 
     def shouldAccept(self, neighbour: KnapsackState) -> bool:
         # Always accept better solution
