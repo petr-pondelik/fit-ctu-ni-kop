@@ -112,7 +112,7 @@ class Application:
                 res: KnapsackState = self.saSolver.solve(val)
                 if self.knapsackSolutions.get(key).cost > 0:
                     relError: float = 1 - (res.accCost / self.knapsackSolutions.get(key).cost)
-                    print('Relative error: {}'.format(str(relError)))
+                    # print('Relative error: {}'.format(str(relError)))
                     relErrorAcc += relError
                 timeAcc += self.saSolver.solutionTime
                 cnt += 1
@@ -130,6 +130,6 @@ class Application:
                 self.saSolver.stepsLog, self.knapsackSolutions
             )
             self.fileSystem.writeSaStepsRelErrors(saStepsRelErrors)
-            self.fileSystem.writeSaStepsLog(self.saSolver.stepsLog)
+            # self.fileSystem.writeSaStepsLog(self.saSolver.stepsLog)
 
         self.fileSystem.writeResults(self.branchAndBoundResults)
