@@ -6,7 +6,7 @@ sys.path.append('Common')
 
 if __name__ == '__main__':
 
-    if len(sys.argv) == 8:
+    if len(sys.argv) == 9:
         dataset = sys.argv[1]
         n = sys.argv[2]
         initTemperature: str = sys.argv[3]
