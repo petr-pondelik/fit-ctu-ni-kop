@@ -1,6 +1,6 @@
 import copy
 import random
-from typing import List, Dict
+from typing import Dict
 
 from Model.Knapsack.KnapsackInstance import KnapsackInstance
 from Model.Knapsack.KnapsackItem import KnapsackItem
@@ -12,7 +12,7 @@ from Solver.AbstractSolver import AbstractSolver
 class SaSolver(AbstractSolver):
     pass
 
-    stepsLog: Dict[int, List[SaState]]
+    stepsLog: Dict[int, SaState]
 
     initTemp: float
     coolRate: float
@@ -46,12 +46,10 @@ class SaSolver(AbstractSolver):
 
     def logStep(self):
         # print('Logging cost: {}'.format(self.currentState.accCost))
-        step: SaState = SaState(self.step, self.currentState.accCost)
         try:
-            self.stepsLog[self.instance.id].append(step)
+            self.stepsLog[self.step].costSum += self.currentState.accCost
         except KeyError:
-            self.stepsLog[self.instance.id] = []
-            self.stepsLog[self.instance.id].append(step)
+            self.stepsLog[self.step] = SaState(self.step, self.currentState.accCost)
 
     def isStateSolution(self, state: KnapsackState) -> bool:
         return state.accWeight <= self.instance.M
@@ -129,9 +127,9 @@ class SaSolver(AbstractSolver):
                 if self.currentState.isBetter(self.resultState):
                     self.resultState = self.currentState
                 # print('Step {} cost: {}'.format(self.step, self.currentState.accCost))
-                self.measureStep()
                 if self.isLogMode:
                     self.logStep()
+                self.measureStep()
 
             # print('Current cost: {}'.format(self.currentState.accCost))
             # print('Accepted: {}'.format(self.accepted))

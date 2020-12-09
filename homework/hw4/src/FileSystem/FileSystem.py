@@ -105,10 +105,10 @@ class FileSystem:
         f.write(logStr)
         f.close()
 
-    def writeSaStepsRelErrors(self, saStepsRelErrors: Dict[int, SaLogLine]):
+    def writeSaStepsRelErrors(self, saStepsRelErrors: Dict[int, float]):
         logStr: str = ''
-        for key, logLine in saStepsRelErrors.items():
-            logStr += ('{}\n'.format(logLine.serialize()))
+        for key, relError in saStepsRelErrors.items():
+            logStr += ('{}\t{}\n'.format(key, relError))
         logPath: str = self.buildSaStepsLogRelErrorPath()
         f = open(logPath, 'a+')
         f.write(logStr)

@@ -6,6 +6,7 @@ from Model.Knapsack.KnapsackInstance import KnapsackInstance
 from Model.Knapsack.KnapsackSolution import KnapsackSolution
 from Model.Knapsack.KnapsackState import KnapsackState
 from Model.SA.SaLogLine import SaLogLine
+from Model.SA.SaState import SaState
 from Process.SaLogProcessor import SaLogProcessor
 from Solver.BranchAndBoundSolver import BranchAndBoundSolver
 from Solver.SaSolver import SaSolver
@@ -30,6 +31,7 @@ class Application:
 
     knapsackInstances: Dict[int, KnapsackInstance]
     knapsackSolutions: Dict[int, KnapsackSolution]
+    knapsackSolutionsCostSum: int
 
     branchAndBoundSolver: BranchAndBoundSolver
     branchAndBoundResults: Dict[int, KnapsackSolution]
@@ -40,7 +42,8 @@ class Application:
     def __init__(
             self,
             dataset: str, n: int,
-            initTemperature: float, coolRate: float, freezeThreshold: float, equilibrium: float, acceptanceExpBase: float,
+            initTemperature: float, coolRate: float, freezeThreshold: float, equilibrium: float,
+            acceptanceExpBase: float,
             isLogMode: bool
     ):
         self.dataset = dataset
@@ -61,6 +64,7 @@ class Application:
 
         self.knapsackInstances = {}
         self.knapsackSolutions = {}
+        self.knapsackSolutionsCostSum = 0
         self.loadInstances()
         self.loadSolutions()
 
@@ -98,6 +102,7 @@ class Application:
                 sol.configurations.append(KnapsackConfiguration(solutionsGrouped[inx][i][3:]))
 
             self.knapsackSolutions[int(sol.id)] = sol
+            self.knapsackSolutionsCostSum += sol.cost
 
     def run(self):
         # for key, val in self.knapsackInstances.items():
@@ -126,10 +131,9 @@ class Application:
         self.fileSystem.writeSaStats(avgTime, avgRelErrorAvg)
 
         if self.isLogMode:
-            saStepsRelErrors: Dict[int, SaLogLine] = SaLogProcessor.processAvgRelErrors(
-                self.saSolver.stepsLog, self.knapsackSolutions
+            saStepsRelErrors: Dict[int, float] = SaLogProcessor.processAvgRelErrors(
+                self.saSolver.stepsLog, self.knapsackSolutionsCostSum
             )
             self.fileSystem.writeSaStepsRelErrors(saStepsRelErrors)
+            print(self.knapsackSolutionsCostSum)
             # self.fileSystem.writeSaStepsLog(self.saSolver.stepsLog)
-
-        self.fileSystem.writeResults(self.branchAndBoundResults)
