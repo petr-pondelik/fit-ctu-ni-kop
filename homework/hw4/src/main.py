@@ -6,14 +6,26 @@ sys.path.append('Common')
 
 if __name__ == '__main__':
 
-    if len(sys.argv) == 7:
-        dataset = sys.argv[2]
-        n = sys.argv[3]
-        isDebug = sys.argv[4]
+    if len(sys.argv) == 8:
+        dataset = sys.argv[1]
+        n = sys.argv[2]
+        initTemperature: str = sys.argv[3]
+        coolRate: str = sys.argv[4]
+        freezeThreshold: str = sys.argv[5]
+        equilibrium: str = sys.argv[6]
+        isLogMode = sys.argv[7]
     else:
-        dataset = input('Select data-set type (NK, ZKC, ZKW): ')
-        n = input('Enter amount of items: ')
-        isDebug = input('Run with detail log? (1/0): ')
+        dataset: str = input('Select data-set type (NK, ZKC, ZKW): ')
+        n: str = input('Enter amount of items: ')
+        initTemperature: str = input('Enter init temperature: ')
+        coolRate: str = input('Enter cool rate: ')
+        freezeThreshold: str = input('Enter freeze threshold: ')
+        equilibrium: str = input('Enter equilibrium: ')
+        isLogMode = input('Run with detail log? (1/0): ')
 
-    application = Application(int(n), dataset, bool(isDebug))
+    application = Application(
+        dataset, int(n),
+        float(initTemperature), float(coolRate), float(freezeThreshold), float(equilibrium),
+        bool(isLogMode)
+    )
     application.run()

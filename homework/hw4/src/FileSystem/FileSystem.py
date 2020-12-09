@@ -2,6 +2,7 @@ import os
 from typing import Dict
 
 from Model.Knapsack.KnapsackSolution import KnapsackSolution
+from Model.SA.SaLogLine import SaLogLine
 
 
 class FileSystem:
@@ -9,12 +10,24 @@ class FileSystem:
     baseDataPath = './../data'
     baseResPath = './../results'
 
-    n: int
     dataset: str
+    n: int
+    initTemperature: float
+    coolRate: float
+    freezeThreshold: float
+    equilibrium: float
 
-    def __init__(self, n: int, dataset: str):
-        self.n = n
+    def __init__(
+            self,
+            dataset: str, n: int,
+            initTemperature: float, coolRate: float, freezeThreshold: float, equilibrium: float
+    ):
         self.dataset = dataset
+        self.n = n
+        self.initTemperature = initTemperature
+        self.coolRate = coolRate
+        self.freezeThreshold = freezeThreshold
+        self.equilibrium = equilibrium
 
     def buildInputPath(self) -> str:
         return '{}/{}/{}{}_inst.dat'.format(self.baseDataPath, self.dataset, self.dataset, self.n)
@@ -24,6 +37,14 @@ class FileSystem:
 
     def buildResultPath(self) -> str:
         return '{}/{}/{}{}_sol.dat'.format(self.baseResPath, self.dataset, self.dataset, self.n)
+
+    def buildSaStepsLogPath(self) -> str:
+        return '{}/{}/steps_log_t{}_cr{}_ft{}_eq{}.txt'.format(
+            self.baseResPath, self.dataset, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium
+        )
+
+    def buildSaStatsPath(self) -> str:
+        return '{}/{}/sa_stats.txt'.format(self.baseResPath, self.dataset)
 
     def readInputLines(self):
         return self.readLines(self.buildInputPath())
@@ -35,8 +56,14 @@ class FileSystem:
         return self.readLines(self.buildSolutionPath())
 
     def cleanResultFile(self):
-        if os.path.exists(self.buildResultPath()):
-            os.remove(self.buildResultPath())
+        resPath: str = self.buildResultPath()
+        if os.path.exists(resPath):
+            os.remove(resPath)
+
+    def cleanLogFile(self):
+        logPath: str = self.buildSaStepsLogPath()
+        if os.path.exists(logPath):
+            os.remove(logPath)
 
     def writeResults(self, results: Dict[int, KnapsackSolution]):
         self.cleanResultFile()
@@ -46,6 +73,24 @@ class FileSystem:
         resultPath: str = self.buildResultPath()
         f = open(resultPath, 'a+')
         f.write(resultStr)
+        f.close()
+
+    def writeSaStats(self, avgTime: float, avgRelError: float):
+        statsStr: str = '{} {}  {}  {}\n'.format(
+            str(avgTime), str(avgRelError), str(self.equilibrium), str(self.coolRate)
+        )
+        statsPath: str = self.buildSaStatsPath()
+        f = open(statsPath, 'a+')
+        f.write(statsStr)
+        f.close()
+
+    def writeSaStepsRelErrors(self, saStepsRelErrors: Dict[int, SaLogLine]):
+        logStr: str = ''
+        for key, logLine in saStepsRelErrors.items():
+            logStr += ('{}\n'.format(logLine.serialize()))
+        logPath: str = self.buildSaStepsLogPath()
+        f = open(logPath, 'a+')
+        f.write(logStr)
         f.close()
 
     @staticmethod

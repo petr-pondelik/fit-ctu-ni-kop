@@ -1,34 +1,54 @@
 import copy
 import random
+from typing import List, Dict
 
 from Model.Knapsack.KnapsackInstance import KnapsackInstance
 from Model.Knapsack.KnapsackItem import KnapsackItem
 from Model.Knapsack.KnapsackState import KnapsackState
+from Model.SA.SaState import SaState
 from Solver.AbstractSolver import AbstractSolver
 
 
 class SaSolver(AbstractSolver):
     pass
 
+    stepsLog: Dict[int, List[SaState]]
+
     initTemp: float
     coolRate: float
     freezeThreshold: float
+    equilibriumVal: float
 
     currentState: KnapsackState
     resultState: KnapsackState
     currentTemp: float
     currentEquilibrium: int
-    accepted: int or None
 
-    def __init__(self, isDebug: bool, initTemp: float, coolRate: float, freezeThreshold: float):
-        self.isDebug = isDebug
+    def __init__(
+            self, isLogMode: bool, initTemp: float, coolRate: float, freezeThreshold: float, equilibriumVal: float
+    ):
+        self.isLogMode = isLogMode
+        self.stepsLog = {}
+
         self.initTemp = initTemp
         self.coolRate = coolRate
         self.freezeThreshold = freezeThreshold
+        self.equilibriumVal = equilibriumVal
 
         self.currentTemp = self.initTemp
         self.currentEquilibrium = 0
-        self.accepted = None
+
+    def measureStep(self):
+        self.step += 1
+
+    def logStep(self):
+        # print('Logging cost: {}'.format(self.currentState.accCost))
+        step: SaState = SaState(self.step, self.currentState.accCost)
+        try:
+            self.stepsLog[self.instance.id].append(step)
+        except KeyError:
+            self.stepsLog[self.instance.id] = []
+            self.stepsLog[self.instance.id].append(step)
 
     def isStateSolution(self, state: KnapsackState) -> bool:
         return state.accWeight <= self.instance.M
@@ -38,15 +58,12 @@ class SaSolver(AbstractSolver):
 
     def isFrozen(self) -> bool:
         # print('isFrozen: {}'.format(self.accepted))
-        # return (self.accepted is not None) and self.accepted < self.freezeThreshold
         return self.currentTemp < self.freezeThreshold
 
     def isEquilibrium(self) -> bool:
         # print('isEquilibrium: {}'.format(self.currentEquilibrium))
-        # if self.accepted > self.instance.n:
-        #     return False
-        return self.currentEquilibrium < 4 * self.instance.n
-        # return self.currentEquilibrium < 100
+        return self.currentEquilibrium < self.equilibriumVal * self.instance.n
+        # return self.currentEquilibrium < self.equilibriumVal
 
     @staticmethod
     def getOptimalCriteriaDistance(current: KnapsackState, neighbour: KnapsackState) -> int:
@@ -64,6 +81,7 @@ class SaSolver(AbstractSolver):
         return self.shouldAcceptByProbability(self.currentState, neighbour)
 
     def getRandomStateNeighbor(self) -> KnapsackState:
+
         neighbor: KnapsackState = copy.deepcopy(self.currentState)
         inx: int = self.instance.getRandomItemInx()
         val: int = neighbor.configuration.get(inx)
@@ -82,7 +100,6 @@ class SaSolver(AbstractSolver):
         neighbour: KnapsackState = self.getRandomStateNeighbor()
         if self.isStateSolution(neighbour):
             if self.shouldAccept(neighbour):
-                self.accepted += 1
                 return neighbour
             return self.currentState
         return self.currentState
@@ -98,19 +115,20 @@ class SaSolver(AbstractSolver):
         # print('Init cost: {}'.format(self.currentState.accCost))
         # print(self.currentState.configuration.print())
         self.resultState = self.currentState
-        self.accepted = None
 
         while not self.isFrozen():
-            # Set runtime annealing values
+            # Set runtime SA values
             self.currentEquilibrium = 0
-            self.accepted = 0
 
             while self.isEquilibrium():
                 self.currentEquilibrium += 1
                 self.currentState = self.tryGetNeighbour()
                 if self.currentState.isBetter(self.resultState):
-                    # print(self.currentState.accCost)
                     self.resultState = self.currentState
+                # print('Step {} cost: {}'.format(self.step, self.currentState.accCost))
+                self.measureStep()
+                if self.isLogMode:
+                    self.logStep()
 
             # print('Current cost: {}'.format(self.currentState.accCost))
             # print('Accepted: {}'.format(self.accepted))

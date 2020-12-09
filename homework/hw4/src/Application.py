@@ -1,19 +1,29 @@
-from typing import Dict
+from typing import Dict, List
 
 from FileSystem.FileSystem import FileSystem
 from Model.Knapsack.KnapsackConfiguration import KnapsackConfiguration
 from Model.Knapsack.KnapsackInstance import KnapsackInstance
 from Model.Knapsack.KnapsackSolution import KnapsackSolution
 from Model.Knapsack.KnapsackState import KnapsackState
+from Model.SA.SaLogLine import SaLogLine
+from Process.SaLogProcessor import SaLogProcessor
 from Solver.BranchAndBoundSolver import BranchAndBoundSolver
 from Solver.SaSolver import SaSolver
 
 
 class Application:
 
-    n: int
+    isLogMode: bool
+
     dataset: str
-    isDebug: bool
+    n: int
+
+    initTemperature: float
+    coolRate: float
+    freezeThreshold: float
+    equilibrium: float
+
+    saLog: List[SaLogLine]
 
     fileSystem: FileSystem
 
@@ -26,12 +36,25 @@ class Application:
     saSolver: SaSolver
     saResults: Dict[int, KnapsackSolution]
 
-    def __init__(self, n: int, dataset: str, isDebug: bool):
-        self.n = n
+    def __init__(
+            self,
+            dataset: str, n: int,
+            initTemperature: float, coolRate: float, freezeThreshold: float, equilibrium: float,
+            isLogMode: bool
+    ):
         self.dataset = dataset
-        self.isDebug = isDebug
+        self.n = n
 
-        self.fileSystem = FileSystem(self.n, self.dataset)
+        self.initTemperature = initTemperature
+        self.coolRate = coolRate
+        self.freezeThreshold = freezeThreshold
+        self.equilibrium = equilibrium
+
+        self.isLogMode = isLogMode
+
+        self.fileSystem = FileSystem(
+            self.dataset, self.n, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium
+        )
 
         self.knapsackInstances = {}
         self.knapsackSolutions = {}
@@ -41,8 +64,11 @@ class Application:
         self.branchAndBoundSolver = BranchAndBoundSolver()
         self.branchAndBoundResults = {}
 
-        self.saSolver = SaSolver(self.isDebug, 10000, 0.995, 0.1)
+        self.saSolver = SaSolver(
+            self.isLogMode, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium
+        )
         self.saResults = {}
+        # self.saLogProcessor = SaLogProcessor()
 
     def loadInstances(self):
         instancesLines: list = self.fileSystem.readInputLines()
@@ -74,15 +100,33 @@ class Application:
         # for key, val in self.knapsackInstances.items():
         #     res: KnapsackSolution = self.branchAndBoundSolver.solve(val)
         #     self.branchAndBoundResults[res.id] = res
+        self.fileSystem.cleanLogFile()
         relErrorAcc: float = 0.0
+        timeAcc: float = 0.0
         cnt: int = 0
+
         for key, val in self.knapsackInstances.items():
-            if 0 < key < 50:
+            if 1 <= key <= 500:
                 res: KnapsackState = self.saSolver.solve(val)
                 if self.knapsackSolutions.get(key).cost > 0:
                     relError: float = 1 - (res.accCost / self.knapsackSolutions.get(key).cost)
+                    print('Relative error: {}'.format(str(relError)))
                     relErrorAcc += relError
+                timeAcc += self.saSolver.solutionTime
                 cnt += 1
-        relErrorAvg = relErrorAcc / cnt
-        print('Relative error avg: {}'.format(str(relErrorAvg)))
+
+        avgTime: float = timeAcc/cnt
+        print('Average time: {}'.format(avgTime))
+
+        avgRelErrorAvg: float = relErrorAcc/cnt
+        print('Relative error avg: {}'.format(str(avgRelErrorAvg)))
+
+        self.fileSystem.writeSaStats(avgTime, avgRelErrorAvg)
+
+        if self.isLogMode:
+            saStepsRelErrors: Dict[int, SaLogLine] = SaLogProcessor.processAvgRelErrors(
+                self.saSolver.stepsLog, self.knapsackSolutions
+            )
+            self.fileSystem.writeSaStepsRelErrors(saStepsRelErrors)
+
         self.fileSystem.writeResults(self.branchAndBoundResults)

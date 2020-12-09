@@ -6,8 +6,11 @@ from Model.Knapsack.KnapsackSolution import KnapsackSolution
 
 class AbstractSolver:
 
-    isDebug: bool
+    isLogMode: bool
 
+    stepsLog: dict
+
+    step: int
     startTime: float
     endTime: float
     solutionTime: float
@@ -16,6 +19,7 @@ class AbstractSolver:
     result: KnapsackSolution
 
     def startMeasurement(self):
+        self.step = 0
         self.solutionTime = 0
         self.startTime = time.time()
 
