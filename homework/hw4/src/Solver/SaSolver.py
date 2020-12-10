@@ -1,6 +1,7 @@
 import copy
+import math
 import random
-from typing import Dict
+from typing import List, Dict
 
 from Model.Knapsack.KnapsackInstance import KnapsackInstance
 from Model.Knapsack.KnapsackItem import KnapsackItem
@@ -12,13 +13,12 @@ from Solver.AbstractSolver import AbstractSolver
 class SaSolver(AbstractSolver):
     pass
 
-    stepsLog: Dict[int, SaState]
+    stepsLog: Dict[int, List[SaState]]
 
     initTemp: float
     coolRate: float
     freezeThreshold: float
     equilibriumVal: float
-    acceptanceExpBase: float
 
     currentState: KnapsackState
     resultState: KnapsackState
@@ -26,8 +26,7 @@ class SaSolver(AbstractSolver):
     currentEquilibrium: int
 
     def __init__(
-            self, isLogMode: bool, initTemp: float, coolRate: float, freezeThreshold: float, equilibriumVal: float,
-            acceptanceExpBase: float
+            self, isLogMode: bool, initTemp: float, coolRate: float, freezeThreshold: float, equilibriumVal: float
     ):
         self.isLogMode = isLogMode
         self.stepsLog = {}
@@ -36,7 +35,6 @@ class SaSolver(AbstractSolver):
         self.coolRate = coolRate
         self.freezeThreshold = freezeThreshold
         self.equilibriumVal = equilibriumVal
-        self.acceptanceExpBase = acceptanceExpBase
 
         self.currentTemp = self.initTemp
         self.currentEquilibrium = 0
@@ -46,10 +44,12 @@ class SaSolver(AbstractSolver):
 
     def logStep(self):
         # print('Logging cost: {}'.format(self.currentState.accCost))
+        step: SaState = SaState(self.step, self.currentState.accCost)
         try:
-            self.stepsLog[self.step].costSum += self.currentState.accCost
+            self.stepsLog[self.instance.id].append(step)
         except KeyError:
-            self.stepsLog[self.step] = SaState(self.step, self.currentState.accCost)
+            self.stepsLog[self.instance.id] = []
+            self.stepsLog[self.instance.id].append(step)
 
     def isStateSolution(self, state: KnapsackState) -> bool:
         return state.accWeight <= self.instance.M
@@ -72,7 +72,7 @@ class SaSolver(AbstractSolver):
 
     def shouldAcceptByProbability(self, current: KnapsackState, neighbor: KnapsackState) -> bool:
         optimalCriteriaDistance: int = self.getOptimalCriteriaDistance(current, neighbor)
-        return random.random() < (self.acceptanceExpBase ** (- optimalCriteriaDistance / self.currentTemp))
+        return random.random() < (math.e ** (- optimalCriteriaDistance / self.currentTemp))
 
     def shouldAccept(self, neighbour: KnapsackState) -> bool:
         # Always accept better solution

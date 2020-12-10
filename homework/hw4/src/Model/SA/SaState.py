@@ -1,11 +1,11 @@
 class SaState:
 
     step: int
-    costSum: int
+    cost: int
 
-    def __init__(self, step: int, costSum: int):
+    def __init__(self, step: int, cost: int):
         self.step = step
-        self.costSum = costSum
+        self.cost = cost
 
     def serialize(self):
-        return '{}\t{}'.format(self.step, self.costSum)
+        return '{}\t{}'.format(self.step, self.cost)
