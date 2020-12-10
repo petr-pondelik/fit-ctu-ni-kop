@@ -62,7 +62,7 @@ class FileSystem:
         )
 
     def buildSaStatsPath(self) -> str:
-        return '{}/{}/sa_stats.txt'.format(self.baseResPath, self.dataset)
+        return '{}/{}/sa_stats_{}.txt'.format(self.baseResPath, self.dataset, self.freezeImplementation)
 
     def readInputLines(self):
         return self.readLines(self.buildInputPath())
