@@ -15,18 +15,22 @@ class FileSystem:
     n: int
     initTemperature: float
     coolRate: float
+    freezeImplementation: str
     freezeThreshold: float
     equilibrium: float
 
     def __init__(
             self,
             dataset: str, n: int,
-            initTemperature: float, coolRate: float, freezeThreshold: float, equilibrium: float
+            initTemperature: float, coolRate: float,
+            freezeImplementation: str, freezeThreshold: float,
+            equilibrium: float
     ):
         self.dataset = dataset
         self.n = n
         self.initTemperature = initTemperature
         self.coolRate = coolRate
+        self.freezeImplementation = freezeImplementation
         self.freezeThreshold = freezeThreshold
         self.equilibrium = equilibrium
 
@@ -40,13 +44,21 @@ class FileSystem:
         return '{}/{}/{}{}_sol.dat'.format(self.baseResPath, self.dataset, self.dataset, self.n)
 
     def buildSaStepsLogPath(self) -> str:
-        return '{}/{}/log_t{}_cr{}_ft{}_eq{}.txt'.format(
-            self.baseResPath, self.dataset, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium,
+        return '{}/{}/log_t{}_cr{}_ft{}_eq{}_{}.txt'.format(
+            self.baseResPath, self.dataset,
+            self.initTemperature, self.coolRate,
+            self.freezeThreshold,
+            self.equilibrium,
+            self.freezeImplementation
         )
 
     def buildSaStepsLogRelErrorPath(self) -> str:
-        return '{}/{}/log_err_t{}_cr{}_ft{}_eq{}.txt'.format(
-            self.baseResPath, self.dataset, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium,
+        return '{}/{}/log_err_t{}_cr{}_ft{}_eq{}_{}.txt'.format(
+            self.baseResPath, self.dataset,
+            self.initTemperature, self.coolRate,
+            self.freezeThreshold,
+            self.equilibrium,
+            self.freezeImplementation
         )
 
     def buildSaStatsPath(self) -> str:

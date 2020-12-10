@@ -20,6 +20,7 @@ class Application:
 
     initTemperature: float
     coolRate: float
+    freezeImplementation: str
     freezeThreshold: float
     equilibrium: float
 
@@ -42,7 +43,9 @@ class Application:
     def __init__(
             self,
             dataset: str, n: int,
-            initTemperature: float, coolRate: float, freezeThreshold: float, equilibrium: float,
+            initTemperature: float, coolRate: float,
+            freezeImplementation: str, freezeThreshold: float,
+            equilibrium: float,
             instanceStartInx: int, instanceEndInx: int,
             isLogMode: bool
     ):
@@ -51,6 +54,7 @@ class Application:
 
         self.initTemperature = initTemperature
         self.coolRate = coolRate
+        self.freezeImplementation = freezeImplementation
         self.freezeThreshold = freezeThreshold
         self.equilibrium = equilibrium
 
@@ -60,7 +64,10 @@ class Application:
         self.isLogMode = isLogMode
 
         self.fileSystem = FileSystem(
-            self.dataset, self.n, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium
+            self.dataset, self.n,
+            self.initTemperature, self.coolRate,
+            self.freezeImplementation, self.freezeThreshold,
+            self.equilibrium
         )
 
         self.knapsackInstances = {}
@@ -72,7 +79,10 @@ class Application:
         self.branchAndBoundResults = {}
 
         self.saSolver = SaSolver(
-            self.isLogMode, self.initTemperature, self.coolRate, self.freezeThreshold, self.equilibrium
+            self.isLogMode,
+            self.initTemperature, self.coolRate,
+            self.freezeImplementation, self.freezeThreshold,
+            self.equilibrium
         )
         self.saResults = {}
 

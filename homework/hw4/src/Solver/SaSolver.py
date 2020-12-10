@@ -17,6 +17,7 @@ class SaSolver(AbstractSolver):
 
     initTemp: float
     coolRate: float
+    freezeImplementation: str
     freezeThreshold: float
     equilibriumVal: float
 
@@ -27,14 +28,21 @@ class SaSolver(AbstractSolver):
     accepted: int or None
 
     def __init__(
-            self, isLogMode: bool, initTemp: float, coolRate: float, freezeThreshold: float, equilibriumVal: float
+            self,
+            isLogMode: bool,
+            initTemp: float, coolRate: float,
+            freezeImplementation: str, freezeThreshold: float,
+            equilibriumVal: float
     ):
         self.isLogMode = isLogMode
         self.stepsLog = {}
 
         self.initTemp = initTemp
         self.coolRate = coolRate
+
+        self.freezeImplementation = freezeImplementation
         self.freezeThreshold = freezeThreshold
+
         self.equilibriumVal = equilibriumVal
 
         self.currentTemp = self.initTemp
@@ -61,8 +69,11 @@ class SaSolver(AbstractSolver):
 
     def isFrozen(self) -> bool:
         # print('isFrozen: {}'.format(self.accepted))
-        return (self.accepted is not None) and self.accepted < self.freezeThreshold
-        # return self.currentTemp < self.freezeThreshold
+        if self.freezeImplementation == 'accepted':
+            return (self.accepted is not None) and self.accepted < self.freezeThreshold
+        elif self.freezeImplementation == 'static':
+            return self.currentTemp < self.freezeThreshold
+        return True
 
     def isEquilibrium(self) -> bool:
         # print('isEquilibrium: {}'.format(self.currentEquilibrium))
