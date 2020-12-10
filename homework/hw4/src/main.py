@@ -31,6 +31,6 @@ if __name__ == '__main__':
         dataset, int(n),
         float(initTemperature), float(coolRate), float(freezeThreshold), float(equilibrium),
         int(instanceStartInx), int(instanceEndInx),
-        bool(isLogMode)
+        bool(int(isLogMode))
     )
     application.run()

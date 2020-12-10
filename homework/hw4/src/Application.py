@@ -109,6 +109,7 @@ class Application:
         # for key, val in self.knapsackInstances.items():
         #     res: KnapsackSolution = self.branchAndBoundSolver.solve(val)
         #     self.branchAndBoundResults[res.id] = res
+        print(self.isLogMode)
         relErrorAcc: float = 0.0
         timeAcc: float = 0.0
         cnt: int = 0
