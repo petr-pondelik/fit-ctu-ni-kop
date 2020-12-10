@@ -8,7 +8,9 @@ from Model.SA.SaState import SaState
 class SaLogProcessor:
 
     @staticmethod
-    def processAvgRelErrors(stateLog: Dict[int, List[SaState]], solutions: Dict[int, KnapsackSolution]) -> Dict[int, SaLogLine]:
+    def processAvgRelErrors(
+            stateLog: Dict[int, List[SaState]], solutions: Dict[int, KnapsackSolution], cnt: int
+    ) -> Dict[int, SaLogLine]:
         relErrorsBySteps: Dict[float] = {}
         # stepsCnt: int = len(list(stateLog.items())[:2])
         res: Dict[int, SaLogLine] = {}
@@ -27,7 +29,7 @@ class SaLogProcessor:
 
         for instanceId, stateList in stateLog.items():
             for i in range(len(stateList)):
-                res[i].relativeError = relErrorsBySteps[i] / 500
+                res[i].relativeError = relErrorsBySteps[i]/cnt
                 # print('Step {} relative error: {}'.format(i, res[i].relativeError))
 
         return res

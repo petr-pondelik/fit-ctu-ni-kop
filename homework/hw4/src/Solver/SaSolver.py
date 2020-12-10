@@ -24,6 +24,7 @@ class SaSolver(AbstractSolver):
     resultState: KnapsackState
     currentTemp: float
     currentEquilibrium: int
+    accepted: int or None
 
     def __init__(
             self, isLogMode: bool, initTemp: float, coolRate: float, freezeThreshold: float, equilibriumVal: float
@@ -38,12 +39,13 @@ class SaSolver(AbstractSolver):
 
         self.currentTemp = self.initTemp
         self.currentEquilibrium = 0
+        self.accepted = None
 
     def measureStep(self):
         self.step += 1
 
     def logStep(self):
-        # print('Logging cost: {}'.format(self.currentState.accCost))
+        # print('Logging step {} cost: {}'.format(self.step, self.currentState.accCost))
         step: SaState = SaState(self.step, self.currentState.accCost)
         try:
             self.stepsLog[self.instance.id].append(step)
@@ -59,7 +61,8 @@ class SaSolver(AbstractSolver):
 
     def isFrozen(self) -> bool:
         # print('isFrozen: {}'.format(self.accepted))
-        return self.currentTemp < self.freezeThreshold
+        return (self.accepted is not None) and self.accepted < self.freezeThreshold
+        # return self.currentTemp < self.freezeThreshold
 
     def isEquilibrium(self) -> bool:
         # print('isEquilibrium: {}'.format(self.currentEquilibrium))
@@ -101,6 +104,7 @@ class SaSolver(AbstractSolver):
         neighbour: KnapsackState = self.getRandomStateNeighbor()
         if self.isStateSolution(neighbour):
             if self.shouldAccept(neighbour):
+                self.accepted += 1
                 return neighbour
             return self.currentState
         return self.currentState
@@ -112,6 +116,7 @@ class SaSolver(AbstractSolver):
         self.instance = instance
         self.currentTemp = self.initTemp
         self.currentEquilibrium = 0
+        self.accepted = None
         self.currentState: KnapsackState = self.instance.getRandomState()
         # print('Init cost: {}'.format(self.currentState.accCost))
         # print(self.currentState.configuration.print())
@@ -120,6 +125,7 @@ class SaSolver(AbstractSolver):
         while not self.isFrozen():
             # Set runtime SA values
             self.currentEquilibrium = 0
+            self.accepted = 0
 
             while self.isEquilibrium():
                 self.currentEquilibrium += 1
@@ -129,7 +135,7 @@ class SaSolver(AbstractSolver):
                 # print('Step {} cost: {}'.format(self.step, self.currentState.accCost))
                 if self.isLogMode:
                     self.logStep()
-                self.measureStep()
+                    self.measureStep()
 
             # print('Current cost: {}'.format(self.currentState.accCost))
             # print('Accepted: {}'.format(self.accepted))

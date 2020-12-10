@@ -102,6 +102,9 @@ class Application:
 
             self.knapsackSolutions[int(sol.id)] = sol
 
+    def geInstancesCnt(self) -> int:
+        return self.instanceEndInx - self.instanceStartInx + 1
+
     def run(self):
         # for key, val in self.knapsackInstances.items():
         #     res: KnapsackSolution = self.branchAndBoundSolver.solve(val)
@@ -126,10 +129,11 @@ class Application:
         avgRelErrorAvg: float = relErrorAcc/cnt
         print('Relative error avg: {}'.format(str(avgRelErrorAvg)))
 
-        self.fileSystem.writeSaStats(avgTime, avgRelErrorAvg)
+        if not self.isLogMode:
+            self.fileSystem.writeSaStats(avgTime, avgRelErrorAvg)
 
         if self.isLogMode:
             saStepsRelErrors: Dict[int, SaLogLine] = SaLogProcessor.processAvgRelErrors(
-                self.saSolver.stepsLog, self.knapsackSolutions
+                self.saSolver.stepsLog, self.knapsackSolutions, self.geInstancesCnt()
             )
             self.fileSystem.writeSaStepsRelErrors(saStepsRelErrors)
