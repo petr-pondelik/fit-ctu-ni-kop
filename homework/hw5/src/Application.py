@@ -22,6 +22,7 @@ class Application:
         self.MVCNFParser = MVCNFParser(self.conf)
         self.instances = self.MVCNFParser.loadInstances()
         self.solutions = self.MVCNFParser.loadSolutions()
+        print(len(self.instances))
 
     def run(self):
         for runConf in self.conf.saConfig.runs:

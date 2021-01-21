@@ -11,14 +11,14 @@ if __name__ == '__main__':
     conf = Configuration(
         {
             'input': {
-                'path': './../data/wuf20-78-M1/',
+                'path': './../data/wuf20-78-N1/',
                 'filenameFragment': 'wuf20-0',
                 'format': '.mwcnf',
                 'start': 1,
-                'end': 2
+                'end': 1000
             },
             'solution': {
-                'path': './../data/wuf20-78-M-opt.dat'
+                'path': './../data/wuf20-78-N-opt.dat'
             },
             'sa': {
                 'runs': [

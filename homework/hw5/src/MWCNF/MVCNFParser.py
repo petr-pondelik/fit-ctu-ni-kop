@@ -33,8 +33,11 @@ class MVCNFParser:
     def loadInstances(self):
         instances = {}
         for i in range(self.conf.input.start, self.conf.input.end + 1):
+            try:
+                inputLines = self.fileSystem.readInputLines(i)
+            except FileNotFoundError:
+                continue
             satInstance = SatInstance(i)
-            inputLines = self.fileSystem.readInputLines(i)
             for line in inputLines:
                 if line.startswith('p'):
                     problemMetadata = self.parseProblemLine(line)
