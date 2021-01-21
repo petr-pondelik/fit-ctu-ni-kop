@@ -14,4 +14,4 @@ class Configuration:
     def __init__(self, conf: {}):
         self.input = InputConf(conf['input'])
         self.solution = SolutionConf(conf['solution'])
-        self.SAConfig = SAConfig(conf['sa'])
+        self.saConfig = SAConfig(conf['sa'])

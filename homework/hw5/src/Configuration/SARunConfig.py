@@ -5,6 +5,7 @@ class SARunConfig:
     freezeThreshold: float
     coolRate: float
     equilibriumLen: float
+    frozen: str
 
     def __init__(self, runConfig: {}):
         self.runId = runConfig['runId']
@@ -12,3 +13,4 @@ class SARunConfig:
         self.freezeThreshold = runConfig['freezeThreshold']
         self.coolRate = runConfig['coolRate']
         self.equilibriumLen = runConfig['equilibriumLen']
+        self.frozen = runConfig['frozen']
