@@ -19,13 +19,6 @@ class Application:
         self.conf = conf
         self.MVCNFParser = MVCNFParser(self.conf)
         self.instances = self.MVCNFParser.loadInstances()
-        print(self.instances[1].varWeights)
-        print(self.instances[1].clauses[0].literals)
-        print(self.instances[1].clauses[0].evaluate(
-            SatConfiguration(
-                [True, True, True, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False, True]
-            )
-        ))
 
     def run(self):
         for runConf in self.conf.saConfig.runs:

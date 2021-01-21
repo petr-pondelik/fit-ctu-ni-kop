@@ -11,3 +11,8 @@ class SatConfiguration:
         for val in values:
             self.values[i] = val
             i += 1
+
+    def serialize(self):
+        return {
+            'values': self.values
+        }

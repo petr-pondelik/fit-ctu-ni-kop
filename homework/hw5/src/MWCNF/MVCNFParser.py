@@ -34,13 +34,10 @@ class MVCNFParser:
         for i in range(self.conf.input.start, self.conf.input.end + 1):
             satInstance = SatInstance()
             inputLines = self.fileSystem.readInputLines(i)
-            print(inputLines[0])
             for line in inputLines:
                 if line.startswith('p'):
                     problemMetadata = self.parseProblemLine(line)
-                    print(problemMetadata)
                     satInstance.varCnt = problemMetadata[0]
-                    # satInstance.clausesCnt = problemMetadata[1]
                 elif line.startswith('w'):
                     weights = self.parseWeightsLine(line)
                     satInstance.setVarWeights(weights)

@@ -22,7 +22,7 @@ if __name__ == '__main__':
             },
             'sa': {
                 'runs': [
-                    {'runId': '1', 'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.5, 'equilibriumLen': 2, 'frozen': 'static'}
+                    {'runId': '1', 'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 2, 'frozen': 'static'}
                 ]
             }
         }

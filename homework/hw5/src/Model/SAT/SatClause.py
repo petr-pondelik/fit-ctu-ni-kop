@@ -16,7 +16,6 @@ class SatClause:
             self.literals[var] = (val > 0)
 
     def evaluateLiteral(self, literal: bool, value: bool):
-        print('EVALUATE LITERAL')
         if literal is True:
             return value is True
         else:
@@ -27,3 +26,8 @@ class SatClause:
             if self.evaluateLiteral(literal, conf.values[key]) is True:
                 return True
         return False
+
+    def serialize(self):
+        return {
+            'literals': self.literals
+        }

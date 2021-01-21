@@ -1,3 +1,4 @@
+import copy
 import math
 import random
 import time
@@ -17,6 +18,7 @@ class SaSolver:
     startTime: float
     endTime: float
     solutionTime: float
+    satisfiedCnt: int
 
     currentTemp: float
     currentEquilibrium: int
@@ -33,6 +35,7 @@ class SaSolver:
         self.instance = instance
         self.step = 0
         self.solutionTime = 0
+        self.satisfiedCnt = 0
         self.startTime = time.time()
         self.currentTemp = self.conf.initTemp
         self.currentEquilibrium = 0
@@ -42,10 +45,6 @@ class SaSolver:
         self.endTime = time.time()
         self.solutionTime = (self.endTime - self.startTime) * 1000 * 1000
 
-    # def isStateSolution(self, state: SatState) -> bool:
-    #     # TODO
-        # return state.accWeight <= self.instance.M
-
     def solve(self, instance: SatInstance):
         # Init solver runtime variables (SAT instance, step, times etc.)
         self.init(instance)
@@ -54,7 +53,7 @@ class SaSolver:
         self.currentState: SatState = SatState(self.instance)
         self.bestState = self.currentState
 
-        i: int = 0
+        print(self.currentState.serialize())
 
         while not self.isFrozen():
             # Set runtime SA values
@@ -62,15 +61,15 @@ class SaSolver:
             self.accepted = 0
             while self.notEquilibrium():
                 self.currentEquilibrium += 1
-                print(i)
-                i += 1
-                # self.currentState = self.tryGetNeighbour()
-                # if self.currentState.isBetter(self.bestState):
-                #     self.bestState = self.currentState
+                self.currentState = self.tryToGetNeighbour()
+                if self.currentState.isBetter(self.bestState):
+                    self.bestState = self.currentState
 
             self.coolDown()
 
         self.stopMeasurement()
+
+        print(self.bestState.price)
 
         return self.bestState
 
@@ -85,47 +84,39 @@ class SaSolver:
         return True
 
     def notEquilibrium(self) -> bool:
-        print('Equilibrium: {}'.format(self.conf.equilibriumLen * self.instance.varCnt))
+        # print('Equilibrium: {}'.format(self.conf.equilibriumLen * self.instance.varCnt))
         return self.currentEquilibrium < self.conf.equilibriumLen * self.instance.varCnt
 
-    # @staticmethod
-    # def getOptimalCriteriaDistance(current: SatState, neighbour: SatState) -> int:
-    #     # return current.accCost - neighbour.accCost
-    #     # TODO
+    @staticmethod
+    def getOptimalCriteriaDistance(current: SatState, neighbour: SatState) -> int:
+        # TODO: Switch to price when the expression is satisfied
+        return current.satisfiedClausesCnt - neighbour.satisfiedClausesCnt
 
-    # def shouldAcceptByProbability(self, current: SatState, neighbor: SatState) -> bool:
-    #     optimalCriteriaDistance: int = self.getOptimalCriteriaDistance(current, neighbor)
-    #     return random.random() < (math.e ** (- optimalCriteriaDistance / self.currentTemp))
+    def shouldAcceptByProbability(self, current: SatState, neighbor: SatState) -> bool:
+        optimalCriteriaDistance: int = self.getOptimalCriteriaDistance(current, neighbor)
+        return random.random() < (math.e ** (- optimalCriteriaDistance / self.currentTemp))
 
-    # def shouldAccept(self, neighbour: SatState) -> bool:
-    #     # Always accept better solution
-    #     if neighbour.isBetter(self.currentState):
-    #         return True
-    #     # Accept neighbor state by probability
-    #     return self.shouldAcceptByProbability(self.currentState, neighbour)
+    def shouldAccept(self, neighbour: SatState) -> bool:
+        # Always accept better solution
+        if neighbour.isBetter(self.currentState):
+            return True
+        # Accept worse neighbor state by randomized probability
+        return self.shouldAcceptByProbability(self.currentState, neighbour)
 
-    # def getRandomStateNeighbor(self) -> SatState:
-    #     # TODO
-        # neighbor: KnapsackState = copy.deepcopy(self.currentState)
-        # inx: int = self.instance.getRandomItemInx()
-        # val: int = neighbor.configuration.get(inx)
-        # item: KnapsackItem = self.instance.itemsList.get(inx)
-        # if val == 1:
-        #     neighbor.configuration.set(inx, 0)
-        #     neighbor.accCost -= item.cost
-        #     neighbor.accWeight -= item.weight
-        # else:
-        #     neighbor.configuration.set(inx, 1)
-        #     neighbor.accCost += item.cost
-        #     neighbor.accWeight += item.weight
-        # return neighbor
+    def getRandomStateNeighbor(self) -> SatState:
+        # Change one variable bit randomly
+        neighbor: SatState = copy.deepcopy(self.currentState)
+        inx: int = self.instance.getRandomVarInx()
+        neighbor.swapConfVar(inx)
+        return neighbor
 
-    # def tryGetNeighbour(self) -> SatState:
-    #     # TODO
-        # neighbour: KnapsackState = self.getRandomStateNeighbor()
-        # if self.isStateSolution(neighbour):
-        #     if self.shouldAccept(neighbour):
-        #         self.accepted += 1
-        #         return neighbour
-        #     return self.currentState
-        # return self.currentState
+    def tryToGetNeighbour(self) -> SatState:
+        # Try to get neighbour SAT state by the given method
+        # Decide to accept state by shouldAccept() method
+        neighbour: SatState = self.getRandomStateNeighbor()
+        if neighbour.satisfied:
+            self.satisfiedCnt += 1
+        if self.shouldAccept(neighbour):
+            self.accepted += 1
+            return neighbour
+        return self.currentState
