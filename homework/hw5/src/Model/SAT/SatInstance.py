@@ -6,12 +6,15 @@ from Model.SAT.SatConfiguration import SatConfiguration
 
 
 class SatInstance:
+
+    id: int
     varCnt: int
     clausesCnt: int
     varWeights: Dict[int, int]
     clauses: List[SatClause]
 
-    def __init__(self):
+    def __init__(self, inx: int):
+        self.id = inx
         self.varWeights = {}
         self.clauses = []
 

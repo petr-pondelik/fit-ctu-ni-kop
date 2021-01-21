@@ -50,6 +50,8 @@ class SatState:
 
     def serialize(self):
         return {
+            'satisfiedClausesCnt': self.satisfiedClausesCnt,
+            'price': self.price,
             'instance': self.instance.serialize(),
             'conf': self.conf.serialize()
         }

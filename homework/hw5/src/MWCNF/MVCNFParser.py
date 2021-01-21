@@ -5,6 +5,7 @@ from Configuration.Configuration import Configuration
 from FileSystem.FileSystem import FileSystem
 from Model.SAT.SatClause import SatClause
 from Model.SAT.SatInstance import SatInstance
+from Model.SAT.SatSolution import SatSolution
 
 
 class MVCNFParser:
@@ -32,7 +33,7 @@ class MVCNFParser:
     def loadInstances(self):
         instances = {}
         for i in range(self.conf.input.start, self.conf.input.end + 1):
-            satInstance = SatInstance()
+            satInstance = SatInstance(i)
             inputLines = self.fileSystem.readInputLines(i)
             for line in inputLines:
                 if line.startswith('p'):
@@ -48,3 +49,15 @@ class MVCNFParser:
                     satInstance.clausesCnt = len(satInstance.clauses)
             instances[i] = satInstance
         return instances
+
+    def loadSolutions(self):
+        solutions = {}
+        solutionLines = self.fileSystem.readSolutionLines()
+        for line in solutionLines:
+            lineArr = re.split("\s+", line.strip())
+            instanceInx = int(lineArr[0].split('-')[1])
+            solutionPrice = int(lineArr[1])
+            solution: SatSolution = SatSolution()
+            solution.price = solutionPrice
+            solutions[instanceInx] = solution
+        return solutions

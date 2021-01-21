@@ -8,11 +8,14 @@ class FileSystem:
     def __init__(self, conf: Configuration):
         self.conf = conf
 
+    def buildInputPath(self, i: int) -> str:
+        return '{}{}{}{}'.format(self.conf.input.path, self.conf.input.filenameFragment, i, self.conf.input.format)
+
     def readInputLines(self, i: int):
         return self.readLines(self.buildInputPath(i))
 
-    def buildInputPath(self, i: int) -> str:
-        return '{}{}{}{}'.format(self.conf.input.path, self.conf.input.filenameFragment, i, self.conf.input.format)
+    def readSolutionLines(self):
+        return self.readLines(self.conf.solution.path)
 
     @staticmethod
     def readLines(path: str):

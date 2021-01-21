@@ -2,9 +2,12 @@ import copy
 import math
 import random
 import time
+from typing import List
 
 from Configuration.SARunConfig import SARunConfig
+from Model.SA.SaState import SaState
 from Model.SAT.SatInstance import SatInstance
+from Model.SAT.SatResult import SatResult
 from Model.SAT.SatState import SatState
 
 
@@ -12,7 +15,8 @@ class SaSolver:
 
     conf: SARunConfig
 
-    # stepsLog: Dict[int, List[SaState]]
+    stepsLog: List[SaState]
+
     instance: SatInstance
     step: int
     startTime: float
@@ -29,10 +33,10 @@ class SaSolver:
 
     def __init__(self, conf: SARunConfig):
         self.conf = conf
-        self.stepsLog = {}
 
     def init(self, instance: SatInstance):
         self.instance = instance
+        self.stepsLog = []
         self.step = 0
         self.solutionTime = 0
         self.satisfiedCnt = 0
@@ -41,19 +45,36 @@ class SaSolver:
         self.currentEquilibrium = 0
         self.accepted = None
 
+    def startMeasurement(self):
+        self.step = 0
+        self.solutionTime = 0
+        self.startTime = time.time()
+
     def stopMeasurement(self):
         self.endTime = time.time()
         self.solutionTime = (self.endTime - self.startTime) * 1000 * 1000
 
-    def solve(self, instance: SatInstance):
+    def measureStep(self):
+        self.step += 1
+
+    def logStep(self):
+        # print('Logging step {} cost: {}'.format(self.step, self.currentState.accCost))
+        step: SaState = SaState(self.step, self.currentState.satisfiedClausesCnt, self.currentState.price)
+        try:
+            self.stepsLog.append(step)
+        except KeyError:
+            self.stepsLog = []
+            self.stepsLog.append(step)
+
+    def solve(self, instance: SatInstance) -> SatResult:
         # Init solver runtime variables (SAT instance, step, times etc.)
         self.init(instance)
+
+        self.startMeasurement()
 
         # Set current and result (best reached) state
         self.currentState: SatState = SatState(self.instance)
         self.bestState = self.currentState
-
-        print(self.currentState.serialize())
 
         while not self.isFrozen():
             # Set runtime SA values
@@ -64,14 +85,15 @@ class SaSolver:
                 self.currentState = self.tryToGetNeighbour()
                 if self.currentState.isBetter(self.bestState):
                     self.bestState = self.currentState
+                if self.conf.mode == 'steps':
+                    self.measureStep()
+                    self.logStep()
 
             self.coolDown()
 
         self.stopMeasurement()
 
-        print(self.bestState.price)
-
-        return self.bestState
+        return SatResult(self.bestState, self.stepsLog, self.solutionTime)
 
     def coolDown(self) -> None:
         self.currentTemp = self.currentTemp * self.conf.coolRate

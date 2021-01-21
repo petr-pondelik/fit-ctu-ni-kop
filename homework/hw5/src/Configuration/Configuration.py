@@ -1,5 +1,3 @@
-from typing import List
-
 from Configuration.InputConf import InputConf
 from Configuration.SolutionConf import SolutionConf
 from Configuration.SAConfig import SAConfig

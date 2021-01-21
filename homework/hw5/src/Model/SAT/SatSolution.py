@@ -1,0 +1,3 @@
+class SatSolution:
+
+    price: int
