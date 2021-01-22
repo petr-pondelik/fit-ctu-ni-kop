@@ -52,7 +52,7 @@ class SaSolver:
 
     def stopMeasurement(self):
         self.endTime = time.time()
-        self.solutionTime = (self.endTime - self.startTime) * 1000 * 1000
+        self.solutionTime = (self.endTime - self.startTime) * 1000
 
     def measureStep(self):
         self.step += 1
@@ -86,8 +86,8 @@ class SaSolver:
                 if self.currentState.isBetter(self.bestState):
                     self.bestState = self.currentState
                 if self.conf.mode == 'steps':
-                    self.measureStep()
                     self.logStep()
+                    self.measureStep()
 
             self.coolDown()
 

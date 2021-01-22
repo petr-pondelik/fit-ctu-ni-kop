@@ -24,7 +24,7 @@ class MVCNFParser:
 
     def parseWeightsLine(self, line: str) -> List[int]:
         weightsArr = re.split("\s+", line.strip())
-        return [int(w) for w in weightsArr[1:]]
+        return [int(w) for w in weightsArr[1:-1]]
 
     def parseClauseLine(self, line: str) -> List[int]:
         clauseVars = re.split("\s+", line.strip())
