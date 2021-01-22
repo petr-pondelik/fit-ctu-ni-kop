@@ -15,7 +15,7 @@ if __name__ == '__main__':
                 'filenameFragment': 'wuf20-0',
                 'format': '.mwcnf',
                 'start': 1,
-                'end': 3
+                'end': 1000
             },
             'solution': {
                 'path': './../data/wuf20-78-N-opt.dat'
@@ -25,10 +25,10 @@ if __name__ == '__main__':
             },
             'sa': {
                 'runs': [
-                    {
-                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.6, 'equilibriumLen': 1,
-                        'frozen': 'static', 'mode': 'basic'
-                    },
+                    # {
+                    #     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.6, 'equilibriumLen': 1,
+                    #     'frozen': 'static', 'mode': 'basic'
+                    # },
                     {
                         'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.6, 'equilibriumLen': 2,
                         'frozen': 'static', 'mode': 'basic'

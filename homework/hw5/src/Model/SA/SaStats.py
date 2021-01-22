@@ -28,7 +28,7 @@ class SaStats:
         cnt: int = len(results)
         for res in results:
             timeSum += res.solutionTime
-            clauseRelativeErrorSum += 1 - (res.solution.satisfiedClausesCnt / res.solution.instance.clausesCnt)
+            clauseRelativeErrorSum += (res.solution.satisfiedClausesCnt / res.solution.instance.clausesCnt)
             priceRelativeErrorSum += 1 - (res.solution.price / self.solutions[res.solution.instance.id].price)
             if len(res.stepsLog) > 0:
                 self.stepsLog = []
