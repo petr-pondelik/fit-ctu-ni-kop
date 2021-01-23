@@ -10,6 +10,7 @@ class SaStats:
     solutions: Dict[int, SatSolution]
 
     avgTime: float
+    satisfiedRel: float
     clauseRelativeError: float
     priceRelativeError: float
     stepsLog: List[SaState]
@@ -17,6 +18,7 @@ class SaStats:
     def __init__(self, solutions: Dict[int, SatSolution]):
         self.solutions = solutions
         self.avgTime = 0.0
+        self.satisfiedRel = 0.0
         self.clauseRelativeError = 0.0
         self.priceRelativeError = 0.0
         self.stepsLog = []
@@ -26,10 +28,13 @@ class SaStats:
         clauseRelativeErrorSum: float = 0.0
         priceRelativeErrorSum: float = 0.0
         cnt: int = len(results)
+        satisfiedCnt: int = 0
         for res in results:
             timeSum += res.solutionTime
             clauseRelativeErrorSum += (res.solution.satisfiedClausesCnt / res.solution.instance.clausesCnt)
             priceRelativeErrorSum += 1 - (res.solution.price / self.solutions[res.solution.instance.id].price)
+            if res.solution.satisfied is True:
+                satisfiedCnt += 1
             if len(res.stepsLog) > 0:
                 self.stepsLog = []
                 for step in res.stepsLog:
@@ -37,6 +42,7 @@ class SaStats:
                     step.satisfiedClausesCnt = (step.satisfiedClausesCnt / res.solution.instance.clausesCnt)
                     self.stepsLog.append(step)
         self.avgTime = timeSum/cnt
+        self.satisfiedRel = satisfiedCnt/cnt
         self.clauseRelativeError = clauseRelativeErrorSum/cnt
         self.priceRelativeError = priceRelativeErrorSum/cnt
 
