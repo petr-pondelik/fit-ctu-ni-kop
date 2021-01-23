@@ -25,48 +25,48 @@ if __name__ == '__main__':
             },
             'sa': {
                 'runs': [
-                    # {
-                    #     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.6, 'equilibriumLen': 1,
-                    #     'frozen': 'static', 'mode': 'basic'
-                    # },
-                    # {
-                    #     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.6, 'equilibriumLen': 2,
-                    #     'frozen': 'static', 'mode': 'basic'
-                    # },
-                    # {
-                    #     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.6, 'equilibriumLen': 4,
-                    #     'frozen': 'static', 'mode': 'basic'
-                    # },
-                    # {
-                    #     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.8, 'equilibriumLen': 1,
-                    #     'frozen': 'static', 'mode': 'basic'
-                    # },
-                    # {
-                    #     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.8, 'equilibriumLen': 2,
-                    #     'frozen': 'static', 'mode': 'basic'
-                    # },
-                    # {
-                    #     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.8, 'equilibriumLen': 4,
-                    #     'frozen': 'static', 'mode': 'basic'
-                    # },
-                    # {
-                    #     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 1,
-                    #     'frozen': 'static', 'mode': 'basic'
-                    # },
-                    # {
-                    #     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 2,
-                    #     'frozen': 'static', 'mode': 'basic'
-                    # },
-                    # {
-                    #     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 4,
-                    #     'frozen': 'static', 'mode': 'basic'
-                    # },
                     {
-                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.995, 'equilibriumLen': 1,
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.6, 'equilibriumLen': 1,
                         'frozen': 'static', 'mode': 'basic'
                     },
                     {
-                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.995, 'equilibriumLen': 2,
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.6, 'equilibriumLen': 1,
+                        'frozen': 'static', 'mode': 'basic'
+                    },
+                    {
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.6, 'equilibriumLen': 1,
+                        'frozen': 'static', 'mode': 'basic'
+                    },
+                    {
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.8, 'equilibriumLen': 1,
+                        'frozen': 'static', 'mode': 'basic'
+                    },
+                    {
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.8, 'equilibriumLen': 2,
+                        'frozen': 'static', 'mode': 'basic'
+                    },
+                    {
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.8, 'equilibriumLen': 2,
+                        'frozen': 'static', 'mode': 'basic'
+                    },
+                    {
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 2,
+                        'frozen': 'static', 'mode': 'basic'
+                    },
+                    {
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 2,
+                        'frozen': 'static', 'mode': 'basic'
+                    },
+                    {
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 4,
+                        'frozen': 'static', 'mode': 'basic'
+                    },
+                    {
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.995, 'equilibriumLen': 4,
+                        'frozen': 'static', 'mode': 'basic'
+                    },
+                    {
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.995, 'equilibriumLen': 4,
                         'frozen': 'static', 'mode': 'basic'
                     },
                     {

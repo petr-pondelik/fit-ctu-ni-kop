@@ -47,4 +47,4 @@ class SaStats:
         self.priceRelativeError = priceRelativeErrorSum/cnt
 
     def serialize(self):
-        return '{}\t{}\t{}\n'.format(self.avgTime, self.clauseRelativeError, self.priceRelativeError)
+        return '{}\t{}\t{}\t{}\n'.format(self.avgTime, self.satisfiedRel, self.clauseRelativeError, self.priceRelativeError)
