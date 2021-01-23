@@ -35,7 +35,7 @@ class Application:
                 if runConf.coolRate > 0.95:
                     if key in range(0, 100) or key in range(300, 400) or key in range(600, 700):
                         result: SatResult = saSolver.solve(instance)
-                        print([key, runConf.equilibriumLen, runConf.coolRate result.solutionTime])
+                        print([key, runConf.equilibriumLen, runConf.coolRate, result.solutionTime])
                         results.append(result)
                 else:
                     result: SatResult = saSolver.solve(instance)
