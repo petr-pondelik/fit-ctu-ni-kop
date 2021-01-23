@@ -24,7 +24,6 @@ class Application:
         self.fileSystem = FileSystem(self.conf)
         self.MVCNFParser = MVCNFParser(self.conf)
         self.instances = self.MVCNFParser.loadInstances()
-        print(self.instances)
         self.solutions = self.MVCNFParser.loadSolutions()
 
     def run(self):
@@ -32,8 +31,8 @@ class Application:
             saSolver: SaSolver = SaSolver(runConf)
             results: List[SatResult] = []
             for key, instance in self.instances.items():
-                if runConf.coolRate > 0.95:
-                    if key in range(0, 100) or key in range(300, 400) or key in range(600, 700):
+                if runConf.coolRate >= 0.99:
+                    if key in range(0, 150) or key in range(300, 450) or key in range(600, 700):
                         result: SatResult = saSolver.solve(instance)
                         print([key, runConf.equilibriumLen, runConf.coolRate, result.solutionTime])
                         results.append(result)

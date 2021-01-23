@@ -93,6 +93,8 @@ class SaSolver:
 
         self.stopMeasurement()
 
+        # print([self.bestState.satisfiedClausesCnt, self.bestState.satisfied])
+
         return SatResult(self.bestState, self.stepsLog, self.solutionTime)
 
     def coolDown(self) -> None:
