@@ -32,9 +32,10 @@ class Application:
             saSolver: SaSolver = SaSolver(runConf)
             results: List[SatResult] = []
             for key, instance in self.instances.items():
-                result: SatResult = saSolver.solve(instance)
-                print(result.serialize())
-                results.append(result)
+                if key in range(0, 100) or key in range(300, 400) or key in range(600, 700):
+                    result: SatResult = saSolver.solve(instance)
+                    print([key, result.solutionTime])
+                    results.append(result)
             stats: SaStats = SaStats(self.solutions)
             stats.compute(results)
             self.fileSystem.writeStats(stats)
