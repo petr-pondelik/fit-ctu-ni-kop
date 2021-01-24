@@ -31,17 +31,17 @@ class SaStats:
         satisfiedCnt: int = 0
         for res in results:
             timeSum += res.solutionTime
-            clauseRelativeErrorSum += 1 - (res.solution.satisfiedClausesCnt / res.solution.instance.clausesCnt)
+            clauseRelativeErrorSum += abs(1 - (res.solution.satisfiedClausesCnt / res.solution.instance.clausesCnt))
             if self.solutions is not None:
-                priceRelativeErrorSum += 1 - (res.solution.price / self.solutions[res.solution.instance.id].price)
+                priceRelativeErrorSum += abs(1 - (res.solution.price / self.solutions[res.solution.instance.id].price))
             if res.solution.satisfied is True:
                 satisfiedCnt += 1
             if len(res.stepsLog) > 0:
                 self.stepsLog = []
                 for step in res.stepsLog:
                     if self.solutions is not None:
-                        step.price = 1 - (step.price / self.solutions[res.solution.instance.id].price)
-                    step.satisfiedClausesCnt = 1 - (step.satisfiedClausesCnt / res.solution.instance.clausesCnt)
+                        step.price = abs(1 - (step.price / self.solutions[res.solution.instance.id].price))
+                    step.satisfiedClausesCnt = abs(1 - (step.satisfiedClausesCnt / res.solution.instance.clausesCnt))
                     self.stepsLog.append(step)
         self.avgTime = timeSum/cnt
         self.satisfiedRel = satisfiedCnt/cnt
