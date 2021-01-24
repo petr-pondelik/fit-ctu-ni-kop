@@ -88,7 +88,6 @@ class SaSolver:
                 if self.conf.mode.startswith('steps_'):
                     self.logStep()
                     self.measureStep()
-
             self.coolDown()
 
         self.stopMeasurement()

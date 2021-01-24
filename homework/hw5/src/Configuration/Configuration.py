@@ -13,6 +13,9 @@ class Configuration:
 
     def __init__(self, conf: {}):
         self.input = InputConf(conf['input'])
-        self.solution = SolutionConf(conf['solution'])
+        if conf['solution'] is not None:
+            self.solution = SolutionConf(conf['solution'])
+        else:
+            self.solution = None
         self.output = OutputConf(conf['output'])
         self.saConfig = SAConfig(conf['sa'])
