@@ -31,7 +31,7 @@ class SaStats:
         satisfiedCnt: int = 0
         for res in results:
             timeSum += res.solutionTime
-            clauseRelativeErrorSum += (res.solution.satisfiedClausesCnt / res.solution.instance.clausesCnt)
+            clauseRelativeErrorSum += 1 - (res.solution.satisfiedClausesCnt / res.solution.instance.clausesCnt)
             priceRelativeErrorSum += 1 - (res.solution.price / self.solutions[res.solution.instance.id].price)
             if res.solution.satisfied is True:
                 satisfiedCnt += 1
@@ -39,7 +39,7 @@ class SaStats:
                 self.stepsLog = []
                 for step in res.stepsLog:
                     step.price = 1 - (step.price / self.solutions[res.solution.instance.id].price)
-                    step.satisfiedClausesCnt = (step.satisfiedClausesCnt / res.solution.instance.clausesCnt)
+                    step.satisfiedClausesCnt = 1 - (step.satisfiedClausesCnt / res.solution.instance.clausesCnt)
                     self.stepsLog.append(step)
         self.avgTime = timeSum/cnt
         self.satisfiedRel = satisfiedCnt/cnt

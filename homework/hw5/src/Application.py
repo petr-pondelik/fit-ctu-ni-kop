@@ -42,4 +42,4 @@ class Application:
                     results.append(result)
             stats: SaStats = SaStats(self.solutions)
             stats.compute(results)
-            self.fileSystem.writeStats(stats)
+            self.fileSystem.writeStats(runConf, stats)

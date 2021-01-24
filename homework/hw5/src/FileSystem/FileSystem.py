@@ -19,12 +19,13 @@ class FileSystem:
     def readSolutionLines(self):
         return self.readLines(self.conf.solution.path)
 
-    def writeStats(self, stats: SaStats):
-        f = open('{}.txt'.format(self.conf.output.path), 'a+')
-        f.write(stats.serialize())
-        f.close()
-        if len(stats.stepsLog) > 0:
-            f = open('{}_steps.txt'.format(self.conf.output.path), 'a+')
+    def writeStats(self, runConf: SARunConfig, stats: SaStats):
+        if runConf.mode == 'basic':
+            f = open('{}'.format(self.conf.output.path), 'a+')
+            f.write(stats.serialize())
+            f.close()
+        elif runConf.mode == 'steps' and len(stats.stepsLog) > 0:
+            f = open('{}'.format(self.conf.output.path), 'a+')
             logStr: str = ''
             for stepLog in stats.stepsLog:
                 logStr += ('{}\n'.format(stepLog.serialize()))
