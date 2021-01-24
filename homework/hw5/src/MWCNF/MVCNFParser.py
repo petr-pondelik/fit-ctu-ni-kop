@@ -55,12 +55,13 @@ class MVCNFParser:
 
     def loadSolutions(self):
         solutions = {}
-        solutionLines = self.fileSystem.readSolutionLines()
-        for line in solutionLines:
-            lineArr = re.split("\s+", line.strip())
-            instanceInx = int(lineArr[0].split('-')[1])
-            solutionPrice = int(lineArr[1])
-            solution: SatSolution = SatSolution()
-            solution.price = solutionPrice
-            solutions[instanceInx] = solution
+        if self.conf.solution is not None:
+            solutionLines = self.fileSystem.readSolutionLines()
+            for line in solutionLines:
+                lineArr = re.split("\s+", line.strip())
+                instanceInx = int(lineArr[0].split('-')[1])
+                solutionPrice = int(lineArr[1])
+                solution: SatSolution = SatSolution()
+                solution.price = solutionPrice
+                solutions[instanceInx] = solution
         return solutions

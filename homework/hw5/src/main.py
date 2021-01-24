@@ -91,13 +91,13 @@ if __name__ == '__main__':
                 'path': './../data/wuf20-78-N-opt.dat'
             },
             'output': {
-                'path': './../results/measurement/n1_steps.txt'
+                'path': './../results/measurement/n1_steps_price.txt'
             },
             'sa': {
                 'runs': [
                     {
                         'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 4,
-                        'frozen': 'static', 'mode': 'steps'
+                        'frozen': 'static', 'mode': 'steps_price'
                     }
                 ]
             }

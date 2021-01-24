@@ -85,7 +85,7 @@ class SaSolver:
                 self.currentState = self.tryToGetNeighbour()
                 if self.currentState.isBetter(self.bestState):
                     self.bestState = self.currentState
-                if self.conf.mode == 'steps':
+                if self.conf.mode.startswith('steps_'):
                     self.logStep()
                     self.measureStep()
 

@@ -24,11 +24,11 @@ class FileSystem:
             f = open('{}'.format(self.conf.output.path), 'a+')
             f.write(stats.serialize())
             f.close()
-        elif runConf.mode == 'steps' and len(stats.stepsLog) > 0:
+        elif runConf.mode.startswith('steps_') and len(stats.stepsLog) > 0:
             f = open('{}'.format(self.conf.output.path), 'a+')
             logStr: str = ''
             for stepLog in stats.stepsLog:
-                logStr += ('{}\n'.format(stepLog.serialize()))
+                logStr += ('{}\n'.format(stepLog.serialize(runConf.mode)))
             f.write(logStr)
             f.close()
 
