@@ -24,6 +24,7 @@ class SaSolver:
     solutionTime: float
     satisfiedCnt: int
 
+    equilibriumLen: float
     currentTemp: float
     currentEquilibrium: int
     accepted: int or None
@@ -31,9 +32,10 @@ class SaSolver:
     currentState: SatState
     bestState: SatState
 
-    availableRestarts: int
+    attempt: int
 
     def __init__(self, conf: SARunConfig):
+        self.equilibriumLen = conf.equilibriumLen
         self.conf = conf
 
     def init(self, instance: SatInstance):
@@ -46,7 +48,7 @@ class SaSolver:
         self.currentTemp = self.conf.initTemp
         self.currentEquilibrium = 0
         self.accepted = None
-        self.availableRestarts = 3
+        self.attempt = 1
 
     def startMeasurement(self):
         self.step = 0
@@ -80,7 +82,8 @@ class SaSolver:
         self.bestState = self.currentState
 
         while self.shouldRestart():
-            print('Restarts remain: ' + str(self.availableRestarts))
+            print('Attempt: ' + str(self.attempt))
+            print('EquilibriumLen: ' + str(self.equilibriumLen))
             while not self.isFrozen():
                 # Set runtime SA values
                 self.currentEquilibrium = 0
@@ -93,10 +96,12 @@ class SaSolver:
                     if self.conf.mode.startswith('steps_'):
                         self.logStep()
                         self.measureStep()
+                self.equilibriumLen *= 1.0025
+                print('EquilibriumLen: ' + str(self.equilibriumLen))
                 self.coolDown()
                 # print([self.bestState.satisfiedClausesCnt, self.bestState.price])
                 print(self.currentTemp)
-            self.resetCurrentTemp()
+            self.resetSA()
 
         self.stopMeasurement()
 
@@ -105,14 +110,15 @@ class SaSolver:
         return SatResult(self.bestState, self.stepsLog, self.solutionTime)
 
     def shouldRestart(self) -> bool:
-        return not self.bestState.satisfied and self.availableRestarts > 0
+        return not self.bestState.satisfied and self.attempt < 3
 
-    def decrementRestart(self) -> None:
-        self.availableRestarts -= 1
+    def incAttempt(self) -> None:
+        self.attempt += 1
 
-    def resetCurrentTemp(self) -> None:
+    def resetSA(self) -> None:
         self.currentTemp = self.conf.initTemp
-        self.decrementRestart()
+        self.incAttempt()
+        self.equilibriumLen *= self.attempt
 
     def coolDown(self) -> None:
         self.currentTemp = self.currentTemp * self.conf.coolRate
@@ -125,8 +131,7 @@ class SaSolver:
         return True
 
     def notEquilibrium(self) -> bool:
-        # print('Equilibrium: {}'.format(self.conf.equilibriumLen * self.instance.varCnt))
-        return self.currentEquilibrium < self.conf.equilibriumLen * self.instance.varCnt
+        return self.currentEquilibrium < self.equilibriumLen * self.instance.varCnt
 
     @staticmethod
     def getOptimalCriteriaDistance(current: SatState, neighbour: SatState) -> int:
