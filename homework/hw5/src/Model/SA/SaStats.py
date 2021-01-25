@@ -34,6 +34,8 @@ class SaStats:
             clauseRelativeErrorSum += abs(res.solution.satisfiedClausesCnt / res.solution.instance.clausesCnt)
             if self.solutions is not None:
                 priceRelativeErrorSum += abs(1.0 - (res.solution.price / self.solutions[res.solution.instance.id].price))
+            else:
+                priceRelativeErrorSum += res.solution.price
             if res.solution.satisfied is True:
                 satisfiedCnt += 1
             if len(res.stepsLog) > 0:
@@ -41,13 +43,14 @@ class SaStats:
                 for step in res.stepsLog:
                     if self.solutions is not None:
                         step.price = abs(1.0 - (step.price / self.solutions[res.solution.instance.id].price))
+                    else:
+                        step.price = step.price
                     step.satisfiedClausesCnt = abs(step.satisfiedClausesCnt / res.solution.instance.clausesCnt)
                     self.stepsLog.append(step)
         self.avgTime = timeSum/cnt
         self.satisfiedRel = satisfiedCnt/cnt
         self.clauseRelativeError = clauseRelativeErrorSum/cnt
-        if self.solutions is not None:
-            self.priceRelativeError = priceRelativeErrorSum/cnt
+        self.priceRelativeError = priceRelativeErrorSum/cnt
 
     def serialize(self):
         return '{}\t{}\t{}\t{}\n'.format(self.avgTime, self.satisfiedRel, self.clauseRelativeError, self.priceRelativeError)

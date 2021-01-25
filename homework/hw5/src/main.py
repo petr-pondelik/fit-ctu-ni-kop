@@ -219,12 +219,60 @@ if __name__ == '__main__':
     #         },
     #         'solution': None,
     #         'output': {
-    #             'path': './../results/measurement/A1_steps_clauses.txt'
+    #             'path': './../results/measurement/A1_steps_clauses_1000_095_4n.txt'
     #         },
     #         'sa': {
     #             'runs': [
     #                 {
     #                     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 4,
+    #                     'frozen': 'static', 'mode': 'steps_clauses'
+    #                 }
+    #             ]
+    #         }
+    #     }
+    # )
+
+    # conf = Configuration(
+    #     {
+    #         'input': {
+    #             'path': './../data/wuf100-430-A1/',
+    #             'filenameFragment': 'wuf100-0',
+    #             'format': '-A.mwcnf',
+    #             'start': 2,
+    #             'end': 2
+    #         },
+    #         'solution': None,
+    #         'output': {
+    #             'path': './../results/measurement/A1_steps_clauses_4000_0995_4n.txt'
+    #         },
+    #         'sa': {
+    #             'runs': [
+    #                 {
+    #                     'initTemp': 4000, 'freezeThreshold': 0.1, 'coolRate': 0.995, 'equilibriumLen': 4,
+    #                     'frozen': 'static', 'mode': 'steps_clauses'
+    #                 }
+    #             ]
+    #         }
+    #     }
+    # )
+
+    # conf = Configuration(
+    #     {
+    #         'input': {
+    #             'path': './../data/wuf100-430-A1/',
+    #             'filenameFragment': 'wuf100-0',
+    #             'format': '-A.mwcnf',
+    #             'start': 2,
+    #             'end': 2
+    #         },
+    #         'solution': None,
+    #         'output': {
+    #             'path': './../results/measurement/A1_steps_clauses_1000_095_16n.txt'
+    #         },
+    #         'sa': {
+    #             'runs': [
+    #                 {
+    #                     'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 16,
     #                     'frozen': 'static', 'mode': 'steps_clauses'
     #                 }
     #             ]
@@ -243,13 +291,13 @@ if __name__ == '__main__':
             },
             'solution': None,
             'output': {
-                'path': './../results/measurement/A1_steps_clauses_0995.txt'
+                'path': './../results/measurement/A1_steps_price_1000_095_4n.txt'
             },
             'sa': {
                 'runs': [
                     {
-                        'initTemp': 4000, 'freezeThreshold': 0.1, 'coolRate': 0.995, 'equilibriumLen': 4,
-                        'frozen': 'static', 'mode': 'steps_clauses'
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 4,
+                        'frozen': 'static', 'mode': 'steps_price'
                     }
                 ]
             }
