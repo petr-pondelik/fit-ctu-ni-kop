@@ -11,3 +11,8 @@ Důvodem je, že s rostoucím základem je větší chybě (tedy větší hodnot
     random.random() < (10 ** (- optimalCriteriaDistance / self.currentTemp))
     
 Díky tomu docházelo méně častěji k přijetí zhoršení stavu a tedy k uváznutí v lokálním optimu.
+
+## A1-100-430
+
+Prvních 50 instancí: wuf100- (02-236)
+

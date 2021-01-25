@@ -24,6 +24,7 @@ class Application:
         self.fileSystem = FileSystem(self.conf)
         self.MVCNFParser = MVCNFParser(self.conf)
         self.instances = self.MVCNFParser.loadInstances()
+        print(len(self.instances))
         self.solutions = self.MVCNFParser.loadSolutions()
 
     def run(self):

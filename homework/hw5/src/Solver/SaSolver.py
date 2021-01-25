@@ -89,10 +89,13 @@ class SaSolver:
                     self.logStep()
                     self.measureStep()
             self.coolDown()
-            print([self.bestState.satisfiedClausesCnt, self.bestState.price])
-            print(self.currentTemp)
+            # print([self.bestState.satisfiedClausesCnt, self.bestState.price])
+            # print(self.currentTemp)
 
         self.stopMeasurement()
+
+        print([self.bestState.satisfiedClausesCnt, self.bestState.price])
+
         return SatResult(self.bestState, self.stepsLog, self.solutionTime)
 
     def coolDown(self) -> None:
