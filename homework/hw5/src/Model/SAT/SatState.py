@@ -1,3 +1,5 @@
+from typing import List
+
 from Model.SAT.SatConfiguration import SatConfiguration
 from Model.SAT.SatInstance import SatInstance
 
@@ -11,6 +13,8 @@ class SatState:
     instance: SatInstance
     conf: SatConfiguration
 
+    unsatisfiedVars: List[int]
+
     # Create default SAT state created from SAT instance
     # It has all the variables set to false
     def __init__(self, instance: SatInstance):
@@ -19,10 +23,19 @@ class SatState:
         self.price = 0
         self.instance = instance
         self.conf = SatConfiguration([False for i in range(self.instance.varCnt)])
+        self.initStats()
+
+    def initStats(self):
+        [satisfiedClausesCnt, unsatisfiedVars] = self.instance.satisfiedClausesUnsatisfiedVars(self.conf)
+        self.satisfiedClausesCnt = satisfiedClausesCnt
+        self.unsatisfiedVars = unsatisfiedVars
 
     def evaluateState(self):
         self.satisfied = self.instance.evaluate(self.conf)
-        self.satisfiedClausesCnt = self.instance.countSatisfiedClauses(self.conf)
+        # self.satisfiedClausesCnt = self.instance.countSatisfiedClauses(self.conf)
+        [satisfiedClausesCnt, unsatisfiedVars] = self.instance.satisfiedClausesUnsatisfiedVars(self.conf)
+        self.satisfiedClausesCnt = satisfiedClausesCnt
+        self.unsatisfiedVars = unsatisfiedVars
         self.price = self.instance.calculatePrice(self.conf)
 
     def isBetter(self, otherState) -> bool:

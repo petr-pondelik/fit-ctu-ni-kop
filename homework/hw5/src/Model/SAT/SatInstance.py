@@ -33,6 +33,18 @@ class SatInstance:
                 cnt += 1
         return cnt
 
+    # Count number of satisfied clauses within the boolean expression and get list of unsatisfied vars
+    def satisfiedClausesUnsatisfiedVars(self, conf: SatConfiguration) -> [int, List[int]]:
+        cnt: int = 0
+        unsatisfiedVars: List[int] = []
+        for clause in self.clauses:
+            if clause.evaluate(conf):
+                cnt += 1
+            else:
+                for var in clause.literals.keys():
+                    unsatisfiedVars.append(var)
+        return [cnt, unsatisfiedVars]
+
     # Calculate price of the given configuration
     def calculatePrice(self, conf: SatConfiguration) -> int:
         price: int = 0
