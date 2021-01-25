@@ -110,7 +110,7 @@ class SaSolver:
         return SatResult(self.bestState, self.stepsLog, self.solutionTime)
 
     def shouldRestart(self) -> bool:
-        return not self.bestState.satisfied and self.attempt < 3
+        return not self.bestState.satisfied and self.attempt < 4
 
     def incAttempt(self) -> None:
         self.attempt += 1
