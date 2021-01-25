@@ -31,6 +31,8 @@ class SaSolver:
     currentState: SatState
     bestState: SatState
 
+    availableRestarts: int
+
     def __init__(self, conf: SARunConfig):
         self.conf = conf
 
@@ -44,6 +46,7 @@ class SaSolver:
         self.currentTemp = self.conf.initTemp
         self.currentEquilibrium = 0
         self.accepted = None
+        self.availableRestarts = 3
 
     def startMeasurement(self):
         self.step = 0
@@ -76,27 +79,40 @@ class SaSolver:
         self.currentState: SatState = SatState(self.instance)
         self.bestState = self.currentState
 
-        while not self.isFrozen():
-            # Set runtime SA values
-            self.currentEquilibrium = 0
-            self.accepted = 0
-            while self.notEquilibrium():
-                self.currentEquilibrium += 1
-                self.currentState = self.tryToGetNeighbour()
-                if self.currentState.isBetter(self.bestState):
-                    self.bestState = self.currentState
-                if self.conf.mode.startswith('steps_'):
-                    self.logStep()
-                    self.measureStep()
-            self.coolDown()
-            # print([self.bestState.satisfiedClausesCnt, self.bestState.price])
-            # print(self.currentTemp)
+        while self.shouldRestart():
+            print('Restarts remain: ' + str(self.availableRestarts))
+            while not self.isFrozen():
+                # Set runtime SA values
+                self.currentEquilibrium = 0
+                self.accepted = 0
+                while self.notEquilibrium():
+                    self.currentEquilibrium += 1
+                    self.currentState = self.tryToGetNeighbour()
+                    if self.currentState.isBetter(self.bestState):
+                        self.bestState = self.currentState
+                    if self.conf.mode.startswith('steps_'):
+                        self.logStep()
+                        self.measureStep()
+                self.coolDown()
+                # print([self.bestState.satisfiedClausesCnt, self.bestState.price])
+                print(self.currentTemp)
+            self.resetCurrentTemp()
 
         self.stopMeasurement()
 
         print([self.bestState.satisfiedClausesCnt, self.bestState.price])
 
         return SatResult(self.bestState, self.stepsLog, self.solutionTime)
+
+    def shouldRestart(self) -> bool:
+        return not self.bestState.satisfied and self.availableRestarts > 0
+
+    def decrementRestart(self) -> None:
+        self.availableRestarts -= 1
+
+    def resetCurrentTemp(self) -> None:
+        self.currentTemp = self.conf.initTemp
+        self.decrementRestart()
 
     def coolDown(self) -> None:
         self.currentTemp = self.currentTemp * self.conf.coolRate

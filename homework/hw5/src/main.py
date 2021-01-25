@@ -311,17 +311,17 @@ if __name__ == '__main__':
                 'filenameFragment': 'wuf100-0',
                 'format': '-A.mwcnf',
                 'start': 2,
-                'end': 237
+                'end': 2
             },
             'solution': None,
             'output': {
-                'path': './../results/measurement/A1.txt'
+                'path': './../results/measurement/A1_am_restart.txt'
             },
             'sa': {
                 'runs': [
                     {
                         'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 4,
-                        'frozen': 'static', 'mode': 'basic'
+                        'frozen': 'static', 'mode': 'steps_clauses'
                     }
                 ]
             }
