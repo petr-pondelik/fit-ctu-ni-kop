@@ -315,7 +315,7 @@ if __name__ == '__main__':
             },
             'solution': None,
             'output': {
-                'path': './../results/measurement/A1_am_restart.txt'
+                'path': './../results/measurement/A1_AM1_steps_clauses.txt'
             },
             'sa': {
                 'runs': [
