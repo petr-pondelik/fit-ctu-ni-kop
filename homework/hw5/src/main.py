@@ -328,30 +328,6 @@ if __name__ == '__main__':
     #     }
     # )
 
-    conf = Configuration(
-        {
-            'input': {
-                'path': './../data/wuf100-430-A1/',
-                'filenameFragment': 'wuf100-0',
-                'format': '-A.mwcnf',
-                'start': 2,
-                'end': 2
-            },
-            'solution': None,
-            'output': {
-                'path': './../results/measurement/A1_AM2_steps_clauses.txt'
-            },
-            'sa': {
-                'runs': [
-                    {
-                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 4,
-                        'frozen': 'static', 'mode': 'steps_clauses'
-                    }
-                ]
-            }
-        }
-    )
-
     # conf = Configuration(
     #     {
     #         'input': {
@@ -363,7 +339,7 @@ if __name__ == '__main__':
     #         },
     #         'solution': None,
     #         'output': {
-    #             'path': './../results/measurement/A1_AM3_steps_clauses.txt'
+    #             'path': './../results/measurement/A1_AM2_steps_clauses.txt'
     #         },
     #         'sa': {
     #             'runs': [
@@ -375,6 +351,30 @@ if __name__ == '__main__':
     #         }
     #     }
     # )
+
+    conf = Configuration(
+        {
+            'input': {
+                'path': './../data/wuf100-430-A1/',
+                'filenameFragment': 'wuf100-0',
+                'format': '-A.mwcnf',
+                'start': 2,
+                'end': 2
+            },
+            'solution': None,
+            'output': {
+                'path': './../results/measurement/A1_AM3_steps_clauses.txt'
+            },
+            'sa': {
+                'runs': [
+                    {
+                        'initTemp': 1000, 'freezeThreshold': 0.1, 'coolRate': 0.95, 'equilibriumLen': 4,
+                        'frozen': 'static', 'mode': 'steps_clauses'
+                    }
+                ]
+            }
+        }
+    )
 
     application = Application(conf)
     application.run()

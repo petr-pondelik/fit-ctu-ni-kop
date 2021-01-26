@@ -151,12 +151,12 @@ class SaSolver:
     def getRandomStateNeighbor(self) -> SatState:
         # Change one variable bit randomly
         neighbor: SatState = copy.deepcopy(self.currentState)
-        # unsatisfiedVarsCnt: int = len(neighbor.unsatisfiedVars)
-        # if unsatisfiedVarsCnt > 0:
-        #     unsatisfiedInx: int = random.randint(0, unsatisfiedVarsCnt - 1)
-        #     inx: int = neighbor.unsatisfiedVars[unsatisfiedInx]
-        # else:
-        inx: int = self.instance.getRandomVarInx()
+        unsatisfiedVarsCnt: int = len(neighbor.unsatisfiedVars)
+        if unsatisfiedVarsCnt > 0:
+            unsatisfiedInx: int = random.randint(0, unsatisfiedVarsCnt - 1)
+            inx: int = neighbor.unsatisfiedVars[unsatisfiedInx]
+        else:
+            inx: int = self.instance.getRandomVarInx()
         neighbor.swapConfVar(inx)
         return neighbor
 
