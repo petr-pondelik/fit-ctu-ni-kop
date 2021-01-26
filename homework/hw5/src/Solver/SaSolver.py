@@ -35,7 +35,6 @@ class SaSolver:
     attempt: int
 
     def __init__(self, conf: SARunConfig):
-        self.equilibriumLen = conf.equilibriumLen
         self.conf = conf
 
     def init(self, instance: SatInstance):
@@ -49,6 +48,7 @@ class SaSolver:
         self.currentEquilibrium = 0
         self.accepted = None
         self.attempt = 1
+        self.equilibriumLen = self.conf.equilibriumLen
 
     def startMeasurement(self):
         self.step = 0
@@ -84,6 +84,7 @@ class SaSolver:
         while self.shouldRestart():
             print('Attempt: ' + str(self.attempt))
             print('EquilibriumLen: ' + str(self.equilibriumLen))
+            print(self.instance.id)
             while not self.isFrozen():
                 # Set runtime SA values
                 self.currentEquilibrium = 0
@@ -98,7 +99,6 @@ class SaSolver:
                         self.measureStep()
                 self.equilibriumLen *= 1.0025
                 self.coolDown()
-                # print([self.bestState.satisfiedClausesCnt, self.bestState.price])
                 print(self.currentTemp)
             self.resetSA()
 
@@ -152,11 +152,11 @@ class SaSolver:
         # Change one variable bit randomly
         neighbor: SatState = copy.deepcopy(self.currentState)
         unsatisfiedVarsCnt: int = len(neighbor.unsatisfiedVars)
-        if unsatisfiedVarsCnt > 0:
-            unsatisfiedInx: int = random.randint(0, unsatisfiedVarsCnt - 1)
-            inx: int = neighbor.unsatisfiedVars[unsatisfiedInx]
-        else:
-            inx: int = self.instance.getRandomVarInx()
+        # if unsatisfiedVarsCnt > 0:
+        #     unsatisfiedInx: int = random.randint(0, unsatisfiedVarsCnt - 1)
+        #     inx: int = neighbor.unsatisfiedVars[unsatisfiedInx]
+        # else:
+        inx: int = self.instance.getRandomVarInx()
         neighbor.swapConfVar(inx)
         return neighbor
 
