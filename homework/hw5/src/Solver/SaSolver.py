@@ -97,7 +97,6 @@ class SaSolver:
                         self.logStep()
                         self.measureStep()
                 self.equilibriumLen *= 1.0025
-                print('EquilibriumLen: ' + str(self.equilibriumLen))
                 self.coolDown()
                 # print([self.bestState.satisfiedClausesCnt, self.bestState.price])
                 print(self.currentTemp)
@@ -118,7 +117,7 @@ class SaSolver:
     def resetSA(self) -> None:
         self.currentTemp = self.conf.initTemp
         self.incAttempt()
-        self.equilibriumLen *= self.attempt
+        self.equilibriumLen *= 1.75
 
     def coolDown(self) -> None:
         self.currentTemp = self.currentTemp * self.conf.coolRate
@@ -152,12 +151,12 @@ class SaSolver:
     def getRandomStateNeighbor(self) -> SatState:
         # Change one variable bit randomly
         neighbor: SatState = copy.deepcopy(self.currentState)
-        unsatisfiedVarsCnt: int = len(neighbor.unsatisfiedVars)
-        if unsatisfiedVarsCnt > 0:
-            unsatisfiedInx: int = random.randint(0, unsatisfiedVarsCnt - 1)
-            inx: int = neighbor.unsatisfiedVars[unsatisfiedInx]
-        else:
-            inx: int = self.instance.getRandomVarInx()
+        # unsatisfiedVarsCnt: int = len(neighbor.unsatisfiedVars)
+        # if unsatisfiedVarsCnt > 0:
+        #     unsatisfiedInx: int = random.randint(0, unsatisfiedVarsCnt - 1)
+        #     inx: int = neighbor.unsatisfiedVars[unsatisfiedInx]
+        # else:
+        inx: int = self.instance.getRandomVarInx()
         neighbor.swapConfVar(inx)
         return neighbor
 
